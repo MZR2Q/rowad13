@@ -1,0 +1,520 @@
+      <div id="view-dashboard" class="dash-view-tab" style="display:none;">
+        <!-- ── Hero ── -->
+        <div class="hero" id="overview">
+          <div class="hero-text">
+            <h1><i class="fa-solid fa-chart-column" style="color:var(--c3); margin-left:8px;"></i>لوحة الإحصائيات والتحليلات العامة</h1>
+            <p>بيانات تحليلية حية لبوابة اللوائح والأنظمة والإدارات الجامعية</p>
+          </div>
+          <div class="hero-actions">
+            <button onclick="switchAdminTab('category-manager')" class="btn-primary" style="background:linear-gradient(135deg, var(--c1), var(--c2));">
+              <i class="fa-solid fa-folder-tree"></i>
+              إدارة الأقسام والبطاقات
+            </button>
+            <button onclick="openAllQuestionsBankModal()" class="btn-outline">
+              <i class="fa-solid fa-boxes-stacked"></i>
+              📚 بنك الأسئلة الشامل (22)
+            </button>
+            <a href="{{ url_for('main.index') }}" target="_blank" class="btn-outline">
+              <i class="fa-solid fa-globe"></i>
+              البوابة
+            </a>
+          </div>
+        </div>
+
+        <!-- ══ 8 STAT CARDS ══ -->
+        {% set total_q = stats.get('total_questions', 1) or 1 %}
+        <div class="stat-grid">
+
+          <div class="sc">
+            <div class="sc-stripe stripe-red"></div>
+            <div class="sc-head">
+              <div class="sc-icon ic-red"><i class="fa-solid fa-users"></i></div>
+              <div class="sc-badge badge-up"><i class="fa-solid fa-arrow-trend-up" style="font-size:.6rem;"></i> نشط</div>
+            </div>
+            <div class="sc-val" data-count="{{ stats.get('total_visits', 0) }}">0</div>
+            <div class="sc-label">إجمالي الزيارات</div>
+            <div class="sc-foot">
+              <i class="fa-regular fa-calendar-days"></i>
+              اليوم: <strong>{{ stats.get('today_visits', 0) }}</strong> زيارة
+            </div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-stripe stripe-tan"></div>
+            <div class="sc-head">
+              <div class="sc-icon ic-tan"><i class="fa-solid fa-comments"></i></div>
+              <div class="sc-badge badge-up"><i class="fa-solid fa-arrow-trend-up" style="font-size:.6rem;"></i> نشط</div>
+            </div>
+            <div class="sc-val" data-count="{{ stats.get('total_questions', 0) }}">0</div>
+            <div class="sc-label">إجمالي الأسئلة</div>
+            <div class="sc-foot">
+              <i class="fa-regular fa-calendar-days"></i>
+              اليوم: <strong>{{ stats.get('today_questions', 0) }}</strong> سؤال
+            </div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-stripe stripe-teal"></div>
+            <div class="sc-head">
+              <div class="sc-icon ic-teal"><i class="fa-solid fa-robot"></i></div>
+              {% set gp = ((stats.get('gemini_count', 0) / total_q) * 100)|int %}
+              <div class="sc-badge badge-neu">{{ gp }}%</div>
+            </div>
+            <div class="sc-val" data-count="{{ stats.get('gemini_count', 0) }}">0</div>
+            <div class="sc-label">استجابات Gemini AI</div>
+            <div class="sc-foot">
+              <i class="fa-solid fa-brain"></i>
+              {{ gp }}% من إجمالي الأسئلة
+            </div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-stripe stripe-gray"></div>
+            <div class="sc-head">
+              <div class="sc-icon ic-gray"><i class="fa-solid fa-magnifying-glass"></i></div>
+              {% set fp = ((stats.get('fallback_count', 0) / total_q) * 100)|int %}
+              <div class="sc-badge badge-down">{{ fp }}%</div>
+            </div>
+            <div class="sc-val" data-count="{{ stats.get('fallback_count', 0) }}">0</div>
+            <div class="sc-label">بحث بديل (Fallback)</div>
+            <div class="sc-foot">
+              <i class="fa-solid fa-shuffle"></i>
+              نتائج احتياطية
+            </div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-stripe stripe-mix"></div>
+            <div class="sc-head">
+              <div class="sc-icon ic-grn"><i class="fa-solid fa-calendar-day"></i></div>
+              <div class="sc-badge badge-neu">اليوم</div>
+            </div>
+            <div class="sc-val" data-count="{{ stats.get('today_visits', 0) }}">0</div>
+            <div class="sc-label">زوار اليوم</div>
+            <div class="sc-foot">
+              <i class="fa-solid fa-clock"></i>
+              جلسات فريدة اليوم
+            </div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-stripe stripe-tan"></div>
+            <div class="sc-head">
+              <div class="sc-icon ic-tan"><i class="fa-solid fa-message"></i></div>
+              <div class="sc-badge badge-neu">اليوم</div>
+            </div>
+            <div class="sc-val" data-count="{{ stats.get('today_questions', 0) }}">0</div>
+            <div class="sc-label">أسئلة اليوم</div>
+            <div class="sc-foot">
+              <i class="fa-solid fa-clock"></i>
+              أسئلة الشات اليوم
+            </div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-stripe stripe-teal"></div>
+            <div class="sc-head">
+              <div class="sc-icon ic-teal"><i class="fa-solid fa-bolt"></i></div>
+              {% if stats.get('avg_response_ms', 0) < 3000 %}
+                <div class="sc-badge badge-up"><i class="fa-solid fa-gauge-high" style="font-size:.6rem;"></i> سريع</div>
+              {% else %}
+                <div class="sc-badge badge-down"><i class="fa-solid fa-gauge-low" style="font-size:.6rem;"></i> بطيء</div>
+              {% endif %}
+            </div>
+            <div class="sc-val" data-count="{{ stats.get('avg_response_ms', 0) }}">0</div>
+            <div class="sc-label">متوسط الاستجابة</div>
+            <div class="sc-foot">
+              <i class="fa-solid fa-stopwatch"></i>
+              بالميلي ثانية (ms)
+            </div>
+          </div>
+
+          <div class="sc">
+            <div class="sc-stripe stripe-red"></div>
+            <div class="sc-head">
+              <div class="sc-icon ic-red"><i class="fa-solid fa-hand-pointer"></i></div>
+              <div class="sc-badge badge-neu">إجمالي</div>
+            </div>
+            <div class="sc-val" data-count="{{ stats.get('source_clicks_count', 0) }}">0</div>
+            <div class="sc-label">ضغطات على المصادر</div>
+            <div class="sc-foot">
+              <i class="fa-solid fa-mouse-pointer"></i>
+              تفاعل المستخدمين
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ══ TREND + DOC USAGE (نشاط الزوار) ══ -->
+        <div class="g2" id="activity" style="margin-top:24px;">
+
+          <!-- Trend Chart -->
+          <div class="card">
+            <div class="ch">
+              <div class="ch-icon ic-teal" style="background:rgba(96,121,118,.1);">
+                <i class="fa-solid fa-chart-area" style="color:var(--a1);"></i>
+              </div>
+              <h2>نشاط آخر 7 أيام (الأسئلة)</h2>
+            </div>
+            <div class="cb">
+              {% set trend = stats.get('daily_trend', []) %}
+              {% if trend %}
+                {% set max_v = trend | map(attribute='total') | list | max or 1 %}
+                <div class="trend-wrap">
+                  {% for row in trend %}
+                    <div class="tc">
+                      <div class="tc-bg">
+                        <div class="tc-fill{% if loop.last %} is-today{% endif %}"
+                             style="height:{{ [(row.total / max_v * 88)|int, 3]|max }}px"
+                             data-tip="{{ row.day[-5:] }}: {{ row.total }}">
+                        </div>
+                      </div>
+                      <div class="tc-day">{{ row.day[-5:] }}</div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <div class="empty">
+                  <div class="empty-ico"><i class="fa-solid fa-chart-line"></i></div>
+                  <p>لا توجد بيانات بعد</p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Quick stats mini -->
+          <div class="card">
+            <div class="ch">
+              <div class="ch-icon ic-tan" style="background:rgba(188,136,89,.1);">
+                <i class="fa-solid fa-sliders" style="color:var(--c3);"></i>
+              </div>
+              <h2>ملخص سريع</h2>
+            </div>
+            <div class="cb">
+              <div class="mini-stats">
+                <div class="ms-item">
+                  <div class="ms-ico ic-red" style="background:rgba(136,45,27,.08);">
+                    <i class="fa-solid fa-book-open"></i>
+                  </div>
+                  <div class="ms-lbl">أسئلة عن الانضباط</div>
+                  <div class="ms-val">
+                    {% set disc = namespace(cnt=0) %}
+                    {% for q in stats.get('recent_questions', []) %}
+                      {% if 'discipline' in (q.selected_document_id or '') %}{% set disc.cnt = disc.cnt + 1 %}{% endif %}
+                    {% endfor %}
+                    {{ disc.cnt }}
+                  </div>
+                </div>
+                <div class="ms-item">
+                  <div class="ms-ico ic-teal" style="background:rgba(96,121,118,.08);">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                  </div>
+                  <div class="ms-lbl">أسئلة عن الدراسة</div>
+                  <div class="ms-val">
+                    {% set stdy = namespace(cnt=0) %}
+                    {% for q in stats.get('recent_questions', []) %}
+                      {% if 'study' in (q.selected_document_id or '') %}{% set stdy.cnt = stdy.cnt + 1 %}{% endif %}
+                    {% endfor %}
+                    {{ stdy.cnt }}
+                  </div>
+                </div>
+                <div class="ms-item">
+                  <div class="ms-ico ic-tan" style="background:rgba(188,136,89,.08);">
+                    <i class="fa-solid fa-layer-group"></i>
+                  </div>
+                  <div class="ms-lbl">أسئلة مختلطة</div>
+                  <div class="ms-val">
+                    {% set mx = namespace(cnt=0) %}
+                    {% for q in stats.get('recent_questions', []) %}
+                      {% if 'mixed' in (q.selected_document_id or '') %}{% set mx.cnt = mx.cnt + 1 %}{% endif %}
+                    {% endfor %}
+                    {{ mx.cnt }}
+                  </div>
+                </div>
+                <div class="ms-item">
+                  <div class="ms-ico ic-grn" style="background:rgba(46,125,94,.08);">
+                    <i class="fa-solid fa-circle-check"></i>
+                  </div>
+                  <div class="ms-lbl">إجمالي المصادر المستخدمة</div>
+                  <div class="ms-val">{{ stats.get('top_sources', [])|length * 3 + stats.get('source_clicks_count', 0) }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ══ DOC USAGE BAR ══ -->
+        <div class="card" style="margin-top:18px;">
+          <div class="ch">
+            <div class="ch-icon" style="background:rgba(188,136,89,.1);">
+              <i class="fa-solid fa-book" style="color:var(--c3);"></i>
+            </div>
+            <h2>أكثر اللوائح استخداماً كمصادر</h2>
+          </div>
+          <div class="cb">
+            {% set doc_usage = stats.get('doc_usage', []) %}
+            {% if doc_usage %}
+              {% set max_d = doc_usage[0].total or 1 %}
+              <div class="doc-bars">
+                {% for row in doc_usage %}
+                  <div>
+                    <div class="db-row">
+                      <span class="db-name">
+                        <i class="fa-solid fa-{{ 'gavel' if 'discipline' in (row.document_id or '') else 'graduation-cap' }}"
+                           style="margin-left:6px; color:var(--c3);"></i>
+                        {{ row.document_name or row.document_id or '—' }}
+                      </span>
+                      <span class="db-num">{{ row.total }} مرة</span>
+                    </div>
+                    <div class="db-track">
+                      <div class="db-fill" style="width:{{ ((row.total / max_d) * 100)|int }}%"></div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="empty">
+                <div class="empty-ico"><i class="fa-solid fa-book"></i></div>
+                <p>لا توجد بيانات بعد</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- ══ TOP SOURCES + TOP CLICKED (المصادر الأكثر) ══ -->
+        <div class="g2" id="sources" style="margin-top:24px;">
+
+          <div class="card">
+            <div class="ch">
+              <div class="ch-icon" style="background:rgba(136,45,27,.09);">
+                <i class="fa-solid fa-trophy" style="color:var(--c3);"></i>
+              </div>
+              <h2>أكثر المواد استخداماً</h2>
+              <span class="ch-badge">Top 10</span>
+            </div>
+            <div class="cb-flush">
+              {% set ts = stats.get('top_sources', []) %}
+              {% if ts %}
+                <table class="dt">
+                  <thead>
+                    <tr>
+                      <th><i class="fa-solid fa-hashtag"></i></th>
+                      <th>المادة / المصدر</th>
+                      <th>النوع</th>
+                      <th><i class="fa-solid fa-arrow-trend-up"></i> مرات</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for s in ts %}
+                      <tr>
+                        <td>
+                          <span class="rnk {{ 'rnk-1' if loop.index==1 else 'rnk-2' if loop.index==2 else 'rnk-3' if loop.index==3 else 'rnk-n' }}">
+                            {% if loop.index <= 3 %}<i class="fa-solid fa-medal" style="font-size:.65rem;"></i>{% else %}{{ loop.index }}{% endif %}
+                          </span>
+                        </td>
+                        <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ s.label }}">{{ s.label or '—' }}</td>
+                        <td>
+                          {% set st = s.source_type or 'article' %}
+                          <span class="pill tp-{{ st }}">
+                            <i class="fa-solid fa-{{ 'file-lines' if st=='article' else 'table' if st=='table' else 'square-root-variable' }}"></i>
+                            {% if st=='table' %}جدول{% elif st=='formula' %}معادلة{% else %}مادة{% endif %}
+                          </span>
+                        </td>
+                        <td><strong>{{ s.total }}</strong></td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <div class="empty">
+                  <div class="empty-ico"><i class="fa-solid fa-trophy"></i></div>
+                  <p>لا توجد بيانات بعد</p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="ch">
+              <div class="ch-icon" style="background:rgba(96,121,118,.09);">
+                <i class="fa-solid fa-hand-pointer" style="color:var(--a1);"></i>
+              </div>
+              <h2>أكثر المصادر تفاعلاً</h2>
+              <span class="ch-badge">Top 10</span>
+            </div>
+            <div class="cb-flush">
+              {% set tc = stats.get('top_clicked', []) %}
+              {% if tc %}
+                <table class="dt">
+                  <thead>
+                    <tr>
+                      <th><i class="fa-solid fa-hashtag"></i></th>
+                      <th>المادة / المصدر</th>
+                      <th>النوع</th>
+                      <th><i class="fa-solid fa-hand-pointer"></i> ضغطات</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for s in tc %}
+                      <tr>
+                        <td>
+                          <span class="rnk {{ 'rnk-1' if loop.index==1 else 'rnk-2' if loop.index==2 else 'rnk-3' if loop.index==3 else 'rnk-n' }}">
+                            {% if loop.index <= 3 %}<i class="fa-solid fa-medal" style="font-size:.65rem;"></i>{% else %}{{ loop.index }}{% endif %}
+                          </span>
+                        </td>
+                        <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ s.label }}">{{ s.label or '—' }}</td>
+                        <td>
+                          {% set st = s.source_type or 'article' %}
+                          <span class="pill tp-{{ st }}">
+                            <i class="fa-solid fa-{{ 'file-lines' if st=='article' else 'table' if st=='table' else 'square-root-variable' }}"></i>
+                            {% if st=='table' %}جدول{% elif st=='formula' %}معادلة{% else %}مادة{% endif %}
+                          </span>
+                        </td>
+                        <td><strong>{{ s.total }}</strong></td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <div class="empty">
+                  <div class="empty-ico"><i class="fa-solid fa-hand-pointer"></i></div>
+                  <p>لا توجد بيانات بعد</p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ══ RECENT QUESTIONS FEED (سجل الأسئلة) ══ -->
+        <div class="card" id="questions" style="margin-top:24px;">
+          <div class="ch">
+            <div class="ch-icon" style="background:rgba(136,45,27,.09);">
+              <i class="fa-solid fa-clock-rotate-left" style="color:var(--c1);"></i>
+            </div>
+            <h2>آخر الأسئلة المطروحة</h2>
+            <span class="ch-badge">آخر 20</span>
+          </div>
+          {% set qs = stats.get('recent_questions', []) %}
+          {% if qs %}
+            <!-- Desktop Table -->
+            <div class="cb-flush hide-sm">
+              <table class="dt">
+                <thead>
+                  <tr>
+                    <th><i class="fa-solid fa-comments"></i> السؤال</th>
+                    <th><i class="fa-solid fa-book"></i> اللائحة</th>
+                    <th><i class="fa-solid fa-robot"></i> المصدر</th>
+                    <th><i class="fa-solid fa-stopwatch"></i> الاستجابة</th>
+                    <th><i class="fa-regular fa-clock"></i> الوقت</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for q in qs %}
+                    <tr>
+                      <td style="max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;" title="{{ q.question }}">
+                        {{ q.question }}
+                      </td>
+                      <td>
+                        {% set did = q.selected_document_id or '' %}
+                        {% if 'discipline' in did %}
+                          <span class="pill pill-red"><i class="fa-solid fa-gavel"></i> الانضباط</span>
+                        {% elif 'study' in did %}
+                          <span class="pill pill-teal"><i class="fa-solid fa-graduation-cap"></i> الدراسة</span>
+                        {% elif 'mixed' in did %}
+                          <span class="pill pill-tan"><i class="fa-solid fa-layer-group"></i> مختلط</span>
+                        {% elif 'overview' in did %}
+                          <span class="pill pill-gray"><i class="fa-solid fa-circle-info"></i> عام</span>
+                        {% else %}
+                          <span class="pill pill-gray">—</span>
+                        {% endif %}
+                      </td>
+                      <td>
+                        {% if q.used_gemini %}
+                          <span class="pill pill-info"><i class="fa-solid fa-brain"></i> Gemini</span>
+                        {% elif q.used_fallback %}
+                          <span class="pill pill-warn"><i class="fa-solid fa-shuffle"></i> Fallback</span>
+                        {% else %}
+                          <span class="pill pill-gray">—</span>
+                        {% endif %}
+                      </td>
+                      <td>
+                        {% if q.response_time_ms %}
+                          <span style="font-size:.75rem; color:var(--ink-400);">{{ q.response_time_ms }} ms</span>
+                        {% else %}—{% endif %}
+                      </td>
+                      <td style="font-size:.73rem; color:var(--ink-400); white-space:nowrap;">
+                        {{ q.created_at[:16] if q.created_at else '—' }}
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Mobile Feed -->
+            <div class="cb" style="display:none;" class="show-sm">
+              <div class="feed">
+                {% for q in qs %}
+                  <div class="feed-item">
+                    {% set did = q.selected_document_id or '' %}
+                    <div class="feed-ico {% if 'discipline' in did %}ic-red{% elif 'study' in did %}ic-teal{% else %}ic-gray{% endif %}"
+                         style="{% if 'discipline' in did %}background:rgba(136,45,27,.09);{% elif 'study' in did %}background:rgba(96,121,118,.09);{% else %}background:var(--ink-100);{% endif %}">
+                      <i class="fa-solid fa-{% if 'discipline' in did %}gavel{% elif 'study' in did %}graduation-cap{% else %}circle-question{% endif %}"></i>
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                      <div class="feed-q">{{ q.question }}</div>
+                      <div class="feed-meta">
+                        {% if q.used_gemini %}<span class="pill pill-info" style="font-size:.65rem;"><i class="fa-solid fa-brain"></i> Gemini</span>
+                        {% elif q.used_fallback %}<span class="pill pill-warn" style="font-size:.65rem;"><i class="fa-solid fa-shuffle"></i> Fallback</span>{% endif %}
+                        {% if q.response_time_ms %}<span>⚡ {{ q.response_time_ms }}ms</span>{% endif %}
+                        <span class="feed-dot"></span>
+                        <span>{{ q.created_at[:16] if q.created_at else '—' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% else %}
+            <div class="empty">
+              <div class="empty-ico"><i class="fa-solid fa-comments"></i></div>
+              <p>لم يُطرح أي سؤال بعد. استخدم الشات وستظهر الأسئلة هنا.</p>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- ══ WORD CLOUD (الكلمات المتكررة) ══ -->
+        <div class="card" id="words" style="margin-top:24px; margin-bottom:18px;">
+          <div class="ch">
+            <div class="ch-icon" style="background:rgba(134,129,133,.1);">
+              <i class="fa-solid fa-tags" style="color:var(--a2);"></i>
+            </div>
+            <h2>الكلمات الأكثر تكراراً في الأسئلة</h2>
+            <span class="ch-badge">Top 20</span>
+          </div>
+          <div class="cb">
+            {% set tw = stats.get('top_words', []) %}
+            {% if tw %}
+              <div class="word-cloud">
+                {% for word, cnt in tw %}
+                  <div class="wc-chip">
+                    <i class="fa-solid fa-hashtag" style="font-size:.65rem; color:var(--c3);"></i>
+                    {{ word }}
+                    <span class="wc-num">{{ cnt }}</span>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="empty">
+                <div class="empty-ico"><i class="fa-solid fa-tags"></i></div>
+                <p>لا توجد بيانات بعد</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ══ VIDEO MANAGER TAB ══ -->

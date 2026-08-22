@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة الإدارة — جامعة حفر الباطن</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- QRCode.js -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}?v={{ import_time }}">
+</head>
+<body>
+
+<!-- Overlay for mobile sidebar -->
+<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+<div class="layout">
+
+  <!-- ══════════════ SIDEBAR ══════════════ -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sb-brand">
+      <div class="sb-logo-wrap">
+        <img class="sb-logo"
+             src="{{ url_for('static', filename='img/شعار_رواد_13_شفاف.png') }}"
+             alt="رواد 13"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="sb-brand-badge">
+        <span class="live-dot"></span>
+        <span>لوحة الإدارة</span>
+      </div>
+      <button class="sb-close-btn" onclick="closeSidebar()">
+        <i class="fa fa-times"></i>
+      </button>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-section-label">أقسام البوابة والأسئلة</div>
+      <a href="#category-manager" class="sb-link active" onclick="switchAdminTab('category-manager', this)">
+        <i class="fa-solid fa-layer-group fa-icon"></i>
+        بطاقات الأقسام والأسئلة
+      </a>
+
+      <div class="sb-section-label" style="margin-top:12px;">شؤون الطلاب والمسابقات</div>
+      <a href="#student-attempts" class="sb-link" onclick="switchAdminTab('student-attempts', this)">
+        <i class="fa-solid fa-clipboard-check fa-icon" style="color: #059669;"></i>
+        نتائج واختبارات الطلاب
+        <span class="sb-badge" id="sb-attempts-badge" style="background: rgba(5,150,105,0.15); color: #059669; font-weight: 800;">{{ stats.get('total_quiz_attempts', 0) }}</span>
+      </a>
+
+      <div class="sb-section-label" style="margin-top:12px;">إدارة الصفحة والفعاليات</div>
+      <a href="#station-videos" class="sb-link" onclick="switchAdminTab('station-videos', this)">
+        <i class="fa-solid fa-film fa-icon" style="color: #7c3aed;"></i>
+        مقاطع المحطات الافتراضية
+        <span class="sb-badge" id="sb-station-videos-badge" style="background: rgba(124,58,237,0.12); color: #7c3aed; border: 1px solid rgba(124,58,237,0.3); font-weight: 800;">🎬</span>
+      </a>
+      <a href="#qrcodes" class="sb-link" onclick="switchAdminTab('qrcodes', this)" style="color: #059669; font-weight: 700;">
+        <i class="fa-solid fa-qrcode fa-icon" style="color: #059669;"></i>
+        طباعة باركودات الأركان والورش
+        <span class="sb-badge" style="background: rgba(5,150,105,0.12); color: #059669; border: 1px solid rgba(5,150,105,0.3); font-weight: 800;">QR</span>
+      </a>
+
+      <div class="sb-section-label" style="margin-top:12px;">تقارير القيادة الجامعية</div>
+      <a href="#report" class="sb-link" onclick="switchAdminTab('report', this)" style="color: #872A08; font-weight: 800; background: rgba(135,42,8,0.06); border-radius: 8px; margin: 4px 8px;">
+        <i class="fa-solid fa-file-invoice-dollar fa-icon" style="color: #872A08;"></i>
+        التقرير القيادي الشامل للجامعة
+        <span class="sb-badge" style="background: #872A08; color: #fff; font-weight: 800;">رسمي</span>
+      </a>
+
+      <div class="sb-section-label" style="margin-top:12px;">الروابط الخارجية</div>
+      <a href="{{ url_for('main.index') }}" target="_blank" class="sb-link">
+        <i class="fa-solid fa-arrow-up-right-from-square fa-icon"></i>
+        فتح البوابة
+      </a>
+    </nav>
+
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-avatar"><i class="fa-solid fa-user" style="font-size:.75rem;"></i></div>
+        <div>
+          <div class="sb-uname">المدير</div>
+          <div class="sb-role"><i class="fa-solid fa-shield-halved" style="font-size:.58rem;"></i> Admin</div>
+        </div>
+      </div>
+      <a href="{{ url_for('auth.logout') }}" class="logout-link">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        تسجيل الخروج
+      </a>
+    </div>
+  </aside>
+
+  <!-- ══════════════ MAIN ══════════════ -->
+  <div class="main">
+
+    <!-- ── Topbar ── -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" onclick="openSidebar()">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="topbar-title" id="topbar-page-title">
+          <i class="fa-solid fa-layer-group" style="color:var(--c3); margin-left:6px;"></i>
+          بطاقات أقسام البوابة والأسئلة
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="tb-pill live">
+          <span class="live-dot-sm"></span>
+          مباشر
+        </div>
+        <div class="tb-pill date hide-sm" id="topDate">—</div>
+        <a href="{{ url_for('auth.dashboard') }}" class="tb-btn" title="تحديث">
+          <i class="fa-solid fa-rotate-right"></i>
+        </a>
+        <a href="{{ url_for('main.index') }}" target="_blank" class="tb-btn" title="البوابة">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- ══ PAGE 1: ANALYTICS DASHBOARD (لوحة التحليلات والإحصائيات الرئيسية) ══ -->
+      {% include 'dashboard/_view_dashboard.html' %}
+      {% include 'dashboard/_view_video_manager.html' %}
+      {% include 'dashboard/_view_category_manager.html' %}
+      {% include 'dashboard/_view_student_attempts.html' %}
+      {% include 'dashboard/_view_station_videos.html' %}
+      {% include 'dashboard/_view_qrcodes.html' %}
+      {% include 'dashboard/_view_report.html' %}
+{% include 'dashboard/_modal_student_answers.html' %}
+{% include 'dashboard/_modal_question_edit.html' %}
+{% include 'dashboard/_modal_category_edit.html' %}
+{% include 'dashboard/_modal_journey_step_edit.html' %}
+{% include 'dashboard/_modal_questions_bank.html' %}
+{% include 'dashboard/_modal_student_dossier.html' %}
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/dashboard/01-utils-questions-bank.js') }}?v={{ import_time }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/02-categories-journey.js') }}?v={{ import_time }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/03-quiz-management.js') }}?v={{ import_time }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/04-students-part1.js') }}?v={{ import_time }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/05-students-part2.js') }}?v={{ import_time }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/06-reports-charts.js') }}?v={{ import_time }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard/07-station-videos-misc.js') }}?v={{ import_time }}"></script>
+
+</body>
+</html>

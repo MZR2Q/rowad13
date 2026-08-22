@@ -1,0 +1,96 @@
+<!-- Modal for Adding/Editing Journey Step (مرونة كاملة) -->
+<div id="journeyStepModal" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.65); backdrop-filter:blur(4px); z-index:9999; justify-content:center; align-items:center; padding:16px;">
+  <div style="background:#fff; width:100%; max-width:700px; border-radius:20px; box-shadow:0 24px 60px rgba(0,0,0,0.35); overflow:hidden; animation:slideUp 0.3s ease;">
+    <div style="background:var(--sb-bg); color:#fff; padding:18px 24px; display:flex; justify-content:space-between; align-items:center;">
+      <h3 id="jModalTitle" style="font-size:1.1rem; font-weight:800;"><i class="fa-solid fa-route" style="color:var(--c3);"></i> تعديل محطة ابدأ رحلتك</h3>
+      <button onclick="closeJourneyStepModal()" style="color:rgba(255,255,255,0.7); font-size:1.2rem; background:none; border:none; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <form id="journeyStepForm" onsubmit="handleJourneyStepSubmit(event)" style="padding:24px; display:flex; flex-direction:column; gap:14px; max-height:80vh; overflow-y:auto;">
+      <input type="hidden" id="jStepId">
+
+      <!-- Row 1: Title + Question Type -->
+      <div style="display:grid; grid-template-columns:2fr 1fr; gap:12px;">
+        <div>
+          <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">عنوان المحطة *</label>
+          <input type="text" id="jStepTitle" placeholder="مثال: التوثيق الرقمي والبريد الجامعي" required style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit;">
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">نوع السؤال</label>
+          <select id="jStepType" onchange="toggleJourneyQTypeFields()" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit;">
+            <option value="mcq">خيارات متعددة (MCQ)</option>
+            <option value="tf">صح أم خطأ</option>
+            <option value="open">إجابة مفتوحة</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Question Text -->
+      <div>
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">نص السؤال *</label>
+        <textarea id="jStepQuestion" rows="3" required placeholder="اكتب نص السؤال هنا..." style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; resize:vertical;"></textarea>
+      </div>
+
+      <!-- MCQ Options -->
+      <div id="jStepOptionsWrap" style="display:flex; flex-direction:column; gap:10px;">
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700);">خيارات الإجابة</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <input type="text" id="jOpt0" placeholder="الخيار (أ)" style="padding:9px; border-radius:8px; border:1px solid var(--ink-300); font-family:inherit;">
+          <input type="text" id="jOpt1" placeholder="الخيار (ب)" style="padding:9px; border-radius:8px; border:1px solid var(--ink-300); font-family:inherit;">
+          <input type="text" id="jOpt2" placeholder="الخيار (ج) — اختياري" style="padding:9px; border-radius:8px; border:1px solid var(--ink-300); font-family:inherit;">
+          <input type="text" id="jOpt3" placeholder="الخيار (د) — اختياري" style="padding:9px; border-radius:8px; border:1px solid var(--ink-300); font-family:inherit;">
+        </div>
+      </div>
+
+      <!-- TF Options (auto-filled) -->
+      <div id="jStepTFWrap" style="display:none;">
+        <div style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:8px;">خيارات صح/خطأ</div>
+        <div style="display:flex; gap:12px;">
+          <div style="flex:1; padding:12px; background:rgba(46,125,94,.08); border-radius:10px; text-align:center; font-weight:700; color:var(--success);">✅ صح</div>
+          <div style="flex:1; padding:12px; background:rgba(220,53,69,.08); border-radius:10px; text-align:center; font-weight:700; color:var(--danger);">❌ خطأ</div>
+        </div>
+      </div>
+
+      <!-- Correct Answer -->
+      <div>
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;"><i class="fa-solid fa-check-circle" style="color:var(--success);"></i> الإجابة الصحيحة *</label>
+        <input type="text" id="jStepCorrect" placeholder="اكتب نص الإجابة الصحيحة أو رقم الخيار (0, 1, 2...)" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit;">
+        <div style="font-size:0.72rem; color:var(--ink-400); margin-top:4px;">💡 يمكنك كتابة نص الإجابة الصحيحة أو رقم فهرس الخيار</div>
+      </div>
+
+      <!-- Explanation -->
+      <div>
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">التلميح / الشرح التفسيري</label>
+        <textarea id="jStepExplanation" rows="2" placeholder="اكتب الشرح الموثق..." style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; resize:vertical;"></textarea>
+      </div>
+
+      <!-- Image Upload -->
+      <div>
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;"><i class="fa-solid fa-image" style="color:var(--c2);"></i> صورة توضيحية للمحطة</label>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <input type="file" id="jImageFile" accept="image/*" onchange="uploadJourneyStepImage(this)" style="display:none;">
+          <button type="button" onclick="document.getElementById('jImageFile').click()" class="btn-outline" style="font-size:0.85rem;">
+            <i class="fa-solid fa-cloud-arrow-up"></i> رفع صورة
+          </button>
+          <button type="button" id="removeJImgBtn" onclick="removeJourneyStepImage()" class="btn-outline" style="display:none; color:var(--danger); border-color:var(--danger);">
+            <i class="fa-solid fa-trash"></i> حذف الصورة
+          </button>
+        </div>
+        <input type="hidden" id="jImageUrl">
+        <div id="jImgPreviewWrap" style="margin-top:8px; display:none;">
+          <img id="jImgPreview" src="" style="max-height:120px; border-radius:10px; border:1px solid var(--ink-300); object-fit:contain;">
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:6px; border-top:1px solid var(--ink-200); padding-top:14px;">
+        <div style="font-size:0.73rem; color:var(--ink-400);"><i class="fa-solid fa-shield-halved"></i> صلاحيات: إضافة، تعديل، حذف، مرفقات</div>
+        <div style="display:flex; gap:10px;">
+          <button type="button" onclick="closeJourneyStepModal()" class="btn-outline">إلغاء</button>
+          <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> حفظ المحطة</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

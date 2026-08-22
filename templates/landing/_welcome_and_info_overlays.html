@@ -1,0 +1,833 @@
+  <!-- ═══ WELCOME SCREEN — GRAND LUXURY CINEMATIC HERO ═══ -->
+  <main class="welcome-screen" id="welcome-screen">
+
+    <!-- Ambient Animated Dynamic Light Orbs -->
+    <div class="hero-ambient-glow glow-1"></div>
+    <div class="hero-ambient-glow glow-2"></div>
+
+    <div class="hero-grand-container">
+
+      <div class="welcome-layout">
+
+        <!-- RIGHT: The Grand Hero Story & Action Center -->
+        <div class="welcome-text-side">
+
+          <div class="welcome-badge">
+            <span class="live-pulse-dot"></span>
+            <i class="fa-solid fa-sparkles"></i>
+            <span>البرنامج التفاعلي المعتمد • جامعة حفر الباطن</span>
+          </div>
+
+          <h1 class="welcome-title hero-royal-title">
+            <span class="title-sub-phrase">مرحباً بك في</span>
+            <div class="hero-logo-embed-wrap">
+              <img src="{{ url_for('static', filename='img/شعار_رواد 13 - شفاف.png') }}" alt="رواد 13"
+                class="hero-brand-logo-img">
+            </div>
+          </h1>
+
+          <!-- ═══ GRAND HERO PILLARS MASTER GRID (أركان رواد 13 الفاخرة) ═══ -->
+          <div class="grand-hero-pillars-grid">
+            
+            <!-- 1. رحلة رواد الافتراضية -->
+            <div class="grand-pillar-card" onclick="openHeroDropdownTarget('virtual', event)" id="pillar-virtual">
+              <div class="pillar-sheen"></div>
+              <div class="pillar-top-row">
+                <div class="pillar-icon-sphere"><i class="fa-solid fa-compass"></i></div>
+                <span class="pillar-badge">المسار الرقمي</span>
+              </div>
+              <div class="pillar-content">
+                <h3 class="pillar-title">رحلة رواد الافتراضية</h3>
+                <p class="pillar-desc">تصفّح المحطات والأنظمة الرقمية والأدلة المعتمدة</p>
+              </div>
+              <div class="pillar-footer">
+                <span class="pillar-action-label">استعراض المحطات</span>
+                <div class="pillar-action-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+              </div>
+            </div>
+
+            <!-- 2. رحلة رواد الحضورية -->
+            <div class="grand-pillar-card" onclick="openHeroDropdownTarget('campus', event)" id="pillar-campus">
+              <div class="pillar-sheen"></div>
+              <div class="pillar-top-row">
+                <div class="pillar-icon-sphere"><i class="fa-solid fa-map-location-dot"></i></div>
+                <span class="pillar-badge">المسار الميداني</span>
+              </div>
+              <div class="pillar-content">
+                <h3 class="pillar-title">رحلة رواد الحضورية</h3>
+                <p class="pillar-desc">أركان المعرض والورش التفاعلية ولقاءات الكليات</p>
+              </div>
+              <div class="pillar-footer">
+                <span class="pillar-action-label">استعراض الفعاليات</span>
+                <div class="pillar-action-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+              </div>
+            </div>
+
+            <!-- 3. اختبار ختام الرحلة -->
+            <div class="grand-pillar-card" onclick="openHeroDropdownTarget('quiz', event)" id="pillar-quiz">
+              <div class="pillar-sheen"></div>
+              <div class="pillar-top-row">
+                <div class="pillar-icon-sphere"><i class="fa-solid fa-clipboard-question"></i></div>
+                <span class="pillar-badge">التقييم الشامل</span>
+              </div>
+              <div class="pillar-content">
+                <h3 class="pillar-title">اختبار ختام الرحلة</h3>
+                <p class="pillar-desc">قِس جاهزيتك واكسب النقاط وتأكد من استيعابك</p>
+              </div>
+              <div class="pillar-footer">
+                <span class="pillar-action-label">استعراض الاختبارات</span>
+                <div class="pillar-action-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+              </div>
+            </div>
+
+            <!-- 4. جائزة رواد 13 -->
+            <div class="grand-pillar-card pillar-prize-theme" onclick="openHeroDropdownTarget('award', event)" id="pillar-award">
+              <div class="pillar-sheen"></div>
+              <div class="pillar-top-row">
+                <div class="pillar-icon-sphere gold-sphere"><i class="fa-solid fa-award"></i></div>
+                <span class="pillar-badge gold-badge"><i class="fa-solid fa-trophy"></i> التكريم والتنافس</span>
+              </div>
+              <div class="pillar-content">
+                <h3 class="pillar-title">جائزة رواد 13</h3>
+                <p class="pillar-desc">اكتشف شروط الجائزة، مسارات التكريم، ومعايير الفوز</p>
+              </div>
+              <div class="pillar-footer">
+                <span class="pillar-action-label gold-link">دخول صفحة الجائزة</span>
+                <div class="pillar-action-arrow gold-arrow"><i class="fa-solid fa-arrow-left"></i></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Interactive Quick Pathway Cards -->
+          <div class="hero-quick-cards">
+            <div class="quick-card" onclick="openOverlay('regulations', event)">
+              <div class="qc-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+              <div class="qc-info">
+                <span class="qc-val">75 مادة</span>
+                <span class="qc-lbl">لائحة معتمدة</span>
+              </div>
+            </div>
+            <div class="quick-card" onclick="openOverlay('calendar', event)">
+              <div class="qc-icon"><i class="fa-solid fa-calendar-days"></i></div>
+              <div class="qc-info">
+                <span class="qc-val">1448-1449</span>
+                <span class="qc-lbl">التقويم الأكاديمي</span>
+              </div>
+            </div>
+            <div class="quick-card" onclick="startJourney(event)">
+              <div class="qc-icon"><i class="fa-solid fa-trophy"></i></div>
+              <div class="qc-info">
+                <span class="qc-val">جوائز ونقاط</span>
+                <span class="qc-lbl"> تنافس على الاول</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- LEFT: Floating Cinema Showcase -->
+        <div class="welcome-video-side">
+          <div class="hero-cinema-card" id="hero-video-card">
+
+            <div class="cinema-card-header">
+              <div class="cinema-header-right">
+                <span class="cinema-live-badge"><i class="fa-solid fa-circle-play"></i> العرض التعريفي</span>
+                <span class="cinema-title-caption" id="video-caption-display">{{ videos[0].caption if videos|length > 0
+                  else 'رواد 13' }}</span>
+              </div>
+              <div class="cinema-header-left">
+                <span class="cinema-authority-tag"><i class="fa-solid fa-shield-halved"></i> عمادة شؤون الطلاب</span>
+              </div>
+            </div>
+
+            <div class="video-frame" id="video-frame">
+              <div class="video-container" id="video-container">
+                {% set videos = landing_config.videos or [] %}
+                {% if videos|length > 0 %}
+                <video id="welcome-video" muted loop playsinline autoplay class="preview-mode" preload="auto">
+                  <source src="{{ videos[0].url }}" type="video/mp4">
+                </video>
+                {% else %}
+                <video id="welcome-video" muted loop playsinline preload="none"></video>
+                {% endif %}
+
+                <div class="video-play-overlay" id="video-play-overlay" onclick="toggleVideo()">
+                  <div class="video-play-btn">
+                    <span class="play-btn-ripple"></span>
+                    <i class="fa-solid fa-play" id="video-play-icon"></i>
+                  </div>
+                  <span class="video-play-text" id="video-play-text">{{ videos[0].caption if videos|length > 0 else
+                    'انقر لتشغيل المقطع' }}</span>
+                </div>
+
+                {% if videos|length > 1 %}
+                <!-- Nav Arrows -->
+                <button class="video-nav-arrow video-nav-prev" onclick="event.stopPropagation();switchVideoSlide(-1)"
+                  title="المقطع السابق">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <button class="video-nav-arrow video-nav-next" onclick="event.stopPropagation();switchVideoSlide(1)"
+                  title="المقطع التالي">
+                  <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <!-- Counter -->
+                <div class="video-counter" id="video-counter">
+                  <span id="video-current-num">1</span> / <span>{{ videos|length }}</span>
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Luxury Controls Bar -->
+              <div class="video-info-bar">
+                <div class="video-info-right">
+                  <div class="video-duration-pill">
+                    <i class="fa-solid fa-clock"></i>
+                    <span id="video-duration">--:--</span>
+                  </div>
+                  <span class="v-caption-sub">دليل الطالب الجامعي</span>
+                </div>
+                <div class="video-info-left">
+                  <!-- Fullscreen Button -->
+                  <button onclick="toggleVideoFullscreen()" title="تكبير الشاشة" class="v-ctrl-btn">
+                    <i class="fa-solid fa-expand"></i>
+                  </button>
+                  <!-- Collapse Button -->
+                  <button id="video-collapse-btn" onclick="toggleVideoCollapse()" title="إغلاق الفيديو"
+                    class="v-ctrl-btn">
+                    <i class="fa-solid fa-chevron-up"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Videos Data for JS -->
+  <script>
+    window.LANDING_VIDEOS = {{ videos | tojson }};
+    window.CURRENT_VIDEO_INDEX = 0;
+    window.STATION_VIDEOS = {{ station_videos | tojson }};
+  </script>
+
+  </div>
+  </main>
+
+  <!-- ═══ OVERLAY: جدول اللقاءات التعريفية بالكليات (SIDE PANEL RIGHT) ═══ -->
+  <div class="content-overlay side-overlay" id="overlay-colleges-schedule">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="overlay-panel side-panel">
+      <div class="overlay-header">
+        <div class="overlay-title-group">
+          <i class="fa-solid fa-calendar-days" style="color:#F3C649; font-size:1.25rem;"></i>
+          <h2>جدول اللقاءات التعريفية بالكليات</h2>
+        </div>
+        <button class="overlay-close" onclick="closeOverlay()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="overlay-body" style="padding:20px;">
+        
+        <!-- 📌 تنويه وإيضاح الحضور والأركان -->
+        <div style="background:linear-gradient(135deg,#FAF8F5 0%,#F5EFEB 100%); border:1px solid rgba(197,155,102,0.35); border-right:4px solid #7A2416; border-radius:14px; padding:14px 16px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,0.03);">
+          <div style="display:flex; align-items:flex-start; gap:10px;">
+            <i class="fa-solid fa-circle-info" style="color:#7A2416; font-size:1.15rem; margin-top:2px; flex-shrink:0;"></i>
+            <div style="font-size:0.86rem; color:#4A3B32; line-height:1.75;">
+              <strong style="color:#7A2416; display:block; margin-bottom:3px; font-size:0.9rem; font-weight:800;">إرشادات الحضور والأركان التفاعلية:</strong>
+              • هذا الجدول مخصص للقاء التعريفي الخاص بكل كلية، ويُتاح لجميع الطلاب والطالبات حضور اللقاءات والاستفادة منها.<br>
+              • أركان المعرض والبوثات التفاعلية مفتوحة ومتاحة لجميع المستجدين طوال أيام البرنامج لاستكشاف الخدمات واللوائح وجمع النقاط.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="sched-tabs" style="margin-bottom:14px;">
+          <button class="sched-tab active" id="ov-sched-tab-male" onclick="switchSchedTab('male')">
+            <i class="fa-solid fa-person"></i> برنامج الطلاب
+          </button>
+          <button class="sched-tab" id="ov-sched-tab-female" onclick="switchSchedTab('female')">
+            <i class="fa-solid fa-person-dress"></i> برنامج الطالبات
+          </button>
+        </div>
+        <!-- Table -->
+        <div class="sched-table-wrap">
+          <table class="sched-tbl">
+            <thead>
+              <tr>
+                <th>الكلية</th>
+                <th>الوقت</th>
+                <th>التاريخ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>كلية الآداب</td>
+                <td>9:30 - 10:30</td>
+                <td>الأربعاء 26 أغسطس</td>
+              </tr>
+              <tr>
+                <td>كلية إدارة الأعمال</td>
+                <td>11:30 - 12:30</td>
+                <td>الأربعاء 26 أغسطس</td>
+              </tr>
+              <tr>
+                <td>الكلية التطبيقية</td>
+                <td>9:30 - 10:30</td>
+                <td>الخميس 27 أغسطس</td>
+              </tr>
+              <tr>
+                <td>السنة المشتركة - المسار الصحي</td>
+                <td>11:30 - 12:30</td>
+                <td>الخميس 27 أغسطس</td>
+              </tr>
+              <tr>
+                <td>السنة المشتركة - المسار الهندسي</td>
+                <td>9:30 - 10:30</td>
+                <td>الأحد 30 أغسطس</td>
+              </tr>
+              <tr>
+                <td>كلية العلوم</td>
+                <td>11:30 - 12:30</td>
+                <td>الأحد 30 أغسطس</td>
+              </tr>
+              <tr>
+                <td>كلية العلوم الطبية التطبيقية</td>
+                <td>9:30 - 10:30</td>
+                <td>الاثنين 31 أغسطس</td>
+              </tr>
+              <tr>
+                <td>كلية الصيدلة</td>
+                <td>11:30 - 12:30</td>
+                <td>الاثنين 31 أغسطس</td>
+              </tr>
+              <tr>
+                <td>كلية الهندسة</td>
+                <td>9:30 - 10:30</td>
+                <td>الثلاثاء 1 سبتمبر</td>
+              </tr>
+              <tr>
+                <td>كلية التمريض</td>
+                <td>11:30 - 12:30</td>
+                <td>الثلاثاء 1 سبتمبر</td>
+              </tr>
+              <tr>
+                <td>كلية علوم وهندسة الحاسب</td>
+                <td>9:30 - 10:30</td>
+                <td>الأربعاء 2 سبتمبر</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="sched-venue-note" id="ov-schedVenueNote">
+            <i class="fa-solid fa-location-dot"></i>
+            <span id="ov-schedVenueText">تقام جميع اللقاءات في مسرح مبنى (2)، باستثناء لقاء الكلية التطبيقية في مقر
+              الكلية التطبيقية.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: اللوائح والأنظمة (SIDE PANEL) ═══ -->
+  <div class="content-overlay side-overlay" id="overlay-regulations">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="overlay-panel side-panel">
+      <div class="overlay-header">
+        <div class="overlay-title-group">
+          <i class="fa-solid fa-book-open"></i>
+          <h2>اللوائح والأنظمة الطلابية</h2>
+        </div>
+        <button class="overlay-close" onclick="closeOverlay()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="overlay-body">
+        <div class="doc-switcher">
+          <button class="doc-switch-btn active" id="sw-study" onclick="switchRegDoc('study_exam_regulations')">
+            <i class="fa-solid fa-book-open"></i>
+            <span>لائحة الدراسة والاختبارات</span>
+          </button>
+          <button class="doc-switch-btn" id="sw-discipline" onclick="switchRegDoc('discipline_regulations')">
+            <i class="fa-solid fa-gavel"></i>
+            <span>لائحة الانضباط الطلابي 1447-2026</span>
+          </button>
+        </div>
+        <div class="overlay-search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" id="reg-search-input" placeholder="ابحث في نصوص اللائحة..."
+            oninput="filterRegulations(this.value)" autocomplete="off">
+        </div>
+        <div class="reg-articles-list" id="reg-articles-list">
+          <div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: التقويم الأكاديمي (SIDE PANEL) ═══ -->
+  <div class="content-overlay side-overlay" id="overlay-calendar">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="overlay-panel side-panel">
+      <div class="overlay-header">
+        <div class="overlay-title-group">
+          <i class="fa-solid fa-calendar-days"></i>
+          <h2>التقويم الأكاديمي ١٤٤٨-١٤٤٩هـ</h2>
+        </div>
+        <button class="overlay-close" onclick="closeOverlay()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="overlay-body">
+        <div class="cal-tabs">
+          <button class="cal-tab active" data-sem="all" onclick="filterCalendar('all', this)">
+            <i class="fa-solid fa-layer-group"></i> جميع الفصول
+          </button>
+          <button class="cal-tab" data-sem="2261" onclick="filterCalendar('2261', this)">الفصل الأول</button>
+          <button class="cal-tab" data-sem="2262" onclick="filterCalendar('2262', this)">الفصل الثاني</button>
+          <button class="cal-tab" data-sem="2265" onclick="filterCalendar('2265', this)">الفصل الصيفي</button>
+        </div>
+        <div class="cal-events-list" id="cal-events-list">
+          <div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: شؤون الطلاب (SIDE PANEL) ═══ -->
+  <div class="content-overlay side-overlay" id="overlay-student-affairs">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="overlay-panel side-panel">
+      <div class="overlay-header">
+        <div class="overlay-title-group">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+          <h2>خدمات عمادة شؤون الطلاب</h2>
+        </div>
+        <button class="overlay-close" onclick="closeOverlay()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="overlay-body">
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon teal"><i class="fa-solid fa-users"></i></div>
+            <h3>الأنشطة والأندية الطلابية</h3>
+            <p>أكثر من 30 نادياً طلابياً وثقافياً ورياضياً واجتماعياً لتنمية مهارات القيادة والابتكار.</p>
+            <div class="service-tags"><span>أندية تخصصية</span><span>مسابقات</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon gold"><i class="fa-solid fa-house-chimney"></i></div>
+            <h3>السكن الطلابي والتغذية</h3>
+            <p>توفير سكن مجهز بالكامل ووجبات التغذية الطلابية المدعومة بأسعار مناسبة داخل الجامعة.</p>
+            <div class="service-tags"><span>السكن الجامعي</span><span>التغذية</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon teal"><i class="fa-solid fa-briefcase"></i></div>
+            <h3>المكافآت والتشغيل الطلابي</h3>
+            <p>متابعة إيداع المكافآت الشهرية وتوفير فرص العمل الجزئي للطلاب داخل العمادات.</p>
+            <div class="service-tags"><span>المكافأة الشهرية</span><span>عمل جزئي</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon maroon"><i class="fa-solid fa-heart-pulse"></i></div>
+            <h3>الإرشاد النفسي والاجتماعي</h3>
+            <p>تقديم جلسات توجيه وإرشاد تخصصية بسرية تامة لمساعدة الطالب على تجاوز التحديات.</p>
+            <div class="service-tags"><span>إرشاد أكاديمي</span><span>دعم نفسي</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon gold"><i class="fa-solid fa-id-card"></i></div>
+            <h3>البطاقات والخصومات الطلابية</h3>
+            <p>إصدار وتحديث البطاقة الجامعية الرقمية واستغلال خصومات الشركاء بالمملكة.</p>
+            <div class="service-tags"><span>الهوية الرقمية</span><span>عروض وخصومات</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: القبول والتسجيل (SIDE PANEL) ═══ -->
+  <div class="content-overlay side-overlay" id="overlay-admissions">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="overlay-panel side-panel">
+      <div class="overlay-header">
+        <div class="overlay-title-group">
+          <i class="fa-solid fa-user-graduate"></i>
+          <h2>خدمات القبول والتسجيل</h2>
+        </div>
+        <button class="overlay-close" onclick="closeOverlay()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="overlay-body">
+        <div class="services-grid dark-cards">
+          <div class="service-card dark">
+            <div class="service-icon"><i class="fa-solid fa-table-columns"></i></div>
+            <h3>تسجيل المقررات والجداول</h3>
+            <p>إضافة وحذف المواد الدراسية، تعديل الشعب الأكاديمية، والاطلاع على الخطة الدراسية.</p>
+          </div>
+          <div class="service-card dark">
+            <div class="service-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+            <h3>التحويل بين الكليات والمسارات</h3>
+            <p>تقديم طلبات التحويل الداخلي والخارجي بين التخصصات وفق المعدل والمقاعد المتاحة.</p>
+          </div>
+          <div class="service-card dark">
+            <div class="service-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
+            <h3>التأجيل والاعتذار الأكاديمي</h3>
+            <p>تقديم طلب التأجيل للفصل القادم أو الاعتذار عن فصل دراسي وفق الضوابط الرسمية.</p>
+          </div>
+          <div class="service-card dark">
+            <div class="service-icon"><i class="fa-solid fa-file-lines"></i></div>
+            <h3>معادلة المقررات الدراسية</h3>
+            <p>احتساب الساعات الدراسية المجتازة للطلاب المحولين من جامعات أو كليات معترف بها.</p>
+          </div>
+          <div class="service-card dark">
+            <div class="service-icon"><i class="fa-solid fa-certificate"></i></div>
+            <h3>السجل الأكاديمي والإفادات</h3>
+            <p>طباعة كشف الدرجات الرسمي، إثبات قيد طالب، ووثائق التخرج الرسمية المعتمدة.</p>
+          </div>
+          <div class="service-card dark">
+            <div class="service-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h3>إعادة القيد ومتطلبات التخرج</h3>
+            <p>متابعة طلبات إعادة قيد المطوي قيدهم، وحصر ساعات التخرج واستلام الوثائق.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: الكليات (SIDE PANEL) ═══ -->
+  <div class="content-overlay side-overlay" id="overlay-colleges">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="overlay-panel side-panel">
+      <div class="overlay-header">
+        <div class="overlay-title-group">
+          <i class="fa-solid fa-building-columns"></i>
+          <h2>تعرف على كليات الجامعة</h2>
+        </div>
+        <button class="overlay-close" onclick="closeOverlay()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="overlay-body">
+        <div class="colleges-grid">
+          <div class="college-card">
+            <div class="college-icon"><i class="fa-solid fa-gears"></i></div>
+            <h3>كلية الهندسة</h3>
+            <p>الهندسة الميكانيكية • الكهربائية • المدنية • الكيميائية</p><span class="college-badge">بكالوريوس •
+              ماجستير</span>
+          </div>
+          <div class="college-card">
+            <div class="college-icon"><i class="fa-solid fa-microchip"></i></div>
+            <h3>كلية علوم وهندسة الحاسب</h3>
+            <p>علوم الحاسب • هندسة الحاسب • الأمن السيبراني • الذكاء الاصطناعي</p><span class="college-badge">بكالوريوس
+              • ماجستير</span>
+          </div>
+          <div class="college-card">
+            <div class="college-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <h3>كلية إدارة الأعمال</h3>
+            <p>إدارة الأعمال • المحاسبة والمالية • التسويق • نظم المعلومات</p><span class="college-badge">بكالوريوس •
+              ماجستير</span>
+          </div>
+          <div class="college-card">
+            <div class="college-icon"><i class="fa-solid fa-atom"></i></div>
+            <h3>كلية العلوم</h3>
+            <p>الرياضيات • الفيزياء • الكيمياء • علوم الأحياء</p><span class="college-badge">بكالوريوس • ماجستير</span>
+          </div>
+          <div class="college-card">
+            <div class="college-icon"><i class="fa-solid fa-stethoscope"></i></div>
+            <h3>كلية العلوم الطبية التطبيقية</h3>
+            <p>المختبرات الطبية • تقنية التخدير • التغذية الإكلينيكية</p><span class="college-badge">بكالوريوس</span>
+          </div>
+          <div class="college-card">
+            <div class="college-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+            <h3>كلية التمريض</h3>
+            <p>تمريض باطني وجراحي • العناية الحرجة • الأطفال</p><span class="college-badge">بكالوريوس</span>
+          </div>
+          <div class="college-card wide">
+            <div class="college-icon"><i class="fa-solid fa-certificate"></i></div>
+            <h3>الكلية التطبيقية</h3>
+            <p>حفر الباطن • الخفجي • النعيرية • القرية العليا — دبلومات مهنية متخصصة</p><span
+              class="college-badge gold">دبلومات مهنية</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: دليل الدخول على نظام التعليم الإلكتروني (LUXURY SIDE DRAWER PDF READER) ═══ -->
+  <div class="content-overlay pdf-side-overlay" id="overlay-elearn-system-guide">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="pdf-side-drawer">
+      <div class="pdf-side-header">
+        <div class="pdf-side-title-group">
+          <i class="fa-solid fa-file-pdf" style="color:#059669;"></i>
+          <h2>دليل الدخول على نظام التعليم الإلكتروني (Blackboard) — جامعة حفر الباطن</h2>
+        </div>
+        <div class="pdf-side-actions">
+          <button class="pdf-side-close" onclick="closeOverlay()" title="إغلاق"><i
+              class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+      <div class="pdf-side-body">
+        <iframe src="/static/uploads/elearn_system_guide.pdf#view=FitH"
+          title="دليل الدخول على نظام التعليم الإلكتروني PDF"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: دليل الدخول على البريد الجامعي وشبكة الإنترنت (LUXURY SIDE DRAWER PDF READER) ═══ -->
+  <div class="content-overlay pdf-side-overlay" id="overlay-email-internet-guide">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="pdf-side-drawer">
+      <div class="pdf-side-header">
+        <div class="pdf-side-title-group">
+          <i class="fa-solid fa-file-pdf" style="color:#872A08;"></i>
+          <h2>دليل الدخول على البريد الجامعي وشبكة الإنترنت — جامعة حفر الباطن</h2>
+        </div>
+        <div class="pdf-side-actions">
+          <button class="pdf-side-close" onclick="closeOverlay()" title="إغلاق"><i
+              class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+      <div class="pdf-side-body">
+        <iframe src="/static/uploads/email_network_guide.pdf#view=FitH"
+          title="دليل الدخول على البريد الجامعي وشبكة الإنترنت PDF"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: دليل السجل المهاري (LUXURY SIDE DRAWER PDF READER) ═══ -->
+  <div class="content-overlay pdf-side-overlay" id="overlay-skills-guide">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="pdf-side-drawer">
+      <div class="pdf-side-header">
+        <div class="pdf-side-title-group">
+          <i class="fa-solid fa-file-pdf"></i>
+          <h2>دليل السجل المهاري — جامعة حفر الباطن</h2>
+        </div>
+        <div class="pdf-side-actions">
+          <button class="pdf-side-close" onclick="closeOverlay()" title="إغلاق"><i
+              class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+      <div class="pdf-side-body">
+        <iframe src="/static/uploads/skills_record_guide.pdf#view=FitH" title="دليل السجل المهاري PDF"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: دليل الهوية البصرية (LUXURY SIDE DRAWER PDF READER) ═══ -->
+  <div class="content-overlay pdf-side-overlay" id="overlay-identity-guide">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="pdf-side-drawer">
+      <div class="pdf-side-header">
+        <div class="pdf-side-title-group">
+          <i class="fa-solid fa-palette"></i>
+          <h2>دليل الهوية البصرية — جامعة حفر الباطن</h2>
+        </div>
+        <div class="pdf-side-actions">
+          <button class="pdf-side-close" onclick="closeOverlay()" title="إغلاق"><i
+              class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+      <div class="pdf-side-body">
+        <iframe src="{{ url_for('static', filename='uploads/دليل الهوية البصرية - جامعة حفر الباطن.pdf') }}#view=FitH"
+          title="دليل الهوية البصرية PDF"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: نبذة عن الجامعة (SIDE PANEL) ═══ -->
+  <div class="content-overlay side-overlay" id="overlay-about-university">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="overlay-panel side-panel">
+      <div class="overlay-header">
+        <div class="overlay-title-group">
+          <i class="fa-solid fa-building-columns" style="color:#7A2416;"></i>
+          <h2>نبذة عن جامعة حفر الباطن</h2>
+        </div>
+        <button class="overlay-close" onclick="closeOverlay()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="overlay-body">
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon maroon"><i class="fa-solid fa-landmark"></i></div>
+            <h3>التأسيس والنشأة</h3>
+            <p>أنشئت جامعة حفر الباطن بموجب الأمر السامي الكريم رقم (20870) وتاريخ 2/6/1435هـ لتكون منارة تعليمية رائدة
+              في المنطقة الشرقية والمملكة.</p>
+            <div class="service-tags"><span>أمر سامي كريم</span><span>جامعة حكومية</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon gold"><i class="fa-solid fa-map-location-dot"></i></div>
+            <h3>الموقع الاستراتيجي والحرم الجامعي</h3>
+            <p>تقع الجامعة في محافظة حفر الباطن، وتضم مجمعات أكاديمية متكاملة للطلاب والطالبات وفروعاً في الخفجي،
+              النعيرية، والقرية العليا.</p>
+            <div class="service-tags"><span>حفر الباطن</span><span>الفروع والمقرات</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon teal"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h3>الكليات والبرامج الأكاديمية</h3>
+            <p>تضم الجامعة أكثر من 10 كليات نوعية تقدم برامج الدبلوم والبكالوريوس والماجستير المتوافقة مع احتياجات سوق
+              العمل والتنمية الوطنية.</p>
+            <div class="service-tags"><span>+10 كليات</span><span>برامج معتمدة</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon maroon"><i class="fa-solid fa-microchip"></i></div>
+            <h3>البيئة الرقمية والبحث العلمي</h3>
+            <p>بنية تحتية رقمية متقدمة ومعامل ومختبرات بحثية متطورة تدعم الابتكار وريادة الأعمال وخدمة المجتمع المحلي
+              والصناعي.</p>
+            <div class="service-tags"><span>تحول رقمي</span><span>أبحاث تطبيقية</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: رؤية ورسالة الجامعة (SIDE PANEL) ═══ -->
+  <div class="content-overlay side-overlay" id="overlay-vision-mission">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="overlay-panel side-panel">
+      <div class="overlay-header">
+        <div class="overlay-title-group">
+          <i class="fa-solid fa-eye" style="color:#c59b66;"></i>
+          <h2>رؤية ورسالة وقيم الجامعة</h2>
+        </div>
+        <button class="overlay-close" onclick="closeOverlay()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="overlay-body">
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon gold"><i class="fa-solid fa-compass"></i></div>
+            <h3>الرؤية</h3>
+            <p>جامعة متميزة معرفياً ومهنياً، ومسهمة بفاعلية في بناء مجتمع المعرفة وتحقيق التنمية المستدامة.</p>
+            <div class="service-tags"><span>الريادة المعرفية</span><span>تنمية مستدامة</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon maroon"><i class="fa-solid fa-bullseye"></i></div>
+            <h3>الرسالة</h3>
+            <p>تقديم تعليم أكاديمي ومهني نوعي، وإجراء بحوث تطبيقية مبتكرة، وبناء شراكات مجتمعية رائدة تعزز القدرات
+              التنافسية للطلبة وتسهم في خدمة الوطن.</p>
+            <div class="service-tags"><span>تعليم نوعي</span><span>شراكة مجتمعية</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon teal"><i class="fa-solid fa-gem"></i></div>
+            <h3>القيم الجوهرية</h3>
+            <p>التميز الأكاديمي • النزاهة والشفافية • الانتماء الوطني • الإبداع والابتكار • العمل الجماعي • المسؤولية
+              المجتمعية.</p>
+            <div class="service-tags"><span>قيم أكاديمية</span><span>نزاهة وتميز</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon gold"><i class="fa-solid fa-flag"></i></div>
+            <h3>التوافق مع رؤية المملكة 2030</h3>
+            <p>تأهيل كوادر وطنية منافسة عالمياً، وتطوير المهارات المستقبلية، ودعم الابتكار وريادة الأعمال والمشاريع
+              التنموية الكبرى.</p>
+            <div class="service-tags"><span>رؤية 2030</span><span>برنامج تنمية القدرات البشرية</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: المكافآت الطلابية ومكافأة التميز (SIDE PANEL) ═══ -->
+  <div class="content-overlay side-overlay" id="overlay-rewards-guide">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="overlay-panel side-panel">
+      <div class="overlay-header">
+        <div class="overlay-title-group">
+          <i class="fa-solid fa-coins" style="color:#d97706;"></i>
+          <h2>دليل المكافآت الطلابية ومكافأة التميز</h2>
+        </div>
+        <button class="overlay-close" onclick="closeOverlay()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="overlay-body">
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon gold"><i class="fa-solid fa-money-bill-wave"></i></div>
+            <h3>المكافأة الشهرية ومواعيد الصرف</h3>
+            <p>تصرف المكافأة للطلبة المنتظمين في اليوم (27) من كل شهر ميلادي: 1000 ريال للتخصصات العلمية و840 ريال
+              للتخصصات النظرية.</p>
+            <div class="service-tags"><span>يوم 27 ميلادي</span><span>تخصصات علمية ونظرية</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon maroon"><i class="fa-solid fa-star"></i></div>
+            <h3>مكافأة التفوق والتميز الفصلي</h3>
+            <p>مكافأة تشجيعية بمقدار 1,000 ريال تمنح للطالب المتميز الحاصل على معدل فصلي (4.75 فأكثر) بشرط تسجيل العبء
+              الدراسي الكامل.</p>
+            <div class="service-tags"><span>معدل 4.75+</span><span>1000 ريال مكافأة فضلية</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon teal"><i class="fa-solid fa-award"></i></div>
+            <h3>مرتبة الشرف الأولى والثانية</h3>
+            <p>تمنح مرتبة الشرف الأولى للحاصلين على معدل تراكمي (4.75 إلى 5.00) ومرتبة الشرف الثانية للحاصلين على (4.25
+              إلى أقل من 4.75) عند التخرج.</p>
+            <div class="service-tags"><span>شرف أولى</span><span>شرف ثانية</span></div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon gold"><i class="fa-solid fa-file-invoice"></i></div>
+            <h3>الدليل الإرشادي لسجلات الطلاب</h3>
+            <p>متابعة وتحديث رقم الآيبان البنكي، كشف الحساب الأكاديمي، إثبات القيد، والاطلاع على مسيرات الصرف عبر
+              البوابة الأكاديمية.</p>
+            <div class="service-tags"><span>تحديث الآيبان</span><span>سجلات الصرف</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: فخور بجامعتي (FULL CENTERED) ═══ -->
+  <div class="content-overlay proud-overlay" id="overlay-proud">
+    <div class="overlay-backdrop" onclick="closeOverlay()"></div>
+    <div class="overlay-panel proud-panel">
+      <button class="overlay-close proud-close" onclick="closeOverlay()"><i class="fa-solid fa-xmark"></i></button>
+
+      <div class="proud-content">
+        <!-- Hero Section -->
+        <div class="proud-hero-section">
+          <div class="proud-logo-wrap">
+            <img src="{{ url_for('static', filename='img/شعار جامعة حفرالباطن.png') }}" alt="شعار جامعة حفر الباطن"
+              class="proud-logo">
+          </div>
+          <div class="proud-badge-wrap"><i class="fa-solid fa-star"></i> منارة المعرفة والتميز</div>
+          <h2 class="proud-main-title">جامعة حفر الباطن</h2>
+          <p class="proud-tagline">طموح يعانق السماء</p>
+          <p class="proud-desc">تأسست جامعة حفر الباطن لتكون جامعة حكومية متكاملة تقدم منظومة تعليمية وبحثية شاملة،
+            ببيئة أكاديمية متطورة تلبي طموحات أبناء وبنات الوطن وتواكب رؤية المملكة 2030.</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="proud-stats-grid">
+          <div class="proud-stat-card">
+            <div class="stat-icon-wrap"><i class="fa-solid fa-user-graduate"></i></div>
+            <span class="stat-big-num">+30,000</span>
+            <span class="stat-desc">طالب وطالبة</span>
+          </div>
+          <div class="proud-stat-card">
+            <div class="stat-icon-wrap"><i class="fa-solid fa-building-columns"></i></div>
+            <span class="stat-big-num">10+</span>
+            <span class="stat-desc">كليات ومعاهد</span>
+          </div>
+          <div class="proud-stat-card">
+            <div class="stat-icon-wrap"><i class="fa-solid fa-book"></i></div>
+            <span class="stat-big-num">50+</span>
+            <span class="stat-desc">برنامج أكاديمي</span>
+          </div>
+          <div class="proud-stat-card">
+            <div class="stat-icon-wrap"><i class="fa-solid fa-map-location-dot"></i></div>
+            <span class="stat-big-num">4</span>
+            <span class="stat-desc">مقار جامعية</span>
+          </div>
+        </div>
+
+        <!-- Values -->
+        <div class="proud-values-section">
+          <h3 class="proud-section-title"><i class="fa-solid fa-gem"></i> قيمنا المؤسسية</h3>
+          <div class="proud-values-grid">
+            <div class="value-card"><i class="fa-solid fa-award"></i><strong>التميز الأكاديمي</strong>
+              <p>نسعى لتقديم أعلى معايير التعليم والبحث العلمي</p>
+            </div>
+            <div class="value-card"><i class="fa-solid fa-lightbulb"></i><strong>الابتكار</strong>
+              <p>نشجع الإبداع والتفكير الريادي في كل مجالاتنا</p>
+            </div>
+            <div class="value-card"><i class="fa-solid fa-handshake-angle"></i><strong>المسؤولية المجتمعية</strong>
+              <p>نلتزم بخدمة المجتمع والمساهمة في التنمية</p>
+            </div>
+            <div class="value-card"><i class="fa-solid fa-shield-halved"></i><strong>النزاهة والشفافية</strong>
+              <p>نعمل بأعلى معايير الأمانة والمهنية</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

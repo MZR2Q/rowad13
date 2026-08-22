@@ -1,0 +1,741 @@
+  <!-- ═══ MODAL: تسجيل الرقم الجامعي السريع (حقل واحد فقط) ═══ -->
+  <div class="student-quick-modal-overlay" id="student-quick-modal">
+    <div class="overlay-backdrop" onclick="closeStudentQuickModal()"
+      style="background:rgba(15,10,8,0.85); backdrop-filter:blur(10px);"></div>
+    <div class="j-reg-card"
+      style="position:relative; z-index:10; max-width:380px; width:90%; margin:auto; box-shadow:0 24px 70px rgba(0,0,0,0.5); text-align:center; animation:feedbackIn 0.3s ease-out;">
+      <button class="overlay-close" onclick="closeStudentQuickModal()"
+        style="position:absolute; top:14px; left:14px; background:rgba(0,0,0,0.06); border:none; width:30px; height:30px; border-radius:50%; color:var(--text-muted); cursor:pointer; font-size:0.95rem; display:flex; align-items:center; justify-content:center;"><i
+          class="fa-solid fa-xmark"></i></button>
+      <div class="j-reg-header" style="margin-bottom:18px;">
+        <div class="j-reg-avatar" style="width:56px; height:56px; font-size:1.3rem; margin-bottom:12px;"><i
+            class="fa-solid fa-id-card"></i></div>
+        <h2 style="font-size:1.3rem; margin-bottom:6px;">أهلاً بك في رواد 13!</h2>
+        <p class="j-reg-subtitle" style="font-size:0.84rem;"><i class="fa-solid fa-sparkles"
+            style="color:var(--gold);"></i> أدخل رقمك الجامعي لنحفظ لك نقاطك وتفاعلك</p>
+      </div>
+      <form onsubmit="submitStudentQuickModal(event)" style="display:flex; flex-direction:column; gap:14px;">
+        <div class="j-input-wrap">
+          <i class="fa-solid fa-hashtag"></i>
+          <input type="text" id="quick-student-id-input" placeholder="الرقم الجامعي (مثال: 4451001234)" class="j-input"
+            autocomplete="off" inputmode="numeric" maxlength="10"
+            style="text-align:center; font-weight:700; font-size:1.1rem; letter-spacing:1px;" required>
+        </div>
+        <button type="submit" class="j-btn-primary"
+          style="width:100%; justify-content:center; padding:12px; font-size:0.95rem;">
+          <i class="fa-solid fa-arrow-left"></i> <span>متابعة</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ═══ OVERLAY: دليل مسارات وجائزة رواد 13 (PROGRAM & EXCELLENCE AWARD GUIDE) ═══ -->
+  <div class="content-overlay award-overlay" id="overlay-award" onclick="if(event.target===this) closeOverlay();">
+    <div class="overlay-panel award-panel">
+      <button class="overlay-close award-close" onclick="closeOverlay()" title="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+
+      <!-- Top Badge & Header -->
+      <div class="rowad-award-header">
+        <div class="rowad-award-trophy-badge">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <div class="rowad-award-pill">
+          <i class="fa-solid fa-graduation-cap"></i> جامعة حفر الباطن <i class="fa-solid fa-circle-dot"></i> برنامج استقبال وتهيئة المستجدين
+        </div>
+        <h2 class="rowad-award-title">
+          <i class="fa-solid fa-medal" style="color:#F3C649;"></i> دليل مسارات وجائزة رواد 13
+        </h2>
+        <p class="rowad-award-subtitle">
+          الدليل الإرشادي المعتمد لمسارات برنامج تهيئة الطلبة المستجدين ومعايير التكريم والتميز الأكاديمي
+        </p>
+      </div>
+
+      <!-- ═══ 5 Tabs Header ═══ -->
+      <div class="award-tabs-header">
+        <button class="award-tab-btn active" onclick="switchAwardTab(0)">
+          <i class="fa-solid fa-circle-info"></i> عن البرنامج
+        </button>
+        <button class="award-tab-btn" onclick="switchAwardTab(1)">
+          <i class="fa-solid fa-building-columns"></i> المسار الحضوري
+        </button>
+        <button class="award-tab-btn" onclick="switchAwardTab(2)">
+          <i class="fa-solid fa-laptop"></i> المسار الافتراضي (عن بُعد)
+        </button>
+        <button class="award-tab-btn" onclick="switchAwardTab(3)">
+          <i class="fa-solid fa-sitemap"></i> دليل المنصة
+        </button>
+        <button class="award-tab-btn" onclick="switchAwardTab(4)">
+          <i class="fa-solid fa-crown"></i> لوحة الشرف
+        </button>
+      </div>
+
+      <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  TAB 0: عن برنامج رواد 13 — الرؤية والرسالة ومعايير التميز      ║ -->
+      <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+      <div class="award-tab-content active" id="award-tab-0">
+
+        <!-- 🏛️ بانر تعريفي رسمي راقٍ -->
+        <div style="background:linear-gradient(135deg,#7A2416 0%,#9E3220 50%,#5E0F18 100%); border-radius:20px; padding:24px 22px; text-align:center; margin-bottom:20px; position:relative; overflow:hidden; border:1.5px solid rgba(243,198,73,0.35); box-shadow:0 8px 30px rgba(122,36,22,0.25);">
+          <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(243,198,73,0.14) 0%,transparent 65%);"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="font-size:2.4rem; margin-bottom:8px;">
+              <i class="fa-solid fa-graduation-cap" style="color:#F3C649; filter:drop-shadow(0 2px 8px rgba(243,198,73,0.4));"></i>
+            </div>
+            <h3 style="color:#F3C649; font-size:1.3rem; font-weight:900; margin:0 0 10px;">
+              أهلاً بكم في رحاب جامعة حفر الباطن
+            </h3>
+            <p style="color:rgba(255,255,255,0.94); font-size:0.92rem; font-weight:600; margin:0; line-height:1.8; max-width:680px; margin:0 auto;">
+              يُعد <strong style="color:#F3C649;">برنامج رواد 13</strong> برنامج استقبال وتهيئة الطلبة المستجدين بجامعة حفر الباطن، ويهدف إلى تيسير انتقالكم إلى المرحلة الجامعية، وتمكينكم من استيعاب اللوائح والأنظمة الأكاديمية والخدمات الطلابية وتنمية المهارات المستقبلية عبر مسارين متكاملين: <strong style="color:#FFFFFF;">المسار الحضوري (بالحرم الجامعي) والمسار الافتراضي (عن بُعد)</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- ⚡ ركائز ومعايير التكريم الأكاديمي -->
+        <div style="background:#FFFFFF; border:1.5px solid #E8DDD2; border-radius:18px; padding:20px; margin-bottom:18px; box-shadow:0 4px 16px rgba(0,0,0,0.04);">
+          <h4 style="margin:0 0 16px; font-size:1.05rem; font-weight:900; color:#7A2416; display:flex; align-items:center; gap:8px;">
+            <i class="fa-solid fa-star-half-stroke" style="color:#C59B66; font-size:1.2rem;"></i> معايير التميز والتكريم في برنامج رواد 13
+          </h4>
+          <div style="display:grid; grid-template-columns:1fr; gap:12px;">
+            
+            <div style="display:flex; align-items:flex-start; gap:12px; padding:14px 16px; background:#FAF8F5; border-radius:14px; border-right:4px solid #7A2416;">
+              <div style="min-width:34px; height:34px; border-radius:50%; background:#7A2416; color:#F3C649; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:0.9rem;">
+                1
+              </div>
+              <div>
+                <strong style="color:#2D0F08; font-size:0.92rem;">استكمال متطلبات المسارين المعتمدين</strong>
+                <p style="margin:4px 0 0; font-size:0.84rem; color:#6B5B50; font-weight:600; line-height:1.6;">
+                  يتكامل البرنامج من خلال <strong style="color:#7A2416;">المسار الحضوري</strong> (المعرض والورش التفاعلية بالحرم الجامعي) و<strong style="color:#C59B66;">المسار الافتراضي (عن بُعد)</strong> (استكشاف المنصة الرقمية، المحطات المعرفية، والاختبارات التقييمية من أي مكان).
+                </p>
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:flex-start; gap:12px; padding:14px 16px; background:#FAF8F5; border-radius:14px; border-right:4px solid #C59B66;">
+              <div style="min-width:34px; height:34px; border-radius:50%; background:#C59B66; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:0.9rem;">
+                2
+              </div>
+              <div>
+                <strong style="color:#2D0F08; font-size:0.92rem;">اكتساب النقاط المعيارية ورصد التقدم التراكمي</strong>
+                <p style="margin:4px 0 0; font-size:0.84rem; color:#6B5B50; font-weight:600; line-height:1.6;">
+                  تُحتسب النقاط بناءً على استيعاب اللوائح، <strong style="color:#7A2416;">مشاهدة مقاطع الفيديو التثقيفية بالصفحة الرئيسية</strong>، وتفعيل الأنظمة والبريد الجامعي، وحضور الأركان والورش التخصصية، واجتياز محطات الاختبار بدقة.
+                </p>
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:flex-start; gap:12px; padding:14px 16px; background:#FAF8F5; border-radius:14px; border-right:4px solid #059669;">
+              <div style="min-width:34px; height:34px; border-radius:50%; background:#059669; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:0.9rem;">
+                3
+              </div>
+              <div>
+                <strong style="color:#2D0F08; font-size:0.92rem;">الجدارة الزمنية والدقة الأكاديمية</strong>
+                <p style="margin:4px 0 0; font-size:0.84rem; color:#6B5B50; font-weight:600; line-height:1.6;">
+                  في حال تساوي النقاط التراكمية، يُعتمد عامل الوقت المستغرق في إنجاز المتطلبات كمعيار تفاضلي لتكريم المتميزين في صدارة لوحة الشرف.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 🥇 التكريم السنوي للطلبة المتميزين -->
+        <div style="background:linear-gradient(135deg,#1E1713 0%,#2D1F15 100%); border:2px solid #D4A359; border-radius:18px; padding:20px; text-align:center; margin-bottom:18px; position:relative; overflow:hidden;">
+          <div style="position:absolute;inset:0;background:radial-gradient(circle at 70% 30%,rgba(212,163,89,0.15) 0%,transparent 60%);"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="font-size:1.6rem; margin-bottom:6px; display:flex; justify-content:center; gap:12px;">
+              <i class="fa-solid fa-trophy" style="color:#F3C649;"></i>
+              <i class="fa-solid fa-medal" style="color:#C0C0C0;"></i>
+              <i class="fa-solid fa-award" style="color:#CD7F32;"></i>
+            </div>
+            <h4 style="color:#F3C649; font-weight:900; font-size:1.15rem; margin:0 0 8px;">
+              تكريم المراتب الثلاث الأولى (طلاب وطالبات)
+            </h4>
+            <p style="color:rgba(255,255,255,0.9); font-size:0.86rem; font-weight:600; margin:0; line-height:1.75; max-width:620px; margin:0 auto;">
+              تُكرّم الجامعة الطلبة الأكثر تميزاً واستيعاباً للبرنامج عبر إدراج أسمائهم في <strong style="color:#F3C649;">لوحة الشرف</strong> وتتويجهم بجوائز تشجيعية تقديراً لجديتهم ومبادرتهم في بداية مسيرتهم الجامعية.
+            </p>
+          </div>
+        </div>
+
+        <!-- المساران بنظرة سريعة -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px;">
+          <!-- المسار الحضوري -->
+          <div style="background:#FFFFFF; border:1.5px solid #E8DDD2; border-radius:16px; padding:16px; text-align:center; cursor:pointer; transition:all .3s;"
+            onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(122,36,22,0.12)';this.style.borderColor='#7A2416'"
+            onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='#E8DDD2'" onclick="switchAwardTab(1)">
+            <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#7A2416,#A33625);color:#F3C649;font-size:1.2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <strong style="color:#7A2416; font-size:0.95rem; display:block; margin-bottom:3px;">المسار الحضوري</strong>
+            <span style="font-size:0.8rem; color:#6B5B50; font-weight:600;">معرض الأركان والورش التفاعلية بالحرم الجامعي</span>
+            <div style="margin-top:10px; font-size:0.75rem; color:#7A2416; font-weight:800; display:flex; align-items:center; justify-content:center; gap:4px;">
+              <span>استعراض التفاصيل</span> <i class="fa-solid fa-arrow-left" style="font-size:0.65rem;"></i>
+            </div>
+          </div>
+
+          <!-- المسار الافتراضي -->
+          <div style="background:#FFFFFF; border:1.5px solid #E8DDD2; border-radius:16px; padding:16px; text-align:center; cursor:pointer; transition:all .3s;"
+            onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(197,155,102,0.15)';this.style.borderColor='#C59B66'"
+            onmouseout="this.style.transform='none';this.style.boxShadow='none';this.style.borderColor='#E8DDD2'" onclick="switchAwardTab(2)">
+            <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#C59B66,#E5C396);color:#2D0F08;font-size:1.2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+              <i class="fa-solid fa-laptop"></i>
+            </div>
+            <strong style="color:#872A08; font-size:0.95rem; display:block; margin-bottom:3px;">المسار الافتراضي (عن بُعد)</strong>
+            <span style="font-size:0.8rem; color:#6B5B50; font-weight:600;">المنصة الرقمية من أي مكان (جوال / حاسوب)</span>
+            <div style="margin-top:10px; font-size:0.75rem; color:#872A08; font-weight:800; display:flex; align-items:center; justify-content:center; gap:4px;">
+              <span>استعراض التفاصيل</span> <i class="fa-solid fa-arrow-left" style="font-size:0.65rem;"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- مستويات الإنجاز الأكاديمي -->
+        <div class="rowad-milestones-card">
+          <div class="rm-header">
+            <i class="fa-solid fa-crown" style="color:#F3C649;"></i>
+            <h4>الأوسمة والرتب التقديرية في البرنامج</h4>
+          </div>
+          <div class="rm-steps-row">
+            <div class="rm-step-pill">
+              <div class="rm-step-icon"><i class="fa-solid fa-compass"></i></div>
+              <strong>مستكشف</strong>
+              <span>بداية الرحلة</span>
+            </div>
+            <div class="rm-arrow"><i class="fa-solid fa-angle-left"></i></div>
+            <div class="rm-step-pill">
+              <div class="rm-step-icon"><i class="fa-solid fa-seedling"></i></div>
+              <strong>مبادر</strong>
+              <span>إنجاز 50%</span>
+            </div>
+            <div class="rm-arrow"><i class="fa-solid fa-angle-left"></i></div>
+            <div class="rm-step-pill">
+              <div class="rm-step-icon"><i class="fa-solid fa-award"></i></div>
+              <strong>متمكن</strong>
+              <span>إنجاز 75%</span>
+            </div>
+            <div class="rm-arrow"><i class="fa-solid fa-angle-left"></i></div>
+            <div class="rm-step-pill highlight-crown">
+              <div class="rm-step-icon"><i class="fa-solid fa-crown"></i></div>
+              <strong>سفير رواد 13</strong>
+              <span>إنجاز 100%</span>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- End Tab 0 -->
+
+      <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  TAB 1: المسار الحضوري — المعرض والورش واللقاءات التعريفية     ║ -->
+      <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+      <div class="award-tab-content" id="award-tab-1">
+
+        <!-- بانر المسار الحضوري -->
+        <div style="background:linear-gradient(135deg,#7A2416 0%,#9E3220 100%); border-radius:18px; padding:20px; text-align:center; margin-bottom:18px; position:relative; overflow:hidden;">
+          <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 60%,rgba(243,198,73,0.12) 0%,transparent 60%);"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="font-size:1.8rem; margin-bottom:6px;">
+              <i class="fa-solid fa-building-columns" style="color:#F3C649;"></i>
+            </div>
+            <h3 style="color:#F3C649; font-weight:900; font-size:1.15rem; margin:0 0 6px;">
+              المسار الحضوري — فعاليات الحرم الجامعي
+            </h3>
+            <p style="color:rgba(255,255,255,0.9); font-size:0.85rem; font-weight:600; margin:0; line-height:1.6;">
+              يشمل حضور لقاءات التهيئة، والمشاركة في أركان العمادات والكليات، وحضور الورش التدريبية لتطوير المهارات الجامعية
+            </p>
+          </div>
+        </div>
+
+        <!-- 🏛️ مكونات المسار الحضوري -->
+        <div class="award-detail-grid" style="margin-bottom:16px;">
+          
+          <!-- أركان المعرض -->
+          <div class="ad-card">
+            <div class="ad-card-header">
+              <div class="ad-card-icon" style="background:linear-gradient(135deg,#7A2416,#9E3220); color:#F3C649;">
+                <i class="fa-solid fa-store"></i>
+              </div>
+              <div class="ad-card-title">
+                <h4>1. معرض أركان رواد 13</h4>
+                <span>6 أركان رئيسية</span>
+              </div>
+            </div>
+            <p style="font-size:0.82rem; color:#6B5B50; margin-bottom:12px; font-weight:600; line-height:1.6;">
+              زيارة أجنحة العمادات والكليات واستكشاف خدماتها (10 نقاط لكل ركن معتمد):
+            </p>
+            <ul class="ad-list">
+              <li><i class="fa-solid fa-id-card"></i> 1. عمادة القبول والتسجيل</li>
+              <li><i class="fa-solid fa-users"></i> 2. عمادة شؤون الطلاب</li>
+              <li><i class="fa-solid fa-desktop"></i> 3. عمادة التعليم الإلكتروني وتكنولوجيا المعلومات</li>
+              <li><i class="fa-solid fa-graduation-cap"></i> 4. جناح الكليات الأكاديمية والتخصصات</li>
+              <li><i class="fa-solid fa-heart-pulse"></i> 5. المركز الطبي والإرشاد النفسي</li>
+              <li><i class="fa-solid fa-shapes"></i> 6. الأنشطة والأندية الطلابية</li>
+            </ul>
+          </div>
+
+          <!-- الورش التدريبية -->
+          <div class="ad-card">
+            <div class="ad-card-header">
+              <div class="ad-card-icon" style="background:linear-gradient(135deg,#C59B66,#E5C396); color:#2D0F08;">
+                <i class="fa-solid fa-chalkboard-user"></i>
+              </div>
+              <div class="ad-card-title">
+                <h4>2. الورش التدريبية والتعريفية</h4>
+                <span>9 ورش تخصصية</span>
+              </div>
+            </div>
+            <p style="font-size:0.82rem; color:#6B5B50; margin-bottom:12px; font-weight:600; line-height:1.6;">
+              حضور الورش التفاعلية لبناء المهارات الأساسية للنجاح الجامعي (5 نقاط لكل ورشة):
+            </p>
+            <ul class="ad-list">
+              <li><i class="fa-solid fa-clock"></i> 1. ورشة إدارة الوقت والمهام الجامعية</li>
+              <li><i class="fa-solid fa-chart-line"></i> 2. ورشة التميز الأكاديمي وأسرار المعدل</li>
+              <li><i class="fa-solid fa-compass"></i> 3. ورشة الإرشاد والتوجيه الأكاديمي</li>
+              <li><i class="fa-solid fa-brain"></i> 4. ورشة التكيف والذكاء الانفعالي</li>
+              <li><i class="fa-solid fa-people-group"></i> 5. ورشة القيادة والعمل الجماعي</li>
+              <li><i class="fa-solid fa-file-signature"></i> 6. ورشة توثيق السجل المهاري</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- 📋 استبانة قياس الجاهزية واللقاءات -->
+        <div style="background:#FAF8F5; border:1.5px solid #E8DDD2; border-radius:16px; padding:16px; margin-bottom:16px;">
+          <h4 style="margin:0 0 10px; font-size:0.92rem; font-weight:900; color:#7A2416; display:flex; align-items:center; gap:8px;">
+            <i class="fa-solid fa-clipboard-check" style="color:#059669;"></i> 3. استبانة قياس جاهزية الطالب واللقاءات التعريفية
+          </h4>
+          <p style="font-size:0.82rem; color:#6B5B50; font-weight:600; margin:0 0 12px; line-height:1.65;">
+            تتضمن الفعاليات استكمال استبانة قياس الجاهزية الجامعية المعتمدة، والاطلاع على جدول اللقاءات الإرشادية لكل كلية لضمان انطلاقة أكاديمية واثقة ومستقرة.
+          </p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button onclick="closeOverlay();openCampusMap(event);" style="background:linear-gradient(135deg,#7A2416,#9E3220); color:#FFFFFF; border:none; padding:10px 20px; border-radius:10px; font-size:0.84rem; font-weight:800; cursor:pointer; font-family:'Tajawal',sans-serif; display:inline-flex; align-items:center; gap:6px;">
+              <i class="fa-solid fa-store"></i> استعراض خريطة المعرض الحضوري
+            </button>
+            <button onclick="closeOverlay();openOverlay('colleges-schedule',event);" style="background:#FFFFFF; color:#7A2416; border:1.5px solid #7A2416; padding:10px 18px; border-radius:10px; font-size:0.84rem; font-weight:800; cursor:pointer; font-family:'Tajawal',sans-serif; display:inline-flex; align-items:center; gap:6px;">
+              <i class="fa-solid fa-calendar-days"></i> جدول لقاءات الكليات
+            </button>
+          </div>
+        </div>
+
+      </div> <!-- End Tab 1 -->
+
+      <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  TAB 2: المسار الافتراضي (عن بُعد) — المحطات الخمس الرقمية      ║ -->
+      <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+      <div class="award-tab-content" id="award-tab-2">
+
+        <!-- بانر المسار الافتراضي (عن بُعد) -->
+        <div style="background:linear-gradient(135deg,#872A08 0%,#A33625 100%); border-radius:18px; padding:20px; text-align:center; margin-bottom:18px; position:relative; overflow:hidden;">
+          <div style="position:absolute;inset:0;background:radial-gradient(circle at 70% 40%,rgba(243,198,73,0.15) 0%,transparent 60%);"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="font-size:1.8rem; margin-bottom:6px;">
+              <i class="fa-solid fa-laptop" style="color:#F3C649;"></i>
+            </div>
+            <h3 style="color:#F3C649; font-weight:900; font-size:1.15rem; margin:0 0 6px;">
+              المسار الافتراضي (عن بُعد) — المحطات والمقاطع الرقمية
+            </h3>
+            <p style="color:rgba(255,255,255,0.9); font-size:0.85rem; font-weight:600; margin:0; line-height:1.6;">
+              استكشاف الأنظمة واللوائح والخدمات الجامعية عن بُعد عبر مقاطع الفيديو التثقيفية، المحطات الإرشادية الخمس، والاختبار النهائي (متاح من أي مكان عبر الجوال أو الحاسوب)
+            </p>
+          </div>
+        </div>
+
+        <!-- 🎬 بطاقة مقاطع الفيديو التثقيفية بالصفحة الرئيسية (متطلب أساسي لكسب النقاط) -->
+        <div style="background:linear-gradient(135deg, #FFFFFF 0%, #FFFDF9 100%); border:2px solid #F3C649; border-radius:16px; padding:18px; margin-bottom:18px; box-shadow:0 4px 18px rgba(243,198,73,0.15); position:relative; overflow:hidden;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="width:38px; height:38px; border-radius:10px; background:linear-gradient(135deg, #7A2416, #9E3220); color:#F3C649; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">
+                <i class="fa-solid fa-film"></i>
+              </div>
+              <div>
+                <h4 style="margin:0; font-size:0.98rem; font-weight:900; color:#7A2416;">1. مقاطع الفيديو التثقيفية بالصفحة الرئيسية</h4>
+                <span style="font-size:0.78rem; color:#A16207; font-weight:700;">ركيزة أساسية لكسب النقاط المعيارية في جائزة رواد 13</span>
+              </div>
+            </div>
+            <span style="background:#FEF3C7; color:#92400E; border:1px solid #F59E0B; padding:4px 12px; border-radius:20px; font-weight:800; font-size:0.78rem; display:inline-flex; align-items:center; gap:5px;">
+              ⭐ +10 نقاط عند إكمال المشاهدة
+            </span>
+          </div>
+
+          <p style="font-size:0.82rem; color:#5A4A3E; font-weight:600; line-height:1.7; margin:0 0 14px;">
+            يوجد بالصفحة الرئيسية مشغل فيديو تفاعلي يضم مجموعة من المقاطع الإرشادية التي توضح أهم الإجراءات الأكاديمية، تفعيل البريد الجامعي، نظام التعليم الإلكتروني Blackboard، وضوابط الدراسة والخدمات. متابعة كافة المقاطع تُسجل تلقائياً في حسابك وتمنحك نقاط التميز في لوحة الشرف.
+          </p>
+
+          <!-- أزرار الانتقال المباشر للمقاطع -->
+          <div style="background:#FAF8F5; border:1px solid #EDE4D9; border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px;">
+            <div style="font-size:0.8rem; font-weight:800; color:#7A2416; display:flex; align-items:center; gap:6px;">
+              <i class="fa-solid fa-play-circle" style="color:#C59B66;"></i> الوصول السريع إلى المقاطع التثقيفية:
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px;">
+              <button onclick="scrollToHomepageVideos(0)" style="background:#FFFFFF; border:1.5px solid #E8DDD2; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:800; color:#2D0F08; cursor:pointer; text-align:right; display:flex; align-items:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.borderColor='#7A2416';this.style.background='#FFFDF9';" onmouseout="this.style.borderColor='#E8DDD2';this.style.background='#FFFFFF';">
+                <i class="fa-solid fa-circle-play" style="color:#7A2416; font-size:0.95rem;"></i>
+                <span>المقطع 1: الترحيب والتهيئة الجامعية 🎬</span>
+              </button>
+              <button onclick="scrollToHomepageVideos(1)" style="background:#FFFFFF; border:1.5px solid #E8DDD2; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:800; color:#2D0F08; cursor:pointer; text-align:right; display:flex; align-items:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.borderColor='#7A2416';this.style.background='#FFFDF9';" onmouseout="this.style.borderColor='#E8DDD2';this.style.background='#FFFFFF';">
+                <i class="fa-solid fa-circle-play" style="color:#7A2416; font-size:0.95rem;"></i>
+                <span>المقطع 2: تفعيل الأنظمة والخدمات 🎬</span>
+              </button>
+              <button onclick="scrollToHomepageVideos(2)" style="background:#FFFFFF; border:1.5px solid #E8DDD2; padding:8px 12px; border-radius:8px; font-size:0.78rem; font-weight:800; color:#2D0F08; cursor:pointer; text-align:right; display:flex; align-items:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.borderColor='#7A2416';this.style.background='#FFFDF9';" onmouseout="this.style.borderColor='#E8DDD2';this.style.background='#FFFFFF';">
+                <i class="fa-solid fa-circle-play" style="color:#7A2416; font-size:0.95rem;"></i>
+                <span>المقطع 3: اللوائح والحياة الجامعية 🎬</span>
+              </button>
+            </div>
+            <div style="text-align:center; margin-top:4px;">
+              <button onclick="scrollToHomepageVideos()" style="background:linear-gradient(135deg, #7A2416, #9E3220); color:#FFFFFF; border:none; padding:9px 20px; border-radius:8px; font-size:0.82rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 3px 10px rgba(122,36,22,0.2);">
+                <i class="fa-solid fa-film"></i> الانتقال لمشغل الفيديو في الصفحة الرئيسية 👁️
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🏫 المحطات الخمس الرقمية بالتفصيل مع أزرار تنقل -->
+        <div style="background:#FFFFFF; border:1.5px solid #E8DDD2; border-radius:16px; padding:18px; margin-bottom:16px;">
+          <h4 style="margin:0 0 14px; font-size:0.95rem; font-weight:900; color:#7A2416; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+            <span style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-layer-group" style="color:#C59B66;"></i> 2. المحطات التعليمية والإرشادية الخمس</span>
+            <span style="font-size:0.75rem; color:#6B5B50; font-weight:700;">اضغط على أي محطة للانتقال إليها مباشرة</span>
+          </h4>
+
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            
+            <!-- المحطة 1 -->
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; background:#FAF8F5; border-radius:12px; border:1px solid #EDE4D9; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:260px;">
+                <div style="min-width:32px;height:32px;border-radius:50%;background:#7A2416;color:#F3C649;font-size:0.82rem;font-weight:900;display:flex;align-items:center;justify-content:center;">
+                  1
+                </div>
+                <div>
+                  <strong style="font-size:0.88rem; color:#2D0F08;">المحطة الأولى: عن الجامعة</strong>
+                  <p style="margin:2px 0 0; font-size:0.78rem; color:#6B5B50; font-weight:600;">
+                    نبذة عن جامعة حفر الباطن، الرؤية والرسالة والقيم الجوهرية، ودليل الهوية البصرية.
+                  </p>
+                </div>
+              </div>
+              <button onclick="startJourneyAtStation(1)" style="background:#FFFFFF; border:1.5px solid #7A2416; color:#7A2416; padding:6px 14px; border-radius:8px; font-size:0.78rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:5px; flex-shrink:0;">
+                <i class="fa-solid fa-compass"></i> انتقال للمحطة 1
+              </button>
+            </div>
+
+            <!-- المحطة 2 -->
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; background:#FAF8F5; border-radius:12px; border:1px solid #EDE4D9; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:260px;">
+                <div style="min-width:32px;height:32px;border-radius:50%;background:#7A2416;color:#F3C649;font-size:0.82rem;font-weight:900;display:flex;align-items:center;justify-content:center;">
+                  2
+                </div>
+                <div>
+                  <strong style="font-size:0.88rem; color:#2D0F08;">المحطة الثانية: الأنظمة والخدمات التقنية</strong>
+                  <p style="margin:2px 0 0; font-size:0.78rem; color:#6B5B50; font-weight:600;">
+                    دليل تفعيل البريد الجامعي، بوابة القبول، ورفع صور إثباتات الدخول وتفعيل البلاك بورد.
+                  </p>
+                </div>
+              </div>
+              <button onclick="startJourneyAtStation(2)" style="background:#FFFFFF; border:1.5px solid #7A2416; color:#7A2416; padding:6px 14px; border-radius:8px; font-size:0.78rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:5px; flex-shrink:0;">
+                <i class="fa-solid fa-compass"></i> انتقال للمحطة 2
+              </button>
+            </div>
+
+            <!-- المحطة 3 -->
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; background:#FAF8F5; border-radius:12px; border:1px solid #EDE4D9; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:260px;">
+                <div style="min-width:32px;height:32px;border-radius:50%;background:#7A2416;color:#F3C649;font-size:0.82rem;font-weight:900;display:flex;align-items:center;justify-content:center;">
+                  3
+                </div>
+                <div>
+                  <strong style="font-size:0.88rem; color:#2D0F08;">المحطة الثالثة: الحقوق والواجبات الطلابية</strong>
+                  <p style="margin:2px 0 0; font-size:0.78rem; color:#6B5B50; font-weight:600;">
+                    لائحة الدراسة والاختبارات المعتمدة، ولائحة الانضباط والسلوك الطلابي بجامعة حفر الباطن.
+                  </p>
+                </div>
+              </div>
+              <button onclick="startJourneyAtStation(3)" style="background:#FFFFFF; border:1.5px solid #7A2416; color:#7A2416; padding:6px 14px; border-radius:8px; font-size:0.78rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:5px; flex-shrink:0;">
+                <i class="fa-solid fa-compass"></i> انتقال للمحطة 3
+              </button>
+            </div>
+
+            <!-- المحطة 4 -->
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; background:#FAF8F5; border-radius:12px; border:1px solid #EDE4D9; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:260px;">
+                <div style="min-width:32px;height:32px;border-radius:50%;background:#7A2416;color:#F3C649;font-size:0.82rem;font-weight:900;display:flex;align-items:center;justify-content:center;">
+                  4
+                </div>
+                <div>
+                  <strong style="font-size:0.88rem; color:#2D0F08;">المحطة الرابعة: عمادة القبول والتسجيل</strong>
+                  <p style="margin:2px 0 0; font-size:0.78rem; color:#6B5B50; font-weight:600;">
+                    التقويم الأكاديمي، ضوابط المكافآت الطلابية ومكافأة التميز، والدليل الإرشادي لنظام السجلات.
+                  </p>
+                </div>
+              </div>
+              <button onclick="startJourneyAtStation(4)" style="background:#FFFFFF; border:1.5px solid #7A2416; color:#7A2416; padding:6px 14px; border-radius:8px; font-size:0.78rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:5px; flex-shrink:0;">
+                <i class="fa-solid fa-compass"></i> انتقال للمحطة 4
+              </button>
+            </div>
+
+            <!-- المحطة 5 -->
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; background:#FAF8F5; border-radius:12px; border:1px solid #EDE4D9; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:260px;">
+                <div style="min-width:32px;height:32px;border-radius:50%;background:#7A2416;color:#F3C649;font-size:0.82rem;font-weight:900;display:flex;align-items:center;justify-content:center;">
+                  5
+                </div>
+                <div>
+                  <strong style="font-size:0.88rem; color:#2D0F08;">المحطة الخامسة: عمادة شؤون الطلاب</strong>
+                  <p style="margin:2px 0 0; font-size:0.78rem; color:#6B5B50; font-weight:600;">
+                    برامج الإعانات والقروض، التشغيل الطلابي، الأنشطة والأندية، وتوثيق السجل المهاري.
+                  </p>
+                </div>
+              </div>
+              <button onclick="startJourneyAtStation(5)" style="background:#FFFFFF; border:1.5px solid #7A2416; color:#7A2416; padding:6px 14px; border-radius:8px; font-size:0.78rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:5px; flex-shrink:0;">
+                <i class="fa-solid fa-compass"></i> انتقال للمحطة 5
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 📝 3. الاختبار المعرفي التقييمي النهائي -->
+        <div style="background:#FAF8F5; border:1.5px solid #E8DDD2; border-radius:16px; padding:16px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:38px; height:38px; border-radius:10px; background:#059669; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">
+              <i class="fa-solid fa-clipboard-check"></i>
+            </div>
+            <div>
+              <strong style="font-size:0.92rem; color:#2D0F08;">3. الاختبار المعرفي والتقييم النهائي</strong>
+              <p style="margin:2px 0 0; font-size:0.78rem; color:#6B5B50; font-weight:600;">
+                اختبار ختام الرحلة لقياس استيعاب اللوائح والأنظمة الجامعية واحتساب النقاط المعيارية.
+              </p>
+            </div>
+          </div>
+          <button onclick="startJourneyAtStation(6)" style="background:#059669; color:#FFFFFF; border:none; padding:8px 16px; border-radius:8px; font-size:0.82rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+            <i class="fa-solid fa-pencil"></i> خوض الاختبار النهائي 📝
+          </button>
+        </div>
+
+        <!-- زر البدء العام -->
+        <div style="text-align:center;">
+          <button onclick="closeOverlay();startJourney(event);" style="background:linear-gradient(135deg,#7A2416,#9E3220); color:#FFFFFF; border:none; padding:12px 28px; border-radius:12px; font-size:0.9rem; font-weight:800; cursor:pointer; font-family:'Tajawal',sans-serif; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 18px rgba(122,36,22,0.25);">
+            <i class="fa-solid fa-compass"></i> بدء استكشاف المحطات الرقمية من البداية
+          </button>
+        </div>
+
+      </div> <!-- End Tab 2 -->
+
+      <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  TAB 3: دليل أقسام المنصة ومصادر المعرفة                     ║ -->
+      <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+      <div class="award-tab-content" id="award-tab-3">
+
+        <div style="text-align:center; margin-bottom:18px;">
+          <div style="font-size:1.8rem; margin-bottom:4px;">
+            <i class="fa-solid fa-sitemap" style="color:#7A2416;"></i>
+          </div>
+          <h3 style="color:#7A2416; font-weight:900; font-size:1.15rem; margin:0 0 6px;">
+            دليل أقسام وخدمات منصة رواد 13
+          </h3>
+          <p style="font-size:0.85rem; color:#6B5B50; font-weight:600; margin:0;">
+            خريطة متكاملة للوصول السريع إلى كافة الأدلة واللوائح والخدمات المتاحة
+          </p>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr; gap:12px;">
+
+          <!-- 1. تصفح اللوائح -->
+          <div style="background:#FFFFFF; border:1.5px solid #E8DDD2; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:14px; cursor:pointer; transition:all .25s;"
+            onmouseover="this.style.borderColor='#7A2416';this.style.boxShadow='0 4px 16px rgba(122,36,22,0.1)'"
+            onmouseout="this.style.borderColor='#E8DDD2';this.style.boxShadow='none'"
+            onclick="closeOverlay();openOverlay('regulations',event);">
+            <div style="min-width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7A2416,#9E3220);color:#F3C649;display:flex;align-items:center;justify-content:center;font-size:1.15rem;">
+              <i class="fa-solid fa-book-bookmark"></i>
+            </div>
+            <div style="flex:1;">
+              <strong style="color:#2D0F08; font-size:0.92rem;">مكتبة اللوائح والأنظمة الجامعية</strong>
+              <p style="margin:3px 0 0; font-size:0.78rem; color:#6B5B50; font-weight:600;">
+                استعراض المواد والبنود النظامية للائحة الدراسة والاختبارات ولائحة الانضباط الطلابي
+              </p>
+            </div>
+            <i class="fa-solid fa-arrow-left" style="color:#C59B66; font-size:0.85rem;"></i>
+          </div>
+
+          <!-- 2. حساب الطالب -->
+          <div style="background:#FFFFFF; border:1.5px solid #E8DDD2; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:14px; cursor:pointer; transition:all .25s;"
+            onmouseover="this.style.borderColor='#C59B66';this.style.boxShadow='0 4px 16px rgba(197,155,102,0.15)'"
+            onmouseout="this.style.borderColor='#E8DDD2';this.style.boxShadow='none'"
+            onclick="closeOverlay();openStudentProfileModal(event);">
+            <div style="min-width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#C59B66,#E5C396);color:#2D0F08;display:flex;align-items:center;justify-content:center;font-size:1.15rem;">
+              <i class="fa-solid fa-user-graduate"></i>
+            </div>
+            <div style="flex:1;">
+              <strong style="color:#2D0F08; font-size:0.92rem;">ملف إنجاز الطالب ورصيد النقاط</strong>
+              <p style="margin:3px 0 0; font-size:0.78rem; color:#6B5B50; font-weight:600;">
+                متابعة الرصيد التراكمي المكتسب، الرتب التقديرية، وسجل الأنشطة المنجزة
+              </p>
+            </div>
+            <i class="fa-solid fa-arrow-left" style="color:#C59B66; font-size:0.85rem;"></i>
+          </div>
+
+          <!-- 3. رحلة رواد الحضورية -->
+          <div style="background:#FFFFFF; border:1.5px solid #E8DDD2; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:14px; cursor:pointer; transition:all .25s;"
+            onmouseover="this.style.borderColor='#7A2416';this.style.boxShadow='0 4px 16px rgba(122,36,22,0.1)'"
+            onmouseout="this.style.borderColor='#E8DDD2';this.style.boxShadow='none'"
+            onclick="closeOverlay();openCampusMap(event);">
+            <div style="min-width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7A2416,#A33625);color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:1.15rem;">
+              <i class="fa-solid fa-map-location-dot"></i>
+            </div>
+            <div style="flex:1;">
+              <strong style="color:#2D0F08; font-size:0.92rem;">خريطة المعرض والورش الحضورية</strong>
+              <p style="margin:3px 0 0; font-size:0.78rem; color:#6B5B50; font-weight:600;">
+                استعراض مسار أركان المعرض، الورش التدريبية، والاستبانة التقييمية
+              </p>
+            </div>
+            <i class="fa-solid fa-arrow-left" style="color:#C59B66; font-size:0.85rem;"></i>
+          </div>
+
+          <!-- 4. فخور بجامعتي -->
+          <div style="background:#FFFFFF; border:1.5px solid #E8DDD2; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:14px; cursor:pointer; transition:all .25s;"
+            onmouseover="this.style.borderColor='#059669';this.style.boxShadow='0 4px 16px rgba(5,150,105,0.1)'"
+            onmouseout="this.style.borderColor='#E8DDD2';this.style.boxShadow='none'"
+            onclick="closeOverlay();openOverlay('proud',event);">
+            <div style="min-width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#059669,#10B981);color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:1.15rem;">
+              <i class="fa-solid fa-landmark"></i>
+            </div>
+            <div style="flex:1;">
+              <strong style="color:#2D0F08; font-size:0.92rem;">فخور بجامعتي — مسيرة وإنجازات</strong>
+              <p style="margin:3px 0 0; font-size:0.78rem; color:#6B5B50; font-weight:600;">
+                التعريف بجامعة حفر الباطن، كلياتها، ورؤيتها المستقبلية في خدمة التعليم والوطن
+              </p>
+            </div>
+            <i class="fa-solid fa-arrow-left" style="color:#C59B66; font-size:0.85rem;"></i>
+          </div>
+
+          <!-- 5. مشغل مقاطع الفيديو التثقيفية بالصفحة الرئيسية -->
+          <div style="background:#FFFFFF; border:1.5px solid #E8DDD2; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:14px; cursor:pointer; transition:all .25s;"
+            onmouseover="this.style.borderColor='#7A2416';this.style.boxShadow='0 4px 16px rgba(122,36,22,0.1)'"
+            onmouseout="this.style.borderColor='#E8DDD2';this.style.boxShadow='none'"
+            onclick="scrollToHomepageVideos();">
+            <div style="min-width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7A2416,#9E3220);color:#F3C649;display:flex;align-items:center;justify-content:center;font-size:1.15rem;">
+              <i class="fa-solid fa-film"></i>
+            </div>
+            <div style="flex:1;">
+              <strong style="color:#2D0F08; font-size:0.92rem;">مشغل مقاطع الفيديو التثقيفية بالصفحة الرئيسية</strong>
+              <p style="margin:3px 0 0; font-size:0.78rem; color:#6B5B50; font-weight:600;">
+                مشاهدة الشروحات المرئية الرسمية وتفعيل الأنظمة والخدمات الجامعية لكسب نقاط التميز
+              </p>
+            </div>
+            <i class="fa-solid fa-arrow-left" style="color:#C59B66; font-size:0.85rem;"></i>
+          </div>
+
+        </div>
+
+      </div> <!-- End Tab 3 -->
+
+      <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+      <!-- ║  TAB 4: لوحة الشرف — تكريم المتميزين في برنامج رواد 13        ║ -->
+      <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+      <div class="award-tab-content" id="award-tab-4">
+
+        <!-- بانر التتويج الأكاديمي -->
+        <div style="background:linear-gradient(135deg,#1E1713 0%,#2D1F15 50%,#1E1713 100%); border:2px solid #D4A359; border-radius:20px; padding:24px 20px; text-align:center; margin-bottom:20px; position:relative; overflow:hidden;">
+          <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(243,198,73,0.14) 0%,transparent 60%);"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="font-size:2.4rem; margin-bottom:6px;">
+              <i class="fa-solid fa-crown" style="color:#F3C649; filter:drop-shadow(0 2px 8px rgba(243,198,73,0.4));"></i>
+            </div>
+            <h3 style="color:#F3C649; font-weight:900; font-size:1.25rem; margin:0 0 6px;">
+              لوحة شرف برنامج رواد 13
+            </h3>
+            <p style="color:rgba(255,255,255,0.88); font-size:0.85rem; font-weight:600; margin:0;">
+              تكريم الطلبة الحاصلين على أعلى معدلات الإنجاز الأكاديمي في أقل مدة زمنية
+            </p>
+          </div>
+        </div>
+
+        <!-- 🧑 الطلاب المتميزون -->
+        <div style="margin-bottom:20px;">
+          <h4 style="font-size:0.95rem; font-weight:900; color:#7A2416; margin:0 0 12px; display:flex; align-items:center; gap:8px;">
+            <i class="fa-solid fa-mars" style="color:#3B82F6;"></i> فئة الطلاب
+          </h4>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+            
+            <!-- المركز الأول -->
+            <div style="background:linear-gradient(135deg,#FFFDF5,#FEF6EC); border:2px solid #F3C649; border-radius:16px; padding:16px 10px; text-align:center; position:relative;">
+              <div style="position:absolute;top:-9px;right:50%;transform:translateX(50%);background:#F3C649;color:#7A2416;font-size:0.68rem;font-weight:900;padding:2px 10px;border-radius:8px;">
+                <i class="fa-solid fa-trophy" style="font-size:0.6rem;"></i> المركز الأول
+              </div>
+              <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#F3C649,#D4A359);color:#7A2416;font-size:1.5rem;display:flex;align-items:center;justify-content:center;margin:8px auto 8px;border:3px solid rgba(243,198,73,0.5);box-shadow:0 4px 16px rgba(243,198,73,0.3);">
+                <i class="fa-solid fa-crown"></i>
+              </div>
+              <strong style="font-size:0.82rem; color:#2D0F08; display:block;" id="winner-m-1">في انتظار الإعلان</strong>
+              <span style="font-size:0.7rem; color:#9CA3AF; font-weight:600;">قيد التقييم الأكاديمي</span>
+            </div>
+
+            <!-- المركز الثاني -->
+            <div style="background:#FFFFFF; border:1.5px solid #C0C0C0; border-radius:16px; padding:16px 10px; text-align:center; position:relative;">
+              <div style="position:absolute;top:-9px;right:50%;transform:translateX(50%);background:#C0C0C0;color:#2D0F08;font-size:0.68rem;font-weight:900;padding:2px 10px;border-radius:8px;">
+                <i class="fa-solid fa-medal" style="font-size:0.6rem;"></i> المركز الثاني
+              </div>
+              <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#E2E8F0,#CBD5E1);color:#475569;font-size:1.5rem;display:flex;align-items:center;justify-content:center;margin:8px auto 8px;border:3px solid rgba(192,192,192,0.5);box-shadow:0 4px 16px rgba(192,192,192,0.2);">
+                <i class="fa-solid fa-medal"></i>
+              </div>
+              <strong style="font-size:0.82rem; color:#2D0F08; display:block;" id="winner-m-2">في انتظار الإعلان</strong>
+              <span style="font-size:0.7rem; color:#9CA3AF; font-weight:600;">قيد التقييم الأكاديمي</span>
+            </div>
+
+            <!-- المركز الثالث -->
+            <div style="background:#FFFFFF; border:1.5px solid #CD7F32; border-radius:16px; padding:16px 10px; text-align:center; position:relative;">
+              <div style="position:absolute;top:-9px;right:50%;transform:translateX(50%);background:#CD7F32;color:#FFFFFF;font-size:0.68rem;font-weight:900;padding:2px 10px;border-radius:8px;">
+                <i class="fa-solid fa-award" style="font-size:0.6rem;"></i> المركز الثالث
+              </div>
+              <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#CD7F32,#B8722E);color:#FFFFFF;font-size:1.5rem;display:flex;align-items:center;justify-content:center;margin:8px auto 8px;border:3px solid rgba(205,127,50,0.5);box-shadow:0 4px 16px rgba(205,127,50,0.2);">
+                <i class="fa-solid fa-award"></i>
+              </div>
+              <strong style="font-size:0.82rem; color:#2D0F08; display:block;" id="winner-m-3">في انتظار الإعلان</strong>
+              <span style="font-size:0.7rem; color:#9CA3AF; font-weight:600;">قيد التقييم الأكاديمي</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 👩 الطالبات المتميزات -->
+        <div style="margin-bottom:18px;">
+          <h4 style="font-size:0.95rem; font-weight:900; color:#7A2416; margin:0 0 12px; display:flex; align-items:center; gap:8px;">
+            <i class="fa-solid fa-venus" style="color:#EC4899;"></i> فئة الطالبات
+          </h4>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+            
+            <!-- المركز الأول -->
+            <div style="background:linear-gradient(135deg,#FFFDF5,#FEF6EC); border:2px solid #F3C649; border-radius:16px; padding:16px 10px; text-align:center; position:relative;">
+              <div style="position:absolute;top:-9px;right:50%;transform:translateX(50%);background:#F3C649;color:#7A3117;font-size:0.68rem;font-weight:900;padding:2px 10px;border-radius:8px;">
+                <i class="fa-solid fa-trophy" style="font-size:0.6rem;"></i> المركز الأول
+              </div>
+              <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#F3C649,#D4A359);color:#7A3117;font-size:1.5rem;display:flex;align-items:center;justify-content:center;margin:8px auto 8px;border:3px solid rgba(243,198,73,0.5);box-shadow:0 4px 16px rgba(243,198,73,0.3);">
+                <i class="fa-solid fa-crown"></i>
+              </div>
+              <strong style="font-size:0.82rem; color:#2D0F08; display:block;" id="winner-f-1">في انتظار الإعلان</strong>
+              <span style="font-size:0.7rem; color:#9CA3AF; font-weight:600;">قيد التقييم الأكاديمي</span>
+            </div>
+
+            <!-- المركز الثاني -->
+            <div style="background:#FFFFFF; border:1.5px solid #C0C0C0; border-radius:16px; padding:16px 10px; text-align:center; position:relative;">
+              <div style="position:absolute;top:-9px;right:50%;transform:translateX(50%);background:#C0C0C0;color:#2D0F08;font-size:0.68rem;font-weight:900;padding:2px 10px;border-radius:8px;">
+                <i class="fa-solid fa-medal" style="font-size:0.6rem;"></i> المركز الثاني
+              </div>
+              <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#E2E8F0,#CBD5E1);color:#475569;font-size:1.5rem;display:flex;align-items:center;justify-content:center;margin:8px auto 8px;border:3px solid rgba(192,192,192,0.5);box-shadow:0 4px 16px rgba(192,192,192,0.2);">
+                <i class="fa-solid fa-medal"></i>
+              </div>
+              <strong style="font-size:0.82rem; color:#2D0F08; display:block;" id="winner-f-2">في انتظار الإعلان</strong>
+              <span style="font-size:0.7rem; color:#9CA3AF; font-weight:600;">قيد التقييم الأكاديمي</span>
+            </div>
+
+            <!-- المركز الثالث -->
+            <div style="background:#FFFFFF; border:1.5px solid #CD7F32; border-radius:16px; padding:16px 10px; text-align:center; position:relative;">
+              <div style="position:absolute;top:-9px;right:50%;transform:translateX(50%);background:#CD7F32;color:#FFFFFF;font-size:0.68rem;font-weight:900;padding:2px 10px;border-radius:8px;">
+                <i class="fa-solid fa-award" style="font-size:0.6rem;"></i> المركز الثالث
+              </div>
+              <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#CD7F32,#B8722E);color:#FFFFFF;font-size:1.5rem;display:flex;align-items:center;justify-content:center;margin:8px auto 8px;border:3px solid rgba(205,127,50,0.5);box-shadow:0 4px 16px rgba(205,127,50,0.2);">
+                <i class="fa-solid fa-award"></i>
+              </div>
+              <strong style="font-size:0.82rem; color:#2D0F08; display:block;" id="winner-f-3">في انتظار الإعلان</strong>
+              <span style="font-size:0.7rem; color:#9CA3AF; font-weight:600;">قيد التقييم الأكاديمي</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div> <!-- End Tab 4 -->
+
+    </div>
+  </div>
+

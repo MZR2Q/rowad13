@@ -1,0 +1,671 @@
+  <!-- ═══ CAMPUS MAP: رحلة رواد الحضورية (3-COLUMN INTERACTIVE EXPEDITION SYSTEM) ═══ -->
+  <div class="campus-map-fullscreen" id="campus-map-fullscreen">
+    <!-- Dynamic Interactive Canvas Background -->
+    <canvas id="campus-map-canvas"></canvas>
+
+    <!-- ═══ 1. FULL-WIDTH ROYAL STICKY HEADER ═══ -->
+    <header class="top-royal-header">
+      <div class="header-inner-wrap">
+        <!-- Right Side: Brand Emblem & Breadcrumbs -->
+        <div class="nav-brand-group">
+          <div class="brand-emblem-circle">
+            <i class="fa-solid fa-store"></i>
+          </div>
+          <div class="brand-titles">
+            <h1 class="brand-main-heading">معرض رواد 13 للاستقبال والتهيئة</h1>
+            <span class="brand-breadcrumbs">رحلة رواد الحضورية &gt; أركان المعرض والاستبيان التفاعلي</span>
+          </div>
+        </div>
+
+        <!-- Left Side: Points Badge & Close Button -->
+        <div class="nav-actions-group">
+          <div class="points-pill-badge" id="pointsPillBadge">
+            <i class="fa-solid fa-star"></i>
+            <span id="stat-points-num">0 نقطة</span>
+          </div>
+
+          <button class="close-action-btn"
+            onclick="closeCampusMap(); fireToast('تم حفظ تقدمك في الرحلة بنجاح', 'fa-solid fa-cloud-arrow-up')">
+            <span>إغلاق</span>
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══ MASTER OUTER CONTAINER (2-COLUMN FOCUSED EXPO LAYOUT) ═══ -->
+    <div class="master-expedition-wrapper">
+      <main class="main-dashboard-board expo-2col-dashboard">
+
+        <!-- ═══ [COLUMN 1 - RIGHT IN RTL] أركان المعرض (U-SHAPE) ═══ -->
+        <div class="col-right-journey">
+          <div class="journey-header-box">
+            <div class="journey-header-left">
+              <div class="journey-header-icon"
+                style="background: linear-gradient(135deg, #872A08, #A33625); color: #fff;">
+                <i class="fa-solid fa-store"></i>
+              </div>
+              <div class="journey-header-texts">
+                <h3><i class="fa-solid fa-store" style="color:#7A2416; margin-left:6px;"></i> أركان المعرض</h3>
+                <p>اضغط على أي ركن لعرض الاستبيان ثم امسح الرمز</p>
+              </div>
+            </div>
+            <span class="journey-badge-pill" id="journeyProgressStat">0 من 8 مكتملة</span>
+          </div>
+
+          <!-- ═══ REALISTIC EXPO BOOTHS MAP (أركان المعرض المعمارية والمسار المتصل) ═══ -->
+          <div class="booth-map-container" id="journeyUShape">
+            <!-- Connecting Royal Golden Snake SVG Track -->
+            <svg class="u-shape-svg-path" viewBox="0 0 360 420" preserveAspectRatio="none">
+              <path class="u-path-track"
+                d="M 55 60 L 305 60 C 350 60, 350 195, 305 195 L 55 195 C 10 195, 10 330, 75 330 L 245 330" />
+              <path class="u-path-glow"
+                d="M 55 60 L 305 60 C 350 60, 350 195, 305 195 L 55 195 C 10 195, 10 330, 75 330 L 245 330" />
+            </svg>
+
+            <!-- ROW 1 (Top 3: RTL order ➔ Right: ① الاستقبال | Center: ② شؤون الطلاب | Left: ③ القبول) -->
+            <div class="booth-row">
+              <!-- ① ركن الاستقبال (أعلى اليمين - بداية الخط) -->
+              <div class="booth-node-item is-unvisited" id="map-node-reception"
+                onclick="triggerStationScan('reception')">
+                <div class="booth-awning"></div>
+                <div class="booth-stand-body">
+                  <div class="u-node-sphere"
+                    style="background:linear-gradient(135deg, #7A2416, #A33625) !important; color:#FFFFFF !important;">
+                    <i class="fa-solid fa-gift"></i>
+                  </div>
+                  <div class="booth-num-pill">①</div>
+                </div>
+                <div class="booth-sign-card">
+                  <strong class="u-node-label">ركن الاستقبال</strong>
+                  <span class="u-node-sub">الحقيبة الترحيبية <i class="fa-solid fa-gift" style="color:#C59B66; font-size:0.75rem;"></i></span>
+                </div>
+              </div>
+
+              <!-- ② شؤون الطلاب (أعلى الوسط) -->
+              <div class="booth-node-item is-unvisited" id="map-node-affairs" onclick="triggerStationScan('affairs')">
+                <div class="booth-awning"></div>
+                <div class="booth-stand-body">
+                  <div class="u-node-sphere"><i class="fa-solid fa-users"></i></div>
+                  <div class="booth-num-pill">②</div>
+                </div>
+                <div class="booth-sign-card">
+                  <strong class="u-node-label">شؤون الطلاب</strong>
+                  <span class="u-node-sub">+10 نقاط</span>
+                </div>
+              </div>
+
+              <!-- ③ القبول والتسجيل (أعلى اليسار) -->
+              <div class="booth-node-item is-unvisited" id="map-node-admission"
+                onclick="triggerStationScan('admission')">
+                <div class="booth-awning"></div>
+                <div class="booth-stand-body">
+                  <div class="u-node-sphere"><i class="fa-solid fa-file-signature"></i></div>
+                  <div class="booth-num-pill">③</div>
+                </div>
+                <div class="booth-sign-card">
+                  <strong class="u-node-label">القبول والتسجيل</strong>
+                  <span class="u-node-sub">+10 نقاط</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ROW 2 (Middle 3: RTL order ➔ Right: ⑥ المركز الطبي | Center: ⑤ الكليات | Left: ④ التعليم الإلكتروني) -->
+            <div class="booth-row">
+              <!-- ⑥ المركز الطبي (وسط اليمين) -->
+              <div class="booth-node-item is-unvisited" id="map-node-clinic" onclick="triggerStationScan('clinic')">
+                <div class="booth-awning"></div>
+                <div class="booth-stand-body">
+                  <div class="u-node-sphere"><i class="fa-solid fa-heart-pulse"></i></div>
+                  <div class="booth-num-pill">⑥</div>
+                </div>
+                <div class="booth-sign-card">
+                  <strong class="u-node-label">المركز الطبي</strong>
+                  <span class="u-node-sub">+10 نقاط</span>
+                </div>
+              </div>
+
+              <!-- ⑤ الكليات الأكاديمية (وسط الوسط) -->
+              <div class="booth-node-item is-unvisited" id="map-node-colleges" onclick="triggerStationScan('colleges')">
+                <div class="booth-awning"></div>
+                <div class="booth-stand-body">
+                  <div class="u-node-sphere"><i class="fa-solid fa-building-columns"></i></div>
+                  <div class="booth-num-pill">⑤</div>
+                </div>
+                <div class="booth-sign-card">
+                  <strong class="u-node-label">الكليات</strong>
+                  <span class="u-node-sub">+10 نقاط</span>
+                </div>
+              </div>
+
+              <!-- ④ التعليم الإلكتروني (وسط اليسار) -->
+              <div class="booth-node-item is-unvisited" id="map-node-elearn" onclick="triggerStationScan('elearn')">
+                <div class="booth-awning"></div>
+                <div class="booth-stand-body">
+                  <div class="u-node-sphere"><i class="fa-solid fa-desktop"></i></div>
+                  <div class="booth-num-pill">④</div>
+                </div>
+                <div class="booth-sign-card">
+                  <strong class="u-node-label">التعليم الإلكتروني</strong>
+                  <span class="u-node-sub">+10 نقاط</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ROW 3 (Bottom: RTL order ➔ Right: ⑦ الأندية الطلابية | Left: 🚪 باب المغادرة) -->
+            <div class="booth-row booth-row-bottom"
+              style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <!-- ⑦ الأندية الطلابية (أسفل اليمين) -->
+              <div class="booth-node-item is-unvisited" id="map-node-clubs" onclick="triggerStationScan('clubs')">
+                <div class="booth-awning"></div>
+                <div class="booth-stand-body">
+                  <div class="u-node-sphere"><i class="fa-solid fa-people-roof"></i></div>
+                  <div class="booth-num-pill">⑦</div>
+                </div>
+                <div class="booth-sign-card">
+                  <strong class="u-node-label">الأندية الطلابية</strong>
+                  <span class="u-node-sub">+10 نقاط</span>
+                </div>
+              </div>
+
+              <!-- 🚪 باب المغادرة (أسفل اليسار - نهاية الخط) -->
+              <div class="booth-node-item u-exit-door is-unvisited is-locked" id="map-node-exit"
+                onclick="triggerStationScan('exit')">
+                <div class="booth-awning"></div>
+                <div class="booth-stand-body">
+                  <div class="u-node-sphere exit-sphere"><i class="fa-solid fa-door-open"></i></div>
+                  <div class="booth-num-pill" style="background:#2D0F08;"><i class="fa-solid fa-door-open" style="font-size:0.7rem;"></i></div>
+                </div>
+                <div class="booth-sign-card" style="width:145px;">
+                  <strong class="u-node-label" style="color:#5E0F18;"><i class="fa-solid fa-door-open" style="font-size:0.75rem; margin-left:3px;"></i> باب المغادرة</strong>
+                  <span class="u-node-sub" style="color:#6B5B50;">استبيان الجاهزية والختام</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ═══ [COLUMN 2 - LEFT IN RTL] استبيان الركن الفائق الوضوح (YES/NO) ومسح الرمز ═══ -->
+        <div class="col-center-hero">
+          <div class="hero-ambient-rings"></div>
+
+          <div class="hero-tag-badge" style="display:none;">
+            <i class="fa-solid fa-bullseye"></i>
+            <span id="heroStatusBadgeTag">استبيان الركن</span>
+          </div>
+
+          <span class="hero-sub-text" id="heroLeadHint" style="display:none;">اختر محطة من قائمة الأركان</span>
+          <h2 class="hero-station-title" id="heroStationTitleText" style="display:none;">معرض رواد 13 للاستقبال والتهيئة
+          </h2>
+
+          <div class="hero-bounty-chip" id="heroBountyChip" style="display:none;">
+            <i class="fa-solid fa-star"></i> اختر ركناً
+          </div>
+
+          <!-- DYNAMIC CENTER CONTENT (Ultra-Clear Survey or Camera) -->
+          <div id="hero-center-content" class="hero-center-content">
+            <div class="campus-survey-container" style="text-align:center; padding:40px 20px;">
+              <div style="font-size:3.5rem; margin-bottom:16px; color:#7A2416; opacity:0.85;"><i class="fa-solid fa-store"></i></div>
+              <h3 style="color:#2D0F08; font-weight:800; margin-bottom:8px;">اضغط على أي ركن من أركان المعرض</h3>
+              <p style="color:#6B5B50; font-size:0.95rem;">سيظهر هنا استبيان الركن بوضوح (نعم / لا) — أكمله ثم امسح
+                الرمز واكسب +10 نقاط <i class="fa-solid fa-camera"></i>
+              </p>
+            </div>
+          </div>
+
+          <!-- Hidden: QR Podium (kept for compatibility) -->
+          <div class="hero-qr-podium-showcase" style="display:none;" onclick="openActiveScannerModal()">
+            <div class="podium-pedestal-base"></div>
+            <div class="podium-arch-frame">
+              <div class="podium-qr-tablet">
+                <i class="fa-solid fa-desktop" id="heroPodiumIcon"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hidden: Master Button (kept for compatibility) -->
+          <button class="master-scan-cta-btn" id="heroMasterCtaBtn" style="display:none;"
+            onclick="openActiveScannerModal()">
+            <i class="fa-solid fa-camera"></i>
+            <span id="heroCtaButtonLabel">اختر ركناً أولاً</span>
+          </button>
+
+          <div class="hero-progress-tracker-line" id="heroProgressSnippet">
+            <i class="fa-solid fa-circle-check" style="color:var(--green-success)"></i> 0 من 7 محطات مكتملة (بقيت 7
+            محطات)
+          </div>
+
+          <div class="hero-footnote-hint">
+            <i class="fa-solid fa-circle-info"></i>
+            <span id="heroFootnoteText">اضغط على أي ركن من أركان المعرض للإجابة على الاستبيان ومسح الكود</span>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <!-- ═══ HIGH-TECH REAL-CAMERA QR SCANNER MODAL DIALOG ═══ -->
+    <div class="expedition-modal-overlay" id="expeditionModalOverlay" onclick="closeModalOnBackdrop(event)">
+      <div class="expedition-modal-box">
+        <button class="modal-close-x" onclick="closeExpeditionModal()"><i class="fa-solid fa-xmark"></i></button>
+
+        <div class="modal-portal-orb">
+          <i class="fa-solid fa-camera" id="modalHeroIcon"></i>
+        </div>
+
+        <div class="modal-titles-group">
+          <h3 id="modalStationTitle">ركن عمادة شؤون الطلاب</h3>
+          <p id="modalStationDesc">التعريف بالخدمات المقدمة والأندية الطلابية</p>
+        </div>
+
+        <div class="modal-reward-badge-chip" id="modalRewardBadge">
+          <i class="fa-solid fa-star"></i> المكافأة: +10 نقاط
+        </div>
+
+        <!-- Real Live Camera Viewfinder Screen -->
+        <div class="modal-viewfinder-zone">
+          <div class="viewfinder-laser-scanner"></div>
+          <video id="cameraLiveVideo" autoplay playsinline muted></video>
+          <div class="camera-fallback-ui" id="cameraFallbackUI">
+            <i class="fa-solid fa-qrcode fallback-qr-icon"></i>
+            <p>جارٍ البحث عن رمز الباركود...</p>
+          </div>
+        </div>
+
+        <div class="modal-dialog-actions">
+          <button type="button" class="modal-scan-now-btn" id="modalConfirmScanBtn" onclick="simulateScanSuccess()">
+            <i class="fa-solid fa-camera"></i>
+            <span id="modalConfirmBtnLabel">امسح الكود الآن</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- ═══ 2. STANDALONE WORKSHOPS SCREEN (الورش التدريبية والتعريفية) ═══ -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="campus-workshops-fullscreen" id="campus-workshops-fullscreen">
+    <!-- Top Royal Header -->
+    <header class="top-royal-header">
+      <div class="header-inner-wrap">
+        <div class="nav-brand-group">
+          <div class="brand-emblem-circle">
+            <i class="fa-solid fa-chalkboard-user"></i>
+          </div>
+          <div class="brand-titles">
+            <h1 class="brand-main-heading">الورش التدريبية والتعريفية</h1>
+            <span class="brand-breadcrumbs">رحلة رواد الحضورية &gt; بناء المهارات وبطاقات الورش التفاعلية</span>
+          </div>
+        </div>
+
+        <div class="nav-actions-group">
+          <div class="points-pill-badge">
+            <i class="fa-solid fa-star"></i>
+            <span id="ws-stat-points-num">0 نقطة</span>
+          </div>
+
+          <button class="close-action-btn" onclick="closeCampusWorkshopsView()">
+            <span>إغلاق</span>
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="workshops-master-wrapper">
+      <!-- Hero Banner -->
+      <div class="workshops-hero-banner">
+        <div class="workshops-hero-text">
+          <h2><i class="fa-solid fa-timeline" style="color:#F3C649; margin-left:8px;"></i> الخط الزمني للورش التدريبية والتعريفية</h2>
+          <p>رحلة تفاعلية حضورية مصممة لتأهيلك وصقل مهاراتك الجامعية والمهنية — 9 ورش تخصصية تكسب في كل ورشة +5 نقاط معتمدة</p>
+        </div>
+      </div>
+
+      <!-- Timeline Days Filter Chips -->
+      <div class="ws-timeline-filters-wrap">
+        <button type="button" class="ws-filter-chip active" onclick="filterWorkshopsTimeline('all', this)">
+          <i class="fa-solid fa-sparkles"></i> <span>جميع الورش (الجدول الكامل)</span>
+        </button>
+        <button type="button" class="ws-filter-chip" onclick="filterWorkshopsTimeline('day-1', this)">
+          <i class="fa-regular fa-calendar-check"></i> <span>الاثنين 25 أغسطس</span>
+        </button>
+        <button type="button" class="ws-filter-chip" onclick="filterWorkshopsTimeline('day-2', this)">
+          <i class="fa-regular fa-calendar-check"></i> <span>الثلاثاء 26 أغسطس</span>
+        </button>
+        <button type="button" class="ws-filter-chip" onclick="filterWorkshopsTimeline('day-3', this)">
+          <i class="fa-regular fa-calendar-check"></i> <span>الأربعاء 27 أغسطس</span>
+        </button>
+        <button type="button" class="ws-filter-chip" onclick="filterWorkshopsTimeline('day-4', this)">
+          <i class="fa-regular fa-calendar-check"></i> <span>الأحد 30 أغسطس</span>
+        </button>
+        <button type="button" class="ws-filter-chip" onclick="filterWorkshopsTimeline('day-5', this)">
+          <i class="fa-regular fa-calendar-check"></i> <span>الاثنين 31 أغسطس</span>
+        </button>
+        <button type="button" class="ws-filter-chip" onclick="filterWorkshopsTimeline('day-6', this)">
+          <i class="fa-regular fa-calendar-check"></i> <span>الثلاثاء 1 سبتمبر</span>
+        </button>
+        <button type="button" class="ws-filter-chip" onclick="filterWorkshopsTimeline('day-7', this)">
+          <i class="fa-regular fa-calendar-check"></i> <span>الأربعاء 2 سبتمبر</span>
+        </button>
+      </div>
+
+      <!-- Timeline Progress & Stats Strip -->
+      <div class="ws-timeline-stats-card">
+        <div class="ws-stats-left">
+          <div class="ws-stats-trophy-icon">
+            <i class="fa-solid fa-award"></i>
+          </div>
+          <div class="ws-stats-title-group">
+            <h4>إنجاز مسار الورش التدريبية</h4>
+            <p>سجّل حضورك في الورش واكسب حتى 45 نقطة لتعزيز رصيدك الأكاديمي</p>
+          </div>
+        </div>
+
+        <div class="ws-stats-progress-wrap">
+          <div class="ws-progress-labels">
+            <span id="ws-timeline-progress-text">0 من 9 ورش مكتملة</span>
+            <span id="ws-timeline-points-text" style="color:#D4A359; font-weight:900;">0 / 45 نقطة</span>
+          </div>
+          <div class="ws-progress-track">
+            <div class="ws-progress-fill-bar" id="ws-timeline-progress-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <!-- ═══ THE TIMELINE TRACK (الخط الزمني المتسلسل للورش) ═══ -->
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <div class="workshops-timeline-track" id="workshopsTimelineTrack">
+
+        <!-- 📅 DAY 1: الاثنين 25 أغسطس -->
+        <div class="ws-timeline-day-group ws-group-day-1" data-day="day-1">
+          <div class="ws-timeline-day-header">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>اليوم الأول: الاثنين 25 أغسطس 2026</span>
+            <span class="ws-day-badge">ورشتان</span>
+          </div>
+
+          <!-- WS 01 -->
+          <div class="ws-timeline-item" data-day="day-1">
+            <div class="ws-timeline-node">01</div>
+            <div class="ws-timeline-connector"></div>
+            <div class="standalone-ws-card" id="standalone-ws-1">
+              <div class="ws-card-header">
+                <span class="ws-category-badge"><i class="fa-solid fa-graduation-cap"></i> الاستعداد والتهيئة الجامعية</span>
+                <h3 class="ws-title-text">من المدرسة إلى الجامعة (الاستعداد الجامعي)</h3>
+              </div>
+              <div class="ws-meta-row">
+                <span class="ws-meta-tag"><i class="fa-regular fa-calendar"></i> الاثنين 25 أغسطس</span>
+                <span class="ws-meta-tag"><i class="fa-regular fa-clock"></i> 10:45 ص - 11:15 ص</span>
+                <span class="ws-meta-tag"><i class="fa-solid fa-door-open"></i> قاعة التدريب 1</span>
+                <span class="ws-meta-tag ws-tag-pts"><i class="fa-solid fa-star"></i> +5 نقاط</span>
+              </div>
+              <button type="button" class="ws-scan-action-btn" id="ws-btn-1"
+                onclick="triggerWorkshopScan(1, 'من المدرسة إلى الجامعة (الاستعداد الجامعي)', false)">
+                <i class="fa-solid fa-camera"></i>
+                <span>مسح كود الحضور (+5 نقاط)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- WS 03 -->
+          <div class="ws-timeline-item" data-day="day-1">
+            <div class="ws-timeline-node">03</div>
+            <div class="ws-timeline-connector"></div>
+            <div class="standalone-ws-card" id="standalone-ws-3">
+              <div class="ws-card-header">
+                <span class="ws-category-badge"><i class="fa-solid fa-hourglass-half"></i> إدارة الوقت والإنتاجية</span>
+                <h3 class="ws-title-text">إدارة الوقت وتجنب التسويف</h3>
+              </div>
+              <div class="ws-meta-row">
+                <span class="ws-meta-tag"><i class="fa-regular fa-calendar"></i> الاثنين 25 أغسطس</span>
+                <span class="ws-meta-tag"><i class="fa-regular fa-clock"></i> 10:45 ص - 11:15 ص</span>
+                <span class="ws-meta-tag"><i class="fa-solid fa-door-open"></i> قاعة التدريب 2</span>
+                <span class="ws-meta-tag ws-tag-pts"><i class="fa-solid fa-star"></i> +5 نقاط</span>
+              </div>
+              <button type="button" class="ws-scan-action-btn" id="ws-btn-3"
+                onclick="triggerWorkshopScan(3, 'إدارة الوقت وتجنب التسويف', false)">
+                <i class="fa-solid fa-camera"></i>
+                <span>مسح كود الحضور (+5 نقاط)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📅 DAY 2: الثلاثاء 26 أغسطس -->
+        <div class="ws-timeline-day-group ws-group-day-2" data-day="day-2">
+          <div class="ws-timeline-day-header">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>اليوم الثاني: الثلاثاء 26 أغسطس 2026</span>
+            <span class="ws-day-badge">ورشة واحدة</span>
+          </div>
+
+          <!-- WS 04 -->
+          <div class="ws-timeline-item" data-day="day-2">
+            <div class="ws-timeline-node">04</div>
+            <div class="ws-timeline-connector"></div>
+            <div class="standalone-ws-card" id="standalone-ws-4">
+              <div class="ws-card-header">
+                <span class="ws-category-badge"><i class="fa-solid fa-book-open-reader"></i> المهارات اللغوية والأكاديمية</span>
+                <h3 class="ws-title-text">كفاءة المصطلحات في الدراسة الجامعية</h3>
+              </div>
+              <div class="ws-meta-row">
+                <span class="ws-meta-tag"><i class="fa-regular fa-calendar"></i> الثلاثاء 26 أغسطس</span>
+                <span class="ws-meta-tag"><i class="fa-regular fa-clock"></i> 10:45 ص - 11:15 ص</span>
+                <span class="ws-meta-tag"><i class="fa-solid fa-door-open"></i> قاعة التدريب 1</span>
+                <span class="ws-meta-tag ws-tag-pts"><i class="fa-solid fa-star"></i> +5 نقاط</span>
+              </div>
+              <button type="button" class="ws-scan-action-btn" id="ws-btn-4"
+                onclick="triggerWorkshopScan(4, 'كفاءة المصطلحات في الدراسة الجامعية', false)">
+                <i class="fa-solid fa-camera"></i>
+                <span>مسح كود الحضور (+5 نقاط)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📅 DAY 3: الأربعاء 27 أغسطس -->
+        <div class="ws-timeline-day-group ws-group-day-3" data-day="day-3">
+          <div class="ws-timeline-day-header">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>اليوم الثالث: الأربعاء 27 أغسطس 2026</span>
+            <span class="ws-day-badge">ورشة واحدة</span>
+          </div>
+
+          <!-- WS 05 -->
+          <div class="ws-timeline-item" data-day="day-3">
+            <div class="ws-timeline-node">05</div>
+            <div class="ws-timeline-connector"></div>
+            <div class="standalone-ws-card" id="standalone-ws-5">
+              <div class="ws-card-header">
+                <span class="ws-category-badge"><i class="fa-solid fa-brain"></i> الإرشاد والتكيف النفسي</span>
+                <h3 class="ws-title-text">التكيف النفسي مع البيئة الجامعية</h3>
+              </div>
+              <div class="ws-meta-row">
+                <span class="ws-meta-tag"><i class="fa-regular fa-calendar"></i> الأربعاء 27 أغسطس</span>
+                <span class="ws-meta-tag"><i class="fa-regular fa-clock"></i> 10:45 ص - 11:15 ص</span>
+                <span class="ws-meta-tag"><i class="fa-solid fa-door-open"></i> قاعة التدريب 1</span>
+                <span class="ws-meta-tag ws-tag-pts"><i class="fa-solid fa-star"></i> +5 نقاط</span>
+              </div>
+              <button type="button" class="ws-scan-action-btn" id="ws-btn-5"
+                onclick="triggerWorkshopScan(5, 'التكيف النفسي مع البيئة الجامعية', false)">
+                <i class="fa-solid fa-camera"></i>
+                <span>مسح كود الحضور (+5 نقاط)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📅 DAY 4: الأحد 30 أغسطس -->
+        <div class="ws-timeline-day-group ws-group-day-4" data-day="day-4">
+          <div class="ws-timeline-day-header">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>اليوم الرابع: الأحد 30 أغسطس 2026</span>
+            <span class="ws-day-badge">ورشة واحدة</span>
+          </div>
+
+          <!-- WS 06 -->
+          <div class="ws-timeline-item" data-day="day-4">
+            <div class="ws-timeline-node">06</div>
+            <div class="ws-timeline-connector"></div>
+            <div class="standalone-ws-card" id="standalone-ws-6">
+              <div class="ws-card-header">
+                <span class="ws-category-badge"><i class="fa-solid fa-shield-halved"></i> الوعي والمسؤولية الفكرية</span>
+                <h3 class="ws-title-text">الأمن الفكري في البيئة الجامعية</h3>
+              </div>
+              <div class="ws-meta-row">
+                <span class="ws-meta-tag"><i class="fa-regular fa-calendar"></i> الأحد 30 أغسطس</span>
+                <span class="ws-meta-tag"><i class="fa-regular fa-clock"></i> 10:45 ص - 11:15 ص</span>
+                <span class="ws-meta-tag"><i class="fa-solid fa-door-open"></i> قاعة التدريب 1</span>
+                <span class="ws-meta-tag ws-tag-pts"><i class="fa-solid fa-star"></i> +5 نقاط</span>
+              </div>
+              <button type="button" class="ws-scan-action-btn" id="ws-btn-6"
+                onclick="triggerWorkshopScan(6, 'الأمن الفكري في البيئة الجامعية', false)">
+                <i class="fa-solid fa-camera"></i>
+                <span>مسح كود الحضور (+5 نقاط)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📅 DAY 5: الاثنين 31 أغسطس -->
+        <div class="ws-timeline-day-group ws-group-day-5" data-day="day-5">
+          <div class="ws-timeline-day-header">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>اليوم الخامس: الاثنين 31 أغسطس 2026</span>
+            <span class="ws-day-badge">ورشة واحدة</span>
+          </div>
+
+          <!-- WS 07 -->
+          <div class="ws-timeline-item" data-day="day-5">
+            <div class="ws-timeline-node">07</div>
+            <div class="ws-timeline-connector"></div>
+            <div class="standalone-ws-card" id="standalone-ws-7">
+              <div class="ws-card-header">
+                <span class="ws-category-badge"><i class="fa-solid fa-users-viewfinder"></i> الأنشطة والمبادرات الطلابية</span>
+                <h3 class="ws-title-text">اكتشف شغفك من خلال الأندية الطلابية</h3>
+              </div>
+              <div class="ws-meta-row">
+                <span class="ws-meta-tag"><i class="fa-regular fa-calendar"></i> الاثنين 31 أغسطس</span>
+                <span class="ws-meta-tag"><i class="fa-regular fa-clock"></i> 10:45 ص - 11:15 ص</span>
+                <span class="ws-meta-tag"><i class="fa-solid fa-door-open"></i> قاعة التدريب 2</span>
+                <span class="ws-meta-tag ws-tag-pts"><i class="fa-solid fa-star"></i> +5 نقاط</span>
+              </div>
+              <button type="button" class="ws-scan-action-btn" id="ws-btn-7"
+                onclick="triggerWorkshopScan(7, 'اكتشف شغفك من خلال الأندية الطلابية', false)">
+                <i class="fa-solid fa-camera"></i>
+                <span>مسح كود الحضور (+5 نقاط)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📅 DAY 6: الثلاثاء 1 سبتمبر -->
+        <div class="ws-timeline-day-group ws-group-day-6" data-day="day-6">
+          <div class="ws-timeline-day-header">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>اليوم السادس: الثلاثاء 1 سبتمبر 2026</span>
+            <span class="ws-day-badge">ورشة واحدة</span>
+          </div>
+
+          <!-- WS 08 -->
+          <div class="ws-timeline-item" data-day="day-6">
+            <div class="ws-timeline-node">08</div>
+            <div class="ws-timeline-connector"></div>
+            <div class="standalone-ws-card" id="standalone-ws-8">
+              <div class="ws-card-header">
+                <span class="ws-category-badge"><i class="fa-solid fa-laptop-code"></i> المهارات الرقمية والبحثية</span>
+                <h3 class="ws-title-text">مهارات البحث والأنشطة الرقمية</h3>
+              </div>
+              <div class="ws-meta-row">
+                <span class="ws-meta-tag"><i class="fa-regular fa-calendar"></i> الثلاثاء 1 سبتمبر</span>
+                <span class="ws-meta-tag"><i class="fa-regular fa-clock"></i> 10:45 ص - 11:15 ص</span>
+                <span class="ws-meta-tag"><i class="fa-solid fa-door-open"></i> قاعة التدريب 1</span>
+                <span class="ws-meta-tag ws-tag-pts"><i class="fa-solid fa-star"></i> +5 نقاط</span>
+              </div>
+              <button type="button" class="ws-scan-action-btn" id="ws-btn-8"
+                onclick="triggerWorkshopScan(8, 'مهارات البحث والأنشطة الرقمية', false)">
+                <i class="fa-solid fa-camera"></i>
+                <span>مسح كود الحضور (+5 نقاط)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📅 DAY 7: الأربعاء 2 سبتمبر -->
+        <div class="ws-timeline-day-group ws-group-day-7" data-day="day-7">
+          <div class="ws-timeline-day-header">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>اليوم السابع: الأربعاء 2 سبتمبر 2026</span>
+            <span class="ws-day-badge">ورشتان</span>
+          </div>
+
+          <!-- WS 02 -->
+          <div class="ws-timeline-item" data-day="day-7">
+            <div class="ws-timeline-node">02</div>
+            <div class="ws-timeline-connector"></div>
+            <div class="standalone-ws-card" id="standalone-ws-2">
+              <div class="ws-card-header">
+                <span class="ws-category-badge"><i class="fa-solid fa-scale-balanced"></i> القيم والضوابط الأكاديمية</span>
+                <h3 class="ws-title-text">النزاهة الأكاديمية</h3>
+              </div>
+              <div class="ws-meta-row">
+                <span class="ws-meta-tag"><i class="fa-regular fa-calendar"></i> الأربعاء 2 سبتمبر</span>
+                <span class="ws-meta-tag"><i class="fa-regular fa-clock"></i> 10:45 ص - 11:15 ص</span>
+                <span class="ws-meta-tag"><i class="fa-solid fa-door-open"></i> قاعة التدريب 2</span>
+                <span class="ws-meta-tag ws-tag-pts"><i class="fa-solid fa-star"></i> +5 نقاط</span>
+              </div>
+              <button type="button" class="ws-scan-action-btn" id="ws-btn-2"
+                onclick="triggerWorkshopScan(2, 'النزاهة الأكاديمية', false)">
+                <i class="fa-solid fa-camera"></i>
+                <span>مسح كود الحضور (+5 نقاط)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- WS 09 -->
+          <div class="ws-timeline-item" data-day="day-7">
+            <div class="ws-timeline-node">09</div>
+            <div class="ws-timeline-connector"></div>
+            <div class="standalone-ws-card" id="standalone-ws-9">
+              <div class="ws-card-header">
+                <span class="ws-category-badge"><i class="fa-solid fa-trophy"></i> التميز وصناعة المستقبل</span>
+                <h3 class="ws-title-text">التميز الطلابي وصناعة الإنجاز</h3>
+              </div>
+              <div class="ws-meta-row">
+                <span class="ws-meta-tag"><i class="fa-regular fa-calendar"></i> الأربعاء 2 سبتمبر</span>
+                <span class="ws-meta-tag"><i class="fa-regular fa-clock"></i> 10:45 ص - 11:15 ص</span>
+                <span class="ws-meta-tag"><i class="fa-solid fa-door-open"></i> قاعة التدريب 1</span>
+                <span class="ws-meta-tag ws-tag-pts"><i class="fa-solid fa-star"></i> +5 نقاط</span>
+              </div>
+              <button type="button" class="ws-scan-action-btn" id="ws-btn-9"
+                onclick="triggerWorkshopScan(9, 'التميز الطلابي وصناعة الإنجاز', false)">
+                <i class="fa-solid fa-camera"></i>
+                <span>مسح كود الحضور (+5 نقاط)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Trophy Showcase Card -->
+      <div class="bottom-trophy-card" onclick="celebrateTrophyDome()" style="margin-top: 24px;">
+        <div class="trophy-cup-art">
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+        <div class="trophy-details-block">
+          <span class="trophy-tag-lbl">الوجهة النهائية</span>
+          <h4 class="trophy-title-lbl">وسام رواد 13</h4>
+          <p class="trophy-sub-lbl">احضر الورش واجمع نقاطك لتتويج مسيرتك بوسام التميز</p>
+          <div class="trophy-action-btn">
+            <span>عرض إنجازاتك وتقدمك</span>
+            <i class="fa-solid fa-arrow-left"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

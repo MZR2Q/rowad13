@@ -1,0 +1,399 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="اختبر معلوماتك حول اللوائح والأنظمة الطلابية — جامعة حفر الباطن">
+  <title>اختبر معلوماتك — جامعة حفر الباطن</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}?v=2.0">
+</head>
+<body>
+
+  <!-- Twinkling Stars Background Canvas -->
+  <canvas id="quiz-stars-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"></canvas>
+
+  <!-- Background Floating Orbs -->
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+
+  <div class="quiz-app" id="quiz-app">
+
+    <!-- ═══════ SCREEN 1: REGISTRATION ═══════ -->
+    <section class="screen active" id="screen-register">
+      <div class="quiz-card register-card">
+        <div class="card-header">
+          <img src="{{ url_for('static', filename='img/شعار_رواد_13_شفاف.png') }}" alt="شعار رواد 13" class="quiz-logo">
+          <h1 class="quiz-title">🏆 اختبر معلوماتك</h1>
+          <p class="quiz-subtitle">تحدَّ نفسك في لوائح وأنظمة جامعة حفر الباطن</p>
+        </div>
+
+        <div class="quiz-rules">
+          <div class="rule-item">
+            <i class="fa-solid fa-list-check"></i>
+            <span>5 أسئلة اختيار من متعدد</span>
+          </div>
+          <div class="rule-item">
+            <i class="fa-solid fa-stopwatch"></i>
+            <span>20 ثانية لكل سؤال</span>
+          </div>
+          <div class="rule-item">
+            <i class="fa-solid fa-award"></i>
+            <span>تنافس واحصل على المرتبة الأولى!</span>
+          </div>
+        </div>
+
+        <!-- Auth Mode Tabs -->
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab active" id="quiz-tab-quick" onclick="setQuizAuthMode('quick')">
+            <i class="fa-solid fa-bolt"></i> مسجل من قبل؟ (دخول سريع)
+          </button>
+          <button type="button" class="auth-tab" id="quiz-tab-new" onclick="setQuizAuthMode('new')">
+            <i class="fa-solid fa-user-plus"></i> طالب جديد
+          </button>
+        </div>
+
+        <form id="register-form" class="register-form" data-mode="quick">
+          <div class="input-group" id="group-student-id">
+            <label for="student-id">
+              <i class="fa-solid fa-id-card"></i>
+              الرقم الجامعي
+            </label>
+            <input type="text" id="student-id" placeholder="مثال: 2210001234" required maxlength="10" minlength="10" pattern="\d{10}" inputmode="numeric" title="يجب إدخال الرقم الجامعي المكون من 10 أرقام بالضبط" autocomplete="off">
+          </div>
+          <div class="input-group hidden-auth-field" id="group-student-name" style="display: none;">
+            <label for="student-name">
+              <i class="fa-solid fa-user-graduate"></i>
+              الاسم
+            </label>
+            <input type="text" id="student-name" placeholder="اسمك الكامل" autocomplete="off">
+          </div>
+
+          <div class="input-group" id="group-student-category" style="margin-top: 10px;">
+            <label for="student-category">
+              <i class="fa-solid fa-folder-tree"></i>
+              اختر قسم / تصنيف المسابقة
+            </label>
+            <select id="student-category" style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid rgba(188,136,89,0.3); font-family: inherit; font-size: 0.88rem; font-weight: 600; background: #fff; color: #1e1310; cursor: pointer;">
+              <option value="all">🏆 جميع الأقسام والتصنيفات (اختبار شامل)</option>
+            </select>
+          </div>
+
+          <div id="quiz-lookup-feedback" class="lookup-feedback hidden"></div>
+
+          <button type="submit" class="btn-start" id="btn-start">
+            <span id="btn-start-text">تحقق وابدأ المسابقة</span>
+            <i class="fa-solid fa-circle-play"></i>
+          </button>
+        </form>
+
+        <a href="/" class="back-link">
+          <i class="fa-solid fa-arrow-right"></i>
+          العودة للصفحة الرئيسية
+        </a>
+      </div>
+    </section>
+
+    <!-- ═══════ SCREEN 2: LOADING ═══════ -->
+    <section class="screen" id="screen-loading">
+      <div class="quiz-card loading-card">
+        <div class="loading-spinner">
+          <div class="spinner-ring"></div>
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <h2>جاري تحضير الأسئلة...</h2>
+        <p>الذكاء الاصطناعي يعمل على إنشاء أسئلة من اللوائح الجامعية</p>
+      </div>
+    </section>
+
+    <!-- ═══════ SCREEN 2.5: READY TO START ═══════ -->
+    <section class="screen" id="screen-ready">
+      <div class="quiz-card ready-card" style="text-align: center;">
+        <div class="ready-icon">
+          <i class="fa-solid fa-trophy" style="font-size: 3.5rem; color: var(--q-gold); margin-bottom: 20px;"></i>
+        </div>
+        <h2 style="color: var(--q-maroon); margin-bottom: 12px; font-weight: 800;">تم تجهيز الأسئلة بنجاح!</h2>
+        <p style="color: var(--q-text-muted); line-height: 1.6; margin-bottom: 30px; font-size: 1rem; font-weight: 500;">
+          المسابقة تتكون من ٥ أسئلة حول الأنظمة واللوائح الجامعية.<br>
+          لديك ٢٠ ثانية للإجابة على كل سؤال. هل أنت مستعد للبدء؟
+        </p>
+        <button class="btn-start" id="btn-start-actual" style="max-width: 250px; margin: 0 auto;">
+          <span>ابدأ المسابقة الآن</span>
+          <i class="fa-solid fa-circle-play"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ═══════ SCREEN 3: QUIZ QUESTIONS ═══════ -->
+    <section class="screen" id="screen-quiz">
+      <div class="quiz-card question-card">
+        <!-- Top Bar -->
+        <div class="quiz-top-bar">
+          <div class="question-counter">
+            <span id="q-current">1</span> / <span id="q-total">5</span>
+          </div>
+          <div class="timer-container">
+            <svg class="timer-svg" viewBox="0 0 48 48">
+              <circle class="timer-bg" cx="24" cy="24" r="20"/>
+              <circle class="timer-progress" id="timer-progress" cx="24" cy="24" r="20"/>
+            </svg>
+            <span class="timer-text" id="timer-text">20</span>
+          </div>
+          <div class="score-live">
+            <i class="fa-solid fa-circle-check"></i>
+            <span id="live-score">0</span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+        </div>
+
+        <!-- Question -->
+        <div class="question-body">
+          <h2 class="question-text" id="question-text"></h2>
+        </div>
+
+        <!-- Proof Upload Box -->
+        <div class="proof-upload-box hidden" id="proof-upload-box" style="margin: 16px 0; padding: 16px; background: rgba(188,136,89,0.08); border: 2px dashed var(--q-gold); border-radius: 16px; text-align: center;">
+          <div style="font-size: 0.9rem; font-weight: 700; color: var(--q-maroon); margin-bottom: 10px;">
+            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.3rem; margin-left: 6px; color: var(--c1);"></i>
+            إثبات صورة الشاشة (Screenshot):
+          </div>
+          <input type="file" id="proof-file-input" accept="image/*" style="display: none;" onchange="handleStudentProofUpload(this)">
+          
+          <div id="proof-upload-btn-wrap">
+            <button type="button" class="btn-start" style="max-width: 240px; margin: 0 auto; padding: 10px 16px; font-size: 0.85rem;" onclick="document.getElementById('proof-file-input').click()">
+              <span>اختر صورة الإثبات 📸</span>
+              <i class="fa-solid fa-camera"></i>
+            </button>
+          </div>
+
+          <div id="proof-preview-wrap" style="margin-top: 12px; display: none;">
+            <img id="proof-img-preview" src="" style="max-height: 140px; border-radius: 12px; border: 2px solid var(--q-gold); object-fit: contain;">
+            
+            <div id="proof-confirm-actions" style="margin-top: 10px; display: flex; gap: 10px; justify-content: center; align-items: center;">
+              <button type="button" class="btn-start" style="background: #059669; padding: 8px 16px; font-size: 0.82rem; max-width: 180px;" onclick="confirmQuizStudentProof()">
+                <i class="fa-solid fa-circle-check"></i> تأكيد وحفظ الصورة
+              </button>
+              <button type="button" class="btn-start" style="background: #ef4444; padding: 8px 14px; font-size: 0.82rem; max-width: 130px;" onclick="document.getElementById('proof-file-input').click()">
+                <i class="fa-solid fa-rotate-right"></i> تغيير الصورة
+              </button>
+            </div>
+
+            <div id="proof-confirmed-badge" style="display: none; color: #059669; font-weight: 800; font-size: 0.85rem; margin-top: 8px; background: #ecfdf5; padding: 8px; border-radius: 8px;">
+              <i class="fa-solid fa-circle-check"></i> تم تأكيد وحفظ صورة الإثبات بنجاح!
+              <button type="button" style="background:none; border:none; color:var(--c1); text-decoration:underline; cursor:pointer; font-size:0.78rem; margin-right:6px;" onclick="document.getElementById('proof-file-input').click()">تغيير الصورة</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="options-grid" id="options-grid">
+          <button class="option-btn" data-option="a">
+            <span class="option-letter">أ</span>
+            <span class="option-text" id="opt-a"></span>
+          </button>
+          <button class="option-btn" data-option="b">
+            <span class="option-letter">ب</span>
+            <span class="option-text" id="opt-b"></span>
+          </button>
+          <button class="option-btn" data-option="c">
+            <span class="option-letter">ج</span>
+            <span class="option-text" id="opt-c"></span>
+          </button>
+          <button class="option-btn" data-option="d">
+            <span class="option-letter">د</span>
+            <span class="option-text" id="opt-d"></span>
+          </button>
+        </div>
+
+        <!-- Feedback -->
+        <div class="feedback-area hidden" id="feedback-area">
+          <div class="feedback-icon" id="feedback-icon"></div>
+          <p class="feedback-text" id="feedback-text"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ SCREEN 4: RESULTS ═══════ -->
+    <section class="screen" id="screen-results">
+      <div class="quiz-card results-card">
+        <div class="results-header">
+          <div class="results-emoji" id="results-emoji">🎉</div>
+          <h2 class="results-title" id="results-title">أحسنت!</h2>
+          <p class="results-subtitle" id="results-subtitle">لقد أتممت المسابقة بنجاح</p>
+        </div>
+
+        <div class="score-display">
+          <div class="score-circle" id="score-circle">
+            <svg viewBox="0 0 120 120">
+              <circle class="score-bg" cx="60" cy="60" r="54"/>
+              <circle class="score-fill" id="score-fill" cx="60" cy="60" r="54"/>
+            </svg>
+            <div class="score-value">
+              <span id="score-percent">0</span><small>%</small>
+            </div>
+          </div>
+          <div class="score-details">
+            <div class="detail-item correct">
+              <i class="fa-solid fa-circle-check"></i>
+              <span><strong id="correct-count">0</strong> إجابة صحيحة</span>
+            </div>
+            <div class="detail-item wrong">
+              <i class="fa-solid fa-circle-xmark"></i>
+              <span><strong id="wrong-count">0</strong> إجابة خاطئة</span>
+            </div>
+            <div class="detail-item time">
+              <i class="fa-solid fa-clock"></i>
+              <span><strong id="time-display">0</strong> ثانية</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question Answers Review Section -->
+        <div class="review-section" id="review-section">
+          <h3 class="review-title">
+            <i class="fa-solid fa-list-check"></i>
+            مراجعة الأسئلة والإجابات الصحيحة
+          </h3>
+          <div class="review-list" id="review-list">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="leaderboard-section">
+          <h3 class="leaderboard-title" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-crown"></i>
+            لوحة شرف المتصدرين
+          </h3>
+          
+          <!-- 3D Podium for Top 3 -->
+          <div class="podium-container" id="podium-container">
+            <!-- 2nd Place -->
+            <div class="podium-step step-2" id="podium-step-2">
+              <div class="podium-avatar">
+                <i class="fa-solid fa-medal silver-medal"></i>
+                <span class="podium-name" id="podium-2-name">المركز الثاني</span>
+              </div>
+              <div class="podium-bar">
+                <span class="podium-rank">2</span>
+                <span class="podium-score" id="podium-2-score">--</span>
+              </div>
+            </div>
+            
+            <!-- 1st Place -->
+            <div class="podium-step step-1" id="podium-step-1">
+              <div class="podium-avatar">
+                <div class="crown-wrapper">
+                  <i class="fa-solid fa-crown gold-crown"></i>
+                </div>
+                <span class="podium-name" id="podium-1-name">المركز الأول</span>
+              </div>
+              <div class="podium-bar">
+                <span class="podium-rank">1</span>
+                <span class="podium-score" id="podium-1-score">--</span>
+              </div>
+            </div>
+
+            <!-- 3rd Place -->
+            <div class="podium-step step-3" id="podium-step-3">
+              <div class="podium-avatar">
+                <i class="fa-solid fa-medal bronze-medal"></i>
+                <span class="podium-name" id="podium-3-name">المركز الثالث</span>
+              </div>
+              <div class="podium-bar">
+                <span class="podium-rank">3</span>
+                <span class="podium-score" id="podium-3-score">--</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="leaderboard-list" id="leaderboard-list">
+            <!-- Filled by JS (4th and lower) -->
+          </div>
+        </div>
+
+        <div class="results-actions">
+          <button class="btn-retry" id="btn-retry">
+            <i class="fa-solid fa-rotate-right"></i>
+            <span>حاول مرة أخرى</span>
+          </button>
+          <a href="/" class="btn-home">
+            <i class="fa-solid fa-house"></i>
+            <span>الصفحة الرئيسية</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/quiz.js') }}?v=2.0"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('quiz-stars-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        const maxStars = 50;
+
+        const resizeCanvas = () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          initStars();
+        };
+
+        const initStars = () => {
+          stars = [];
+          for (let i = 0; i < maxStars; i++) {
+            stars.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              r: Math.random() * 1.2 + 0.4,
+              opacity: Math.random() * 0.4,
+              speed: Math.random() * 0.008 + 0.002,
+              direction: Math.random() > 0.5 ? 1 : -1
+            });
+          }
+        };
+
+        const drawStars = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          stars.forEach(star => {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(201, 162, 39, ${star.opacity})`; // gold accent
+            if (Math.random() > 0.9) {
+              ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`; // white stars
+            }
+            ctx.fill();
+
+            star.opacity += star.speed * star.direction;
+            if (star.opacity >= 0.45) {
+              star.direction = -1;
+            } else if (star.opacity <= 0.05) {
+              star.direction = 1;
+              star.x = Math.random() * canvas.width;
+              star.y = Math.random() * canvas.height;
+            }
+          });
+          requestAnimationFrame(drawStars);
+        };
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawStars();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,671 @@
+  <!-- ═══ MODAL: لوحة إنجازات وتتبع حساب الطالب (يظهر للطالب في حسابه) ═══ -->
+  <div class="student-profile-modal-overlay" id="student-profile-modal" style="display:none;">
+    <div class="overlay-backdrop" onclick="closeStudentProfileModal()"
+      style="background:rgba(20, 10, 8, 0.65); backdrop-filter:blur(8px);"></div>
+    <div class="student-profile-light-card">
+      <button class="sp-light-close-btn" onclick="closeStudentProfileModal()" title="إغلاق"><i
+          class="fa-solid fa-xmark"></i></button>
+
+      <!-- Top Header Pill matching image -->
+      <div class="sp-light-top-pill">
+        <span class="sp-pill-label">يظهر للطالب في حسابه</span>
+        <span class="sp-pill-id" id="sp-pill-id-text">الرقم: 2230005709</span>
+      </div>
+
+      <!-- 4 Core Columns matching user's image exactly -->
+      <div class="sp-light-columns">
+        <!-- Column 1: النقاط الحالية -->
+        <div class="sp-light-col">
+          <div class="sp-light-icon"><i class="fa-solid fa-trophy"></i></div>
+          <div class="sp-light-val" id="sp-kpi-points">0 نقطة</div>
+          <div class="sp-light-lbl">النقاط الحالية</div>
+        </div>
+
+        <!-- Column 2: نسبة الإنجاز -->
+        <div class="sp-light-col">
+          <div class="sp-light-icon"><i class="fa-solid fa-chart-pie"></i></div>
+          <div class="sp-light-val" id="sp-kpi-progress">0%</div>
+          <div class="sp-light-lbl">نسبة الإنجاز</div>
+        </div>
+
+        <!-- Column 3: المحطات المتبقية -->
+        <div class="sp-light-col">
+          <div class="sp-light-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+          <div class="sp-light-val maroon-val" id="sp-kpi-remaining">5 محطات</div>
+          <div class="sp-light-lbl">المحطات المتبقية</div>
+        </div>
+
+        <!-- Column 4: ترتيبه -->
+        <div class="sp-light-col">
+          <div class="sp-light-icon"><i class="fa-solid fa-ranking-star"></i></div>
+          <div class="sp-light-val maroon-val" id="sp-kpi-rank">#5 (مبتدئ)</div>
+          <div class="sp-light-lbl">ترتيبه</div>
+        </div>
+      </div>
+
+      <!-- ═══ Official Student Bio Card ═══ -->
+      <div class="sp-official-bio-card" id="sp-official-bio-card">
+        <div class="sp-bio-header">
+          <div class="sp-bio-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+          <div class="sp-bio-main">
+            <h3 class="sp-bio-name" id="sp-bio-fullname">طالب رواد المستجد</h3>
+            <span class="sp-bio-college" id="sp-bio-college"><i class="fa-solid fa-building-columns"></i> جامعة حفر الباطن</span>
+          </div>
+          <span class="sp-bio-status-badge"><i class="fa-solid fa-circle-check"></i> طالب مستجد معتمد</span>
+        </div>
+        <div class="sp-bio-grid">
+          <div class="sp-bio-item">
+            <span class="sp-bio-lbl"><i class="fa-solid fa-id-card"></i> الرقم الجامعي:</span>
+            <strong class="sp-bio-val" id="sp-bio-studentid">—</strong>
+          </div>
+          <div class="sp-bio-item">
+            <span class="sp-bio-lbl"><i class="fa-solid fa-address-card"></i> رقم الهوية:</span>
+            <strong class="sp-bio-val" id="sp-bio-nationalid">—</strong>
+          </div>
+          <div class="sp-bio-item">
+            <span class="sp-bio-lbl"><i class="fa-solid fa-phone"></i> رقم الجوال:</span>
+            <strong class="sp-bio-val" id="sp-bio-mobile">—</strong>
+          </div>
+          <div class="sp-bio-item">
+            <span class="sp-bio-lbl"><i class="fa-solid fa-venus-mars"></i> الجنس:</span>
+            <strong class="sp-bio-val" id="sp-bio-gender">—</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ مستويات الإنجاز (Matching User Image Exactly) ═══ -->
+      <div class="sp-levels-section">
+        <div class="sp-levels-header-bar">
+          <span class="sp-diamond-icon">◆</span>
+          <span class="sp-levels-main-title">مستويات الإنجاز</span>
+          <span class="sp-diamond-icon">◆</span>
+        </div>
+
+        <div class="sp-levels-track">
+          <!-- Connecting Line -->
+          <div class="sp-levels-connecting-line">
+            <div class="sp-levels-fill-bar" id="sp-levels-fill-bar" style="width: 0%;"></div>
+          </div>
+
+          <!-- Level 1: مستكشف (< 50%) -->
+          <div class="sp-level-node" id="sp-lvl-1">
+            <div class="sp-level-circle">
+              <i class="fa-solid fa-compass"></i>
+            </div>
+            <div class="sp-level-name">مستكشف</div>
+            <div class="sp-level-range">أقل من 50%</div>
+          </div>
+
+          <!-- Level 2: مبادر (50% - 70%) -->
+          <div class="sp-level-node" id="sp-lvl-2">
+            <div class="sp-level-circle">
+              <i class="fa-solid fa-rocket"></i>
+            </div>
+            <div class="sp-level-name">مبادر</div>
+            <div class="sp-level-range">من 50% إلى 70%</div>
+          </div>
+
+          <!-- Level 3: متمكن (75% - 90%) -->
+          <div class="sp-level-node" id="sp-lvl-3">
+            <div class="sp-level-circle">
+              <i class="fa-solid fa-award"></i>
+            </div>
+            <div class="sp-level-name">متمكن</div>
+            <div class="sp-level-range">من 75% إلى 90%</div>
+          </div>
+
+          <!-- Level 4: سفير رواد (90% - 100%) -->
+          <div class="sp-level-node" id="sp-lvl-4">
+            <div class="sp-level-circle">
+              <i class="fa-solid fa-crown"></i>
+            </div>
+            <div class="sp-level-name">سفير رواد</div>
+            <div class="sp-level-range">من 90% إلى 100%</div>
+          </div>
+        </div>
+
+        <div class="sp-levels-note">
+          <span>عند استكمال الرحلة كاملة يحصل الطالب على شارة (سفير رواد 13).</span>
+        </div>
+      </div>
+
+      <!-- Concise Summary Roadmap (أين وصل الطالب وماذا بقي له بشكل أنيق ومختصر) -->
+      <div class="sp-light-summary-box">
+        <div class="sp-summary-header">
+          <span><i class="fa-solid fa-list-check" style="color:#872A08;"></i> أين وصلت في رحلة رواد 13 وما تبقى
+            لك:</span>
+        </div>
+        <div class="sp-summary-grid" id="sp-summary-grid">
+          <!-- Dynamic clean checklist -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ JOURNEY OVERLAY ═══ -->
+  <div class="journey-fullscreen" id="journey-fullscreen">
+    <canvas class="journey-canvas" id="journey-canvas"></canvas>
+    <div class="journey-backdrop" onclick="closeJourney()"></div>
+
+    <!-- Top Bar -->
+    <div class="journey-topbar">
+      <div class="journey-top-left">
+        <div class="journey-timer"><i class="fa-solid fa-stopwatch"></i> <span id="j-timer">00:00</span></div>
+        <div class="journey-score"><span id="j-score">0</span> نقطة <i class="fa-solid fa-star"
+            style="color:var(--gold)"></i></div>
+      </div>
+      <div class="journey-top-center">
+        <span id="j-step-label" class="journey-step-label">التسجيل</span>
+      </div>
+      <div class="journey-top-right">
+        <button class="journey-close-btn" onclick="closeJourney()"><i class="fa-solid fa-xmark"></i> إغلاق</button>
+      </div>
+    </div>
+
+    <!-- Stepper Progress -->
+    <div class="journey-stepper" id="journey-stepper"></div>
+
+    <!-- Progress Bar -->
+    <div class="journey-progress-wrap" id="journey-progress-wrap">
+      <div class="journey-progress-bar">
+        <div class="journey-progress-fill" id="journey-progress-fill" style="width:0%"></div>
+      </div>
+      <span class="journey-progress-text" id="journey-progress-text">0%</span>
+    </div>
+
+    <!-- Slides -->
+    <div class="journey-slides-viewport">
+      <div class="journey-slides-track" id="journey-slides-track">
+
+        <!-- SLIDE 0: التسجيل بالرقم الجامعي فقط -->
+        <div class="j-slide" id="j-slide-0">
+          <div class="j-slide-content">
+            <div class="j-reg-card">
+              <div class="j-reg-header">
+                <div class="j-reg-avatar"><i class="fa-solid fa-id-card"></i></div>
+                <h2>مرحباً بك في اختبار ختام رحلة رواد 13!</h2>
+                <p class="j-reg-subtitle"><i class="fa-solid fa-clipboard-check"></i> أدخل رقمك الجامعي لبدء الاختبار (20 نقطة) وحفظ نتيجتك
+                  تلقائياً</p>
+              </div>
+              <div class="j-form">
+                <div class="j-form-group">
+                  <label><i class="fa-solid fa-hashtag"></i> الرقم الجامعي</label>
+                  <div class="j-input-wrap">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <input type="text" id="j-reg-id" placeholder="مثال: 4451001234" class="j-input" autocomplete="off"
+                      inputmode="numeric" maxlength="10" oninput="checkExistingStudentOnInput()"
+                      style="text-align:center; font-size:1.1rem; font-weight:700; letter-spacing:1px;">
+                  </div>
+                </div>
+
+                <!-- استئناف التقدم المحفوظ تلقائياً -->
+                <div id="j-resume-box" style="display:none; margin-bottom:14px;"></div>
+
+                <button class="j-btn-primary j-reg-btn" id="j-btn-start-reg" onclick="journeyRegister()">
+                  <i class="fa-solid fa-play"></i>
+                  <span>ابدأ الاختبار الآن!</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ المحطة الأولى: اختبار عن الجامعة ═══ -->
+
+        <!-- SLIDE 4: اختبار المحطة الأولى - سؤال 1 -->
+        <div class="j-slide" id="j-slide-4">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الأولى | سؤال 1 من 3
+            </div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>في أي سنة هجرية تأسست جامعة حفر الباطن؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-4">
+              <button class="j-option-btn" onclick="journeyAnswer(4, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">1435هـ</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(4, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">1420هـ</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(4, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">1445هـ</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-4"></div>
+          </div>
+        </div>
+
+        <!-- SLIDE 5: اختبار المحطة الأولى - سؤال 2 -->
+        <div class="j-slide" id="j-slide-5">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الأولى | سؤال 2 من 3
+            </div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>كم عدد كليات جامعة حفر الباطن؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-5">
+              <button class="j-option-btn" onclick="journeyAnswer(5, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">10 كليات</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(5, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">5 كليات</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(5, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">15 كلية</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-5"></div>
+          </div>
+        </div>
+
+        <!-- SLIDE 6: اختبار المحطة الأولى - سؤال 3 -->
+        <div class="j-slide" id="j-slide-6">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الأولى | سؤال 3 من 3
+            </div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>ما هما اللونان الرسميان المعتمدان في الهوية البصرية للجامعة؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-6">
+              <button class="j-option-btn" onclick="journeyAnswer(6, this, 0)"
+                style="display:flex; align-items:center; justify-content:flex-start; gap:14px; padding:12px 18px;">
+                <span class="j-opt-letter">أ</span>
+                <div style="display:flex; align-items:center; gap:12px; flex:1;">
+                  <div style="display:flex; gap:6px; align-items:center;">
+                    <span
+                      style="width:28px; height:28px; border-radius:50%; background:#872A08; border:2px solid rgba(255,255,255,0.4); box-shadow:0 3px 8px rgba(0,0,0,0.35); display:inline-block;"
+                      title="#872A08"></span>
+                    <span
+                      style="width:28px; height:28px; border-radius:50%; background:#EFC68F; border:2px solid rgba(255,255,255,0.4); box-shadow:0 3px 8px rgba(0,0,0,0.35); display:inline-block;"
+                      title="#EFC68F"></span>
+                  </div>
+                  <span class="j-opt-text"
+                    style="font-weight:700; direction:ltr; font-family:monospace; font-size:0.95rem; letter-spacing:0.5px;">#872A08
+                    &nbsp;|&nbsp; #EFC68F</span>
+                </div>
+              </button>
+              <button class="j-option-btn" onclick="journeyAnswer(6, this, 1)"
+                style="display:flex; align-items:center; justify-content:flex-start; gap:14px; padding:12px 18px;">
+                <span class="j-opt-letter">ب</span>
+                <div style="display:flex; align-items:center; gap:12px; flex:1;">
+                  <div style="display:flex; gap:6px; align-items:center;">
+                    <span
+                      style="width:28px; height:28px; border-radius:50%; background:#1E40AF; border:2px solid rgba(255,255,255,0.4); box-shadow:0 3px 8px rgba(0,0,0,0.35); display:inline-block;"
+                      title="#1E40AF"></span>
+                    <span
+                      style="width:28px; height:28px; border-radius:50%; background:#93C5FD; border:2px solid rgba(255,255,255,0.4); box-shadow:0 3px 8px rgba(0,0,0,0.35); display:inline-block;"
+                      title="#93C5FD"></span>
+                  </div>
+                  <span class="j-opt-text"
+                    style="font-weight:700; direction:ltr; font-family:monospace; font-size:0.95rem; letter-spacing:0.5px;">#1E40AF
+                    &nbsp;|&nbsp; #93C5FD</span>
+                </div>
+              </button>
+              <button class="j-option-btn" onclick="journeyAnswer(6, this, 2)"
+                style="display:flex; align-items:center; justify-content:flex-start; gap:14px; padding:12px 18px;">
+                <span class="j-opt-letter">ج</span>
+                <div style="display:flex; align-items:center; gap:12px; flex:1;">
+                  <div style="display:flex; gap:6px; align-items:center;">
+                    <span
+                      style="width:28px; height:28px; border-radius:50%; background:#047857; border:2px solid rgba(255,255,255,0.4); box-shadow:0 3px 8px rgba(0,0,0,0.35); display:inline-block;"
+                      title="#047857"></span>
+                    <span
+                      style="width:28px; height:28px; border-radius:50%; background:#1F2937; border:2px solid rgba(255,255,255,0.4); box-shadow:0 3px 8px rgba(0,0,0,0.35); display:inline-block;"
+                      title="#1F2937"></span>
+                  </div>
+                  <span class="j-opt-text"
+                    style="font-weight:700; direction:ltr; font-family:monospace; font-size:0.95rem; letter-spacing:0.5px;">#047857
+                    &nbsp;|&nbsp; #1F2937</span>
+                </div>
+              </button>
+            </div>
+            <div class="j-feedback" id="j-feedback-6"></div>
+          </div>
+        </div>
+
+        <!-- ═══ المحطة الثانية: اختبار الأنظمة التقنية ═══ -->
+
+        <!-- SLIDE 10: إثبات تفعيل البريد الجامعي (إرفاق صورة) -->
+        <div class="j-slide" id="j-slide-10">
+          <div class="j-slide-content wide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-camera-retro"></i> المحطة الثانية | مهمة عملية (1 من 2) ⭐
+            </div>
+            <div class="j-slide-icon" style="background:rgba(122,49,23,0.12); color:#7A3117;"><i
+                class="fa-solid fa-envelope-circle-check"></i></div>
+            <h2>المهمة الأولى: أرفق صورة إثبات تفعيل بريدك الجامعي (Outlook)</h2>
+            <div class="j-proof-guide-card"
+              style="background:rgba(255,255,255,0.9); border:1px solid rgba(211,180,139,0.4); border-radius:12px; padding:14px 18px; margin:12px 0; text-align:right;">
+              <strong style="color:#7A3117; font-size:0.92rem; display:block; margin-bottom:6px;"><i
+                  class="fa-solid fa-list-check"></i> خطوات إتمام المهمة:</strong>
+              <p style="margin:4px 0; color:#241A14; font-size:0.86rem; font-weight:600;">١. افتح بريدك الجامعي عبر
+                تطبيق <strong>(Outlook)</strong> أو من المتصفح <code dir="ltr">portal.office.com</code>.</p>
+              <p style="margin:4px 0; color:#241A14; font-size:0.86rem; font-weight:600;">٢. التقط لقطة شاشة
+                <strong>(Screenshot)</strong> لواجهة بريدك أو صندوق الوارد.
+              </p>
+              <p style="margin:4px 0; color:#241A14; font-size:0.86rem; font-weight:600;">٣. ارفع لقطة الشاشة في المربع
+                أدناه ثم اضغط <strong>«تأكيد الإرسال والتوثيق»</strong> لتحصل على <strong>+5 نقاط</strong> فورية!</p>
+            </div>
+
+            <div class="j-proof-upload-box" id="j-dropzone-10">
+              <input type="file" id="proof-email-input" accept="image/*" class="j-proof-file-input"
+                onchange="previewJourneyProof(10, this, 'email')">
+              <label for="proof-email-input" class="j-proof-upload-label">
+                <div class="upload-icon-circle"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <strong class="upload-main-text">اضغط هنا لاختيار صورة الإثبات من جهازك أو اسحبها هنا</strong>
+                <span class="upload-sub-text"><i class="fa-solid fa-image"></i> ارفع لقطة شاشة البريد الجامعي (Outlook /
+                  Office
+                  365)</span>
+              </label>
+              <div class="j-proof-preview" id="j-proof-preview-10" style="display:none;"></div>
+            </div>
+            <div class="j-feedback" id="j-feedback-10"></div>
+          </div>
+        </div>
+
+        <!-- SLIDE 11: إثبات الدخول لمنصة نظام التعليم الإلكتروني (إرفاق صورة) -->
+        <div class="j-slide" id="j-slide-11">
+          <div class="j-slide-content wide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-camera-retro"></i> المحطة الثانية | مهمة عملية (2 من 2) ⭐
+            </div>
+            <div class="j-slide-icon" style="background:rgba(122,49,23,0.12); color:#7A3117;"><i
+                class="fa-solid fa-display"></i></div>
+            <h2>المهمة الثانية: أرفق صورة إثبات دخولك لمنصة نظام التعليم الإلكتروني (Blackboard)</h2>
+            <div class="j-proof-guide-card"
+              style="background:rgba(255,255,255,0.9); border:1px solid rgba(211,180,139,0.4); border-radius:12px; padding:14px 18px; margin:12px 0; text-align:right;">
+              <strong style="color:#7A3117; font-size:0.92rem; display:block; margin-bottom:6px;"><i
+                  class="fa-solid fa-list-check"></i> خطوات إتمام المهمة:</strong>
+              <p style="margin:4px 0; color:#241A14; font-size:0.86rem; font-weight:600;">١. سجّل دخولك إلى نظام البلاك
+                بورد <code dir="ltr">blackboard.uhb.edu.sa</code>.</p>
+              <p style="margin:4px 0; color:#241A14; font-size:0.86rem; font-weight:600;">٢. التقط لقطة شاشة
+                <strong>(Screenshot)</strong> لصفحة مقرراتك الدراسية أو الرئيسية.
+              </p>
+              <p style="margin:4px 0; color:#241A14; font-size:0.86rem; font-weight:600;">٣. ارفع لقطة الشاشة في المربع
+                أدناه ثم اضغط <strong>«تأكيد الإرسال والتوثيق»</strong> لتحصل على <strong>+5 نقاط</strong> فورية!</p>
+            </div>
+
+            <div class="j-proof-upload-box" id="j-dropzone-11">
+              <input type="file" id="proof-bb-input" accept="image/*" class="j-proof-file-input"
+                onchange="previewJourneyProof(11, this, 'blackboard')">
+              <label for="proof-bb-input" class="j-proof-upload-label">
+                <div class="upload-icon-circle"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <strong class="upload-main-text">اضغط هنا لاختيار صورة الإثبات من جهازك أو اسحبها هنا</strong>
+                <span class="upload-sub-text"><i class="fa-solid fa-image"></i> ارفع لقطة شاشة منصة نظام التعليم
+                  الإلكتروني
+                  (Blackboard)</span>
+              </label>
+              <div class="j-proof-preview" id="j-proof-preview-11" style="display:none;"></div>
+            </div>
+            <div class="j-feedback" id="j-feedback-11"></div>
+          </div>
+        </div>
+
+        <!-- SLIDE 12: اختبار المحطة الثانية - سؤال 3 -->
+        <div class="j-slide" id="j-slide-12">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الثانية | سؤال 3 من
+              3</div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>أين يقدّم الطالب طلب التحويل بين التخصصات؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-12">
+              <button class="j-option-btn" onclick="journeyAnswer(12, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">عبر البوابة الأكاديمية إلكترونياً</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(12, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">بزيارة الكلية شخصياً فقط</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(12, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">بالاتصال الهاتفي</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-12"></div>
+          </div>
+        </div>
+
+        <!-- ═══ المحطة الثالثة: اختبار حقوقك وواجباتك ═══ -->
+
+        <!-- SLIDE 15: اختبار المحطة الثالثة - سؤال 1 -->
+        <div class="j-slide" id="j-slide-15">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الثالثة | سؤال 1 من
+              3</div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>إذا تجاوز غياب الطالب 25% من المحاضرات، ماذا يحصل؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-15">
+              <button class="j-option-btn" onclick="journeyAnswer(15, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">لا يحصل شيء</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(15, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">يُحرم من دخول الاختبار النهائي</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(15, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">يحصل على إنذار فقط</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-15"></div>
+          </div>
+        </div>
+
+        <!-- SLIDE 16: اختبار المحطة الثالثة - سؤال 2 -->
+        <div class="j-slide" id="j-slide-16">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الثالثة | سؤال 2 من
+              3</div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>ما عقوبة الغش في الاختبارات حسب لائحة الانضباط؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-16">
+              <button class="j-option-btn" onclick="journeyAnswer(16, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">إنذار خطي فقط</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(16, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">رسوب في المقرر وتسجيل المخالفة</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(16, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">لا توجد عقوبة</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-16"></div>
+          </div>
+        </div>
+
+        <!-- SLIDE 17: اختبار المحطة الثالثة - سؤال 3 -->
+        <div class="j-slide" id="j-slide-17">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الثالثة | سؤال 3 من
+              3</div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>هل يحق للطالب التظلم من قرار تأديبي؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-17">
+              <button class="j-option-btn" onclick="journeyAnswer(17, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">نعم، خلال 15 يوماً من إبلاغه</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(17, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">لا يحق له التظلم</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(17, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">فقط بعد سنة</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-17"></div>
+          </div>
+        </div>
+
+        <!-- ═══ المحطة الرابعة: اختبار القبول والتسجيل ═══ -->
+
+        <!-- SLIDE 21: اختبار المحطة الرابعة - سؤال 1 -->
+        <div class="j-slide" id="j-slide-21">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الرابعة | سؤال 1 من
+              3</div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>من أين يقدّم الطالب طلب الاعتذار عن الفصل الدراسي؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-21">
+              <button class="j-option-btn" onclick="journeyAnswer(21, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">من البوابة الأكاديمية (سجلات الطلاب)</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(21, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">بالاتصال على رقم الجامعة</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(21, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">بالذهاب للعمادة شخصياً</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-21"></div>
+          </div>
+        </div>
+
+        <!-- SLIDE 22: اختبار المحطة الرابعة - سؤال 2 -->
+        <div class="j-slide" id="j-slide-22">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الرابعة | سؤال 2 من
+              3</div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>ما أقل معدل تراكمي للحصول على مرتبة الشرف الأولى عند التخرج (من 4.00)؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-22">
+              <button class="j-option-btn" onclick="journeyAnswer(22, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">3.75 من 4.00</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(22, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">3.25 من 4.00</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(22, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">3.00 من 4.00</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-22"></div>
+          </div>
+        </div>
+
+        <!-- SLIDE 23: اختبار المحطة الرابعة - سؤال 3 -->
+        <div class="j-slide" id="j-slide-23">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الرابعة | سؤال 3 من
+              3</div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>أين يمكن للطالب طباعة الإفادة الطلابية الرسمية؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-23">
+              <button class="j-option-btn" onclick="journeyAnswer(23, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">من نظام سجلات الطلاب (البوابة الأكاديمية)</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(23, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">من البريد الإلكتروني</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(23, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">من مكتب الأستاذ</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-23"></div>
+          </div>
+        </div>
+
+        <!-- ═══ المحطة الخامسة: اختبار شؤون الطلاب ═══ -->
+
+        <!-- SLIDE 27: اختبار المحطة الخامسة - سؤال 1 -->
+        <div class="j-slide" id="j-slide-27">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الخامسة | سؤال 1 من
+              3</div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>أي جهة في الجامعة تقدم السُلف والإعانات المالية للطالب؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-27">
+              <button class="j-option-btn" onclick="journeyAnswer(27, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">عمادة شؤون الطلاب</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(27, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">عمادة القبول والتسجيل</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(27, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">كلية إدارة الأعمال</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-27"></div>
+          </div>
+        </div>
+
+        <!-- SLIDE 28: اختبار المحطة الخامسة - سؤال 2 -->
+        <div class="j-slide" id="j-slide-28">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الخامسة | سؤال 2 من
+              3</div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>ما فائدة السجل المهاري للطالب؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-28">
+              <button class="j-option-btn" onclick="journeyAnswer(28, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">وثيقة رسمية تُوثق أنشطته ودوراته لسوق العمل</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(28, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">بطاقة دخول للمكتبة</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(28, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">كشف درجات إضافي</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-28"></div>
+          </div>
+        </div>
+
+        <!-- SLIDE 29: اختبار المحطة الخامسة - سؤال 3 -->
+        <div class="j-slide" id="j-slide-29">
+          <div class="j-slide-content">
+            <div class="j-slide-badge"><i class="fa-solid fa-clipboard-question"></i> اختبار المحطة الخامسة | سؤال 3 من
+              3</div>
+            <div class="j-slide-icon"><i class="fa-solid fa-circle-question"></i></div>
+            <h2>ما المقصود بالتشغيل الطلابي؟</h2>
+            <p class="j-slide-desc">اختر الإجابة الصحيحة:</p>
+            <div class="j-options" id="j-options-29">
+              <button class="j-option-btn" onclick="journeyAnswer(29, this, 0)"><span class="j-opt-letter">أ</span><span
+                  class="j-opt-text">فرص عمل جزئي مدفوعة داخل الجامعة أثناء الدراسة</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(29, this, 1)"><span class="j-opt-letter">ب</span><span
+                  class="j-opt-text">تسجيل المقررات تلقائياً</span></button>
+              <button class="j-option-btn" onclick="journeyAnswer(29, this, 2)"><span class="j-opt-letter">ج</span><span
+                  class="j-opt-text">نظام حضور إلكتروني</span></button>
+            </div>
+            <div class="j-feedback" id="j-feedback-29"></div>
+          </div>
+        </div>
+
+        <!-- ═══ النتيجة والتكريم ═══ -->
+
+        <!-- SLIDE 30: Celebration (لوحة التكريم والنتيجة الذكية) -->
+        <div class="j-slide" id="j-slide-30">
+          <div class="j-slide-content celebration">
+            <div class="j-slide-icon celebration-icon"><i class="fa-solid fa-trophy"></i></div>
+            <h2>مبروك! أنهيت اختبار ختام رحلة رواد 13!</h2>
+            <p class="j-slide-desc">أحسنت! أتممت بنجاح اختبار ختام الرحلة وقست جاهزيتك الأكاديمية والأنظمة الجامعية</p>
+
+            <div class="celebration-score-breakdown-card"
+              style="background:rgba(255,255,255,0.95); border:2px solid #7A3117; border-radius:18px; padding:18px 24px; margin:16px auto; max-width:480px; box-shadow:0 8px 24px rgba(122,49,23,0.12); text-align:center;">
+              <div class="celebration-score" style="margin-bottom:12px;">
+                <span class="score-number" id="j-final-score"
+                  style="font-size:2.8rem; font-weight:900; color:#7A3117;">0</span>
+                <span class="score-label" style="font-size:1.1rem; font-weight:800; color:#1E1713;">نقطة من 20 نقطة للاختبار</span>
+              </div>
+
+              <div
+                style="display:flex; justify-content:space-around; align-items:center; border-top:1px dashed rgba(122,49,23,0.3); border-bottom:1px dashed rgba(122,49,23,0.3); padding:10px 0; margin:10px 0;">
+                <div style="text-align:center;">
+                  <span style="display:block; font-size:0.8rem; color:#7A3117; font-weight:700;"><i
+                      class="fa-solid fa-circle-check"></i> الإجابات الصحيحة</span>
+                  <strong id="j-final-q-score" style="font-size:1.1rem; color:#1E1713;">0 / 15</strong>
+                </div>
+                <div style="width:1px; height:30px; background:rgba(122,49,23,0.2);"></div>
+                <div style="text-align:center;">
+                  <span style="display:block; font-size:0.8rem; color:#7A3117; font-weight:700;"><i
+                      class="fa-solid fa-percent"></i> نسبة الإتقان</span>
+                  <strong id="j-final-v-score" style="font-size:1.1rem; color:#1E1713;">0%</strong>
+                </div>
+                <div style="width:1px; height:30px; background:rgba(122,49,23,0.2);"></div>
+                <div style="text-align:center;">
+                  <span style="display:block; font-size:0.8rem; color:#7A3117; font-weight:700;"><i
+                      class="fa-solid fa-stopwatch"></i> الوقت المستغرق</span>
+                  <strong id="j-final-time" style="font-size:1.1rem; color:#1E1713;">00:00</strong>
+                </div>
+              </div>
+
+              <div
+                style="font-size:0.82rem; color:#059669; font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px; margin-top:6px;">
+                <i class="fa-solid fa-award"></i>
+                <span>تم توثيق وحفظ نتيجتك في نظام رواد 13 بنجاح</span>
+              </div>
+            </div>
+
+            <div class="celebration-stars" id="j-stars">
+              <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i
+                class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+            </div>
+            <div class="celebration-actions">
+              <button class="j-btn-primary" onclick="restartJourney()"><i class="fa-solid fa-arrow-rotate-right"></i>
+                أعد الرحلة</button>
+              <button class="j-btn-secondary" onclick="closeJourney()"><i class="fa-solid fa-house"></i> العودة
+                للرئيسية</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="journey-bottom-nav">
+      <button class="j-nav-btn prev" id="j-btn-prev" onclick="journeyPrev()" disabled><i
+          class="fa-solid fa-arrow-right"></i> السابق</button>
+      <div></div>
+      <button class="j-nav-btn next" id="j-btn-next" onclick="journeyNext()">التالي <i
+          class="fa-solid fa-arrow-left"></i></button>
+    </div>
+  </div>
+

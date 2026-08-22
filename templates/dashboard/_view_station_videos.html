@@ -1,0 +1,140 @@
+      <div id="view-station-videos" class="dash-view-tab" style="display:none;">
+        <div class="card" style="border-radius:var(--r-lg); overflow:hidden; margin-bottom:20px;">
+          <div class="ch" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="ch-icon" style="background:rgba(124,58,237,0.15);">
+                <i class="fa-solid fa-film" style="color:#7c3aed;"></i>
+              </div>
+              <div>
+                <h2>إدارة مقاطع المحطات الافتراضية</h2>
+                <p style="font-size:0.8rem; color:var(--ink-500); margin-top:2px;">أضف مقاطع فيديو وربطها بمحطات الرحلة — النقاط تتوزع تلقائياً بالتساوي على كل عناصر المحطة</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <button class="btn-primary" onclick="openStationVideoModal()" style="background:linear-gradient(135deg, #7c3aed, #8b5cf6);">
+                <i class="fa-solid fa-plus"></i> إضافة مقطع جديد 🎬
+              </button>
+              <button class="btn-outline" onclick="fetchStationVideos()" style="border-color:#7c3aed; color:#7c3aed;">
+                <i class="fa-solid fa-rotate"></i> تحديث
+              </button>
+            </div>
+          </div>
+
+          <div class="cb" style="padding:20px;">
+            <!-- Info Alert -->
+            <div style="background:linear-gradient(135deg, rgba(124,58,237,0.06), rgba(139,92,246,0.02)); border:1px solid rgba(124,58,237,0.2); border-radius:12px; padding:14px 18px; margin-bottom:20px;">
+              <div style="font-weight:800; color:#7c3aed; font-size:0.85rem; margin-bottom:6px;"><i class="fa-solid fa-circle-info"></i> كيف تعمل نقاط المقاطع؟</div>
+              <div style="font-size:0.8rem; color:var(--ink-600); line-height:1.7;">
+                • كل مقطع يُربط بمحطة → نقاط المحطة <strong>تتقسم بالتساوي</strong> على كل عناصرها (ملفات + مقاطع)<br>
+                • مثال: المحطة الأولى (10 نقاط) + 3 ملفات = 3.33 لكل عنصر. لو أضفت مقطع = 4 عناصر → 2.5 لكل عنصر<br>
+                • المقطع بدون محطة → يظهر للطالب لكن <strong>بدون نقاط</strong>
+              </div>
+            </div>
+
+            <!-- Station Videos Table -->
+            <div style="overflow-x:auto; border:1px solid rgba(124,58,237,0.2); border-radius:12px; background:#fff;">
+              <table style="width:100%; border-collapse:collapse; text-align:right; font-size:0.88rem;">
+                <thead>
+                  <tr style="background:rgba(124,58,237,0.05); border-bottom:2px solid rgba(124,58,237,0.15); color:var(--ink-700);">
+                    <th style="padding:12px; font-weight:800; text-align:center; width:50px;">#</th>
+                    <th style="padding:12px 14px; font-weight:800;">عنوان المقطع</th>
+                    <th style="padding:12px 14px; font-weight:800; text-align:center;">المحطة التابع لها</th>
+                    <th style="padding:12px 14px; font-weight:800; text-align:center;">الحالة</th>
+                    <th style="padding:12px 14px; font-weight:800; text-align:center;">الرابط</th>
+                    <th style="padding:12px 14px; font-weight:800; text-align:center;">إجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="station-videos-tbody">
+                  <tr><td colspan="6" style="text-align:center; padding:40px; color:var(--ink-400);">
+                    <i class="fa-solid fa-film" style="font-size:2rem; margin-bottom:8px; display:block; color:var(--ink-300);"></i>
+                    لا توجد مقاطع بعد — اضغط "إضافة مقطع جديد" للبدء
+                  </td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Station Video Add/Edit Modal -->
+      <div id="stationVideoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background:rgba(0,0,0,0.5); backdrop-filter:blur(4px);" onclick="if(event.target===this)closeStationVideoModal()">
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:18px; padding:30px; width:90%; max-width:520px; box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h3 style="margin:0; font-size:1.1rem; font-weight:900; color:#7c3aed;" id="stationVideoModalTitle">
+              <i class="fa-solid fa-film"></i> إضافة مقطع جديد
+            </h3>
+            <button onclick="closeStationVideoModal()" style="background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--ink-400);">✕</button>
+          </div>
+
+          <input type="hidden" id="sv-edit-id" value="">
+
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-weight:800; font-size:0.85rem; color:var(--ink-700); margin-bottom:6px;">عنوان المقطع *</label>
+            <input type="text" id="sv-title" placeholder="مثال: لائحة الانضباط الطلابي" style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; font-size:0.9rem;">
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-weight:800; font-size:0.85rem; color:var(--ink-700); margin-bottom:6px;">ملف الفيديو * (رفع ملف أو كتابة الرابط)</label>
+            <!-- Upload Mode Toggle -->
+            <div style="display:flex; gap:0; margin-bottom:8px; border-radius:8px; overflow:hidden; border:1px solid var(--ink-300);">
+              <button type="button" id="sv-mode-upload" onclick="switchSvInputMode('upload')" style="flex:1; padding:8px; border:none; cursor:pointer; font-family:inherit; font-size:0.82rem; font-weight:700; background:linear-gradient(135deg, #7c3aed, #8b5cf6); color:#fff;">
+                <i class="fa-solid fa-cloud-arrow-up"></i> رفع ملف
+              </button>
+              <button type="button" id="sv-mode-url" onclick="switchSvInputMode('url')" style="flex:1; padding:8px; border:none; cursor:pointer; font-family:inherit; font-size:0.82rem; font-weight:700; background:var(--ink-100); color:var(--ink-600);">
+                <i class="fa-solid fa-link"></i> كتابة الرابط
+              </button>
+            </div>
+            <!-- Upload Input -->
+            <div id="sv-upload-area" style="">
+              <input type="file" id="sv-file-input" accept="video/mp4,video/quicktime,video/x-msvideo,video/webm,video/x-matroska,.mp4,.mov,.avi,.webm,.mkv" onchange="handleSvFileSelect(this)" style="display:none;">
+              <div id="sv-drop-zone" onclick="document.getElementById('sv-file-input').click()" style="border:2px dashed rgba(124,58,237,0.3); border-radius:10px; padding:20px; text-align:center; cursor:pointer; background:rgba(124,58,237,0.03); transition:all 0.2s;" onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'" onmouseout="this.style.borderColor='rgba(124,58,237,0.3)';this.style.background='rgba(124,58,237,0.03)'">
+                <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.5rem; color:#7c3aed; display:block; margin-bottom:6px;"></i>
+                <span style="font-size:0.82rem; color:var(--ink-600); font-weight:700;">اضغط هنا لاختيار ملف فيديو</span>
+                <div style="font-size:0.72rem; color:var(--ink-400); margin-top:4px;">MP4, MOV, AVI, WebM, MKV</div>
+              </div>
+              <div id="sv-upload-progress" style="display:none; margin-top:8px;">
+                <div style="background:var(--ink-200); border-radius:6px; overflow:hidden; height:6px;">
+                  <div id="sv-upload-bar" style="height:100%; background:linear-gradient(90deg, #7c3aed, #8b5cf6); width:0%; transition:width 0.3s;"></div>
+                </div>
+                <div id="sv-upload-status" style="font-size:0.78rem; color:#7c3aed; font-weight:700; margin-top:4px; text-align:center;">جاري الرفع...</div>
+              </div>
+            </div>
+            <!-- URL Input (hidden by default) -->
+            <div id="sv-url-area" style="display:none;">
+              <input type="text" id="sv-url" placeholder="مثال: /static/uploads/video.mp4 أو https://..." style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; font-size:0.9rem; direction:ltr;">
+            </div>
+            <!-- Selected file display -->
+            <div id="sv-selected-file" style="display:none; margin-top:8px; padding:8px 12px; background:rgba(5,150,105,0.08); border:1px solid rgba(5,150,105,0.2); border-radius:8px;">
+              <span style="font-size:0.82rem; color:#059669; font-weight:700;"><i class="fa-solid fa-check-circle"></i> <span id="sv-selected-filename"></span></span>
+            </div>
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-weight:800; font-size:0.85rem; color:var(--ink-700); margin-bottom:6px;"><i class="fa-solid fa-link"></i> ربط بمحطة (اختياري)</label>
+            <select id="sv-station" style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; font-size:0.9rem; background:#fff;">
+              <option value="">🚫 بدون محطة (بدون نقاط)</option>
+              <option value="1">🏫 المحطة الأولى — مرحباً بك في جامعة حفر الباطن (10 نقاط)</option>
+              <option value="2">📚 المحطة الثانية — اعرف أنظمة جامعتك (15 نقاط)</option>
+              <option value="3">⚖️ المحطة الثالثة — حقوقك وواجباتك (20 نقاط)</option>
+              <option value="4">🎓 المحطة الرابعة — عمادة القبول والتسجيل (15 نقاط)</option>
+              <option value="5">🏛️ المحطة الخامسة — عمادة شؤون الطلاب (15 نقاط)</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom:18px;">
+            <label style="display:block; font-weight:800; font-size:0.85rem; color:var(--ink-700); margin-bottom:6px;">ترتيب العرض</label>
+            <input type="number" id="sv-sort" value="0" min="0" style="width:100px; padding:10px 14px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; font-size:0.9rem;">
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <button onclick="saveStationVideo()" style="flex:1; padding:12px; border:none; border-radius:12px; background:linear-gradient(135deg, #7c3aed, #8b5cf6); color:#fff; font-family:inherit; font-size:0.92rem; font-weight:800; cursor:pointer;">
+              <i class="fa-solid fa-check"></i> حفظ المقطع
+            </button>
+            <button onclick="closeStationVideoModal()" style="padding:12px 20px; border:1px solid var(--ink-300); border-radius:12px; background:#fff; font-family:inherit; font-size:0.92rem; font-weight:700; cursor:pointer; color:var(--ink-600);">
+              إلغاء
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PAGE: QR CODES MANAGER & PRINT (طباعة باركودات الأركان والورش) ══ -->

@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+instance/
+chroma_db/
+env/
+venv/
+old_app/
+_recovered_data/
+.claude/

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="رواد 13 - جامعة حفر الباطن | رحلة رواد الافتراضية التعليمية التفاعلية">
+  <title>رواد 13 | جامعة حفر الباطن</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}?v={{ import_time }}">
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+  <!-- INLINE: Station 6, Virtual Journey & In-Person Expedition White Royal Theme -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing-survey.css') }}?v={{ import_time }}">
+
+  <!-- INLINE: Award Overlay — Premium Light Theme -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing-awards.css') }}?v={{ import_time }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing-student-widget.css') }}?v={{ import_time }}">
+
+  <!-- INLINE: Header & Footer Premium Redesign -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing-header-footer.css') }}?v={{ import_time }}">
+
+  <!-- INLINE: Campus Journey — الثيم الأبيض الملكي الفاخر (Pearl White & Royal Cream) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing-campus.css') }}?v={{ import_time }}">
+
+  <!-- ═══ INSTANT SYNCHRONOUS GUARD: ZERO-FLASH ON REFRESH & RETURN ═══ -->
+  <script>
+    (function () {
+      try {
+        var isVerified = sessionStorage.getItem('uhb_student_verified') === 'true' ||
+          sessionStorage.getItem('uoh_reception_ceremony_seen') === 'true';
+        if (isVerified) {
+          document.documentElement.classList.add('ceremony-already-seen');
+        }
+      } catch (e) { }
+    })();
+  </script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing-misc.css') }}?v={{ import_time }}">
+
+</head>
+
+<body>
+{% include 'landing/_opening_hero_nav.html' %}
+  {% include 'landing/_welcome_and_info_overlays.html' %}
+  {% include 'landing/_program_guide_overlay.html' %}
+  {% include 'landing/_achievements_and_journey.html' %}
+  {% include 'landing/_campus_map_and_workshops.html' %}
+  <!-- ═══ HIGH-TECH REAL-CAMERA QR SCANNER MODAL DIALOG ═══ -->
+  <div class="expedition-modal-overlay" id="expeditionModalOverlay" onclick="closeModalOnBackdrop(event)">
+    <div class="expedition-modal-box">
+      <button class="modal-close-x" onclick="closeExpeditionModal()"><i class="fa-solid fa-xmark"></i></button>
+
+      <div class="modal-portal-orb">
+        <i class="fa-solid fa-camera" id="modalHeroIcon"></i>
+      </div>
+
+      <div class="modal-titles-group">
+        <h3 id="modalStationTitle">عمادة التعليم الإلكتروني والتحول الرقمي</h3>
+        <p id="modalStationDesc">التعريف بالخدمات الإلكترونية المقدمة والتطبيقات الرقمية</p>
+      </div>
+
+      <div class="modal-reward-badge-chip" id="modalRewardBadge">
+        <i class="fa-solid fa-star"></i> المكافأة: +10 نقاط
+      </div>
+
+      <!-- Real Live Camera Viewfinder Screen -->
+      <div class="laser-scanner-screen" id="laserScreenBox">
+        <video id="cameraLiveVideo" autoplay playsinline muted></video>
+        <div class="camera-viewfinder-brackets"></div>
+        <div class="laser-line-runner"></div>
+
+        <div class="camera-fallback-ui" id="cameraFallbackUI">
+          <i class="fa-solid fa-camera"></i>
+          <span>وجّه كاميرا هاتفك نحو رمز QR لإتمام المسح</span>
+        </div>
+      </div>
+
+      <button class="modal-confirm-scan-btn" id="modalConfirmScanBtn" onclick="executeScanRewardFlow()">
+        <i class="fa-solid fa-qrcode"></i>
+        <span id="modalConfirmBtnLabel">محاكاة مسح الكود واحتساب النقاط الآن 🔥</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ ULTRA-MODERN LUXURY WHITE WELCOME MODAL TOAST ═══ -->
+  <div class="modern-welcome-toast-backdrop" id="modernWelcomeToastBackdrop" onclick="dismissModernWelcomeToast()"></div>
+  <div class="modern-welcome-toast" id="modernWelcomeToast" role="dialog" aria-modal="true">
+    <button class="mwt-close-btn" onclick="dismissModernWelcomeToast()" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+    
+    <div class="mwt-icon-badge">
+      <i class="fa-solid fa-user-graduate"></i>
+    </div>
+    
+    <div class="mwt-tag">
+      <i class="fa-solid fa-crown" style="color:#D4A359;"></i> <span>برنامج رواد 13 • جامعة حفر الباطن</span>
+    </div>
+    
+    <h3 class="mwt-title">
+      أهلاً بك يا <span class="mwt-student-name" id="mwtStudentName">سيف مروي الشمري</span> <i class="fa-solid fa-graduation-cap" style="color:#872A08; font-size:1.15rem;"></i>
+    </h3>
+    
+    <div class="mwt-college-pill" id="mwtStudentCollege">
+      <i class="fa-solid fa-building-columns"></i>
+      <span id="mwtCollegeText">كلية علوم وهندسة الحاسب الآلي</span>
+    </div>
+    
+    <p class="mwt-desc">
+      نسعد بانضمامك لمنصتك الإرشادية.. نتمنى لك رحلة جامعية حافلة بالتميز والنجاح <i class="fa-solid fa-star" style="color:#D4A359; font-size:0.9rem;"></i>
+    </p>
+
+    <!-- Animated Smooth Timer Progress Bar -->
+    <div class="mwt-timer-track">
+      <div class="mwt-timer-bar" id="mwtTimerBar"></div>
+    </div>
+  </div>
+
+  <!-- ═══ LUXURY MODERN FOOTER ═══ -->
+  <footer class="site-footer" id="site-footer" style="background: #882D1B !important; border-top: 2.5px solid #F3C649; position: relative; width: 100%; overflow: hidden;">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing-footer-extra.css') }}?v={{ import_time }}">
+    <div class="footer-top-glow"></div>
+
+    <div class="footer-inner-container">
+      <div class="simple-footer-grid">
+
+        <!-- العمود الأول: الهوية -->
+        <div class="sf-brand">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <img src="{{ url_for('static', filename='img/شعار_رواد 13 - شفاف.png') }}" alt="شعار رواد 13"
+              style="height:50px; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));">
+            <div>
+              <h3 style="color:#fff; font-size:1.15rem; font-weight:900; margin:0;">عمادة شؤون الطلاب</h3>
+              <span style="color:#F3C649; font-size:0.82rem; font-weight:700;"><i class="fa-solid fa-graduation-cap"></i> جامعة حفر الباطن</span>
+            </div>
+          </div>
+          <p style="color:rgba(255,255,255,0.65); font-size:0.82rem; line-height:1.7; margin:0;">
+            البرنامج الرقمي التفاعلي المعتمد للإرشاد والتوعية بالأنظمة والخدمات الجامعية للطلاب المستجدين.
+          </p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <span style="background:rgba(0,0,0,0.2); color:rgba(255,255,255,0.8); padding:4px 12px; border-radius:8px; font-size:0.72rem; font-weight:700; border:1px solid rgba(255,255,255,0.1);"><i class="fa-solid fa-shield-halved" style="color:#F3C649;"></i> شؤون الطلاب</span>
+            <span style="background:rgba(0,0,0,0.2); color:rgba(255,255,255,0.8); padding:4px 12px; border-radius:8px; font-size:0.72rem; font-weight:700; border:1px solid rgba(255,255,255,0.1);"><i class="fa-solid fa-star" style="color:#F3C649;"></i> رواد 13</span>
+          </div>
+        </div>
+
+        <!-- العمود الثاني: التواصل -->
+        <div class="sf-contact">
+          <h4 style="color:#F3C649; font-size:0.92rem; font-weight:800; margin:0;"><i class="fa-solid fa-headset"></i> التواصل</h4>
+          <a href="mailto:students_affairs@uhb.edu.sa" class="sf-contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <span>students_affairs@uhb.edu.sa</span>
+          </a>
+          <a href="https://www.uhb.edu.sa" target="_blank" class="sf-contact-item">
+            <i class="fa-solid fa-globe"></i>
+            <span>www.uhb.edu.sa</span>
+          </a>
+          <a href="https://twitter.com/UHB_Official" target="_blank" class="sf-contact-item">
+            <i class="fa-brands fa-x-twitter"></i>
+            <span>@UHB_Official</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- شريط الحقوق -->
+      <div class="footer-bottom-bar">
+        <div class="footer-copy-right">
+          <span>جميع الحقوق محفوظة © <strong>جامعة حفر الباطن</strong> 2026</span>
+          <span class="copy-separator">•</span>
+          <span>عمادة شؤون الطلاب</span>
+        </div>
+        <div class="footer-copy-left">
+          <span class="footer-tagline-pill"><i class="fa-solid fa-sparkles"></i> رواد 13</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <script src="{{ url_for('static', filename='js/landing/01-hero-video.js') }}?v={{ import_time }}"></script>
+  <script src="{{ url_for('static', filename='js/landing/02-nav-overlay-browse.js') }}?v={{ import_time }}"></script>
+  <script src="{{ url_for('static', filename='js/landing/03-journey-engine.js') }}?v={{ import_time }}"></script>
+  <script src="{{ url_for('static', filename='js/landing/04-scoring-progress.js') }}?v={{ import_time }}"></script>
+  <script src="{{ url_for('static', filename='js/landing/05-campus-map.js') }}?v={{ import_time }}"></script>
+  <script src="{{ url_for('static', filename='js/landing/06-header-scroll-welcome.js') }}?v={{ import_time }}"></script>
+  <script src="{{ url_for('static', filename='js/landing/07-qr-workshop.js') }}?v={{ import_time }}"></script>
+  <script>
+    /* INLINE: Award Tab Switching (cache-proof) */
+    function switchAwardTab(index) {
+      var btns = document.querySelectorAll('.award-tab-btn');
+      var contents = document.querySelectorAll('.award-tab-content');
+      for (var i = 0; i < btns.length; i++) {
+        if (i === index) btns[i].classList.add('active');
+        else btns[i].classList.remove('active');
+      }
+      for (var j = 0; j < contents.length; j++) {
+        if (j === index) contents[j].classList.add('active');
+        else contents[j].classList.remove('active');
+      }
+    }
+    window.switchAwardTab = switchAwardTab;
+  </script>
+</body>
+
+</html>

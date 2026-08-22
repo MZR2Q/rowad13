@@ -1,0 +1,148 @@
+<!-- Modal for Adding/Editing Question (صلاحيات أدمن كاملة) -->
+<div id="questionModal" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.65); backdrop-filter:blur(4px); z-index:9999; justify-content:center; align-items:center; padding:16px;">
+  <div style="background:#fff; width:100%; max-width:700px; border-radius:20px; box-shadow:0 24px 60px rgba(0,0,0,0.35); overflow:hidden; animation:slideUp 0.3s ease;">
+    <div style="background:var(--sb-bg); color:#fff; padding:18px 24px; display:flex; justify-content:space-between; align-items:center;">
+      <h3 id="modalTitle" style="font-size:1.1rem; font-weight:800;"><i class="fa-solid fa-file-pen" style="color:var(--c3);"></i> إضافة سؤال جديد</h3>
+      <button onclick="closeQuestionModal()" style="color:rgba(255,255,255,0.7); font-size:1.2rem; background:none; border:none; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <form id="questionForm" onsubmit="handleQuestionSubmit(event)" style="padding:24px; display:flex; flex-direction:column; gap:16px; max-height:80vh; overflow-y:auto;">
+      <input type="hidden" id="qId">
+
+      <!-- Hidden category select for backward compat -->
+      <select id="qCategorySelect" style="display:none;"><option value="">عام</option></select>
+
+      <!-- Row 1: Station + Options Count + Type + Difficulty -->
+      <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:12px;">
+        <div>
+          <label style="font-size:0.82rem; font-weight:800; color:#059669; margin-bottom:6px; display:block;">🎯 المحطة *</label>
+          <select id="qStationSelect" style="width:100%; padding:10px; border-radius:10px; border:2px solid #059669; font-family:inherit; font-weight:700; color:#059669; background:#f0fdf4;">
+            <option value="">— بدون محطة (بنك فقط) —</option>
+            <option value="1">المحطة 1: عن الجامعة 🏫</option>
+            <option value="2">المحطة 2: الأنظمة التقنية 💻</option>
+            <option value="3">المحطة 3: حقوقك وواجباتك ⚖️</option>
+            <option value="4">المحطة 4: القبول والتسجيل 📝</option>
+            <option value="5">المحطة 5: شؤون الطلاب 🎓</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">🔢 عدد الخيارات</label>
+          <select id="qOptionsCount" onchange="toggleOptionsCountFields()" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit;">
+            <option value="4">4 خيارات</option>
+            <option value="3">3 خيارات</option>
+            <option value="2">خياران</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">نوع السؤال</label>
+          <select id="qType" onchange="toggleQTypeFields()" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit;">
+            <option value="mc">خيارات متعددة</option>
+            <option value="tf">صح / خطأ</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">الصعوبة</label>
+          <select id="qDifficulty" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit;">
+            <option value="easy">سهل 🟢</option>
+            <option value="medium" selected>متوسط 🟡</option>
+            <option value="hard">صعب 🔴</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Question Text -->
+      <div>
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">نص السؤال *</label>
+        <textarea id="qText" rows="3" required placeholder="اكتب نص السؤال الأكاديمي هنا..." style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; resize:vertical;"></textarea>
+      </div>
+
+      <!-- Multiple Choice Options -->
+      <div id="mcOptionsGroup" style="display:flex; flex-direction:column; gap:10px;">
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700);">خيارات الإجابة *</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div><input type="text" id="optA" placeholder="الخيار (أ)" style="width:100%; padding:9px; border-radius:8px; border:1px solid var(--ink-300); font-family:inherit;"></div>
+          <div><input type="text" id="optB" placeholder="الخيار (ب)" style="width:100%; padding:9px; border-radius:8px; border:1px solid var(--ink-300); font-family:inherit;"></div>
+          <div><input type="text" id="optC" placeholder="الخيار (ج)" style="width:100%; padding:9px; border-radius:8px; border:1px solid var(--ink-300); font-family:inherit;"></div>
+          <div><input type="text" id="optD" placeholder="الخيار (د)" style="width:100%; padding:9px; border-radius:8px; border:1px solid var(--ink-300); font-family:inherit;"></div>
+        </div>
+      </div>
+
+      <!-- Correct Answer -->
+      <div>
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">الإجابة الصحيحة *</label>
+        <select id="qCorrect" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit;">
+          <option value="a">الخيار (أ) / صح</option>
+          <option value="b">الخيار (ب) / خطأ</option>
+          <option value="c" class="mc-only">الخيار (ج)</option>
+          <option value="d" class="mc-only">الخيار (د)</option>
+        </select>
+      </div>
+
+      <!-- Explanation + Article Ref -->
+      <div style="display:grid; grid-template-columns:2fr 1fr; gap:12px;">
+        <div>
+          <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">الشرح والتفسير</label>
+          <textarea id="qExplanation" rows="2" placeholder="اكتب الشرح الموثق المستخرج من المادة..." style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; resize:vertical;"></textarea>
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">المرجع</label>
+          <input type="text" id="qArticleRef" placeholder="مثال: المادة 25" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit;">
+        </div>
+      </div>
+
+      <!-- Multi-Image Upload (up to 4 images with captions) -->
+      <div style="background:var(--ink-100); border-radius:12px; padding:14px; border:1px dashed var(--ink-300);">
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+          <i class="fa-solid fa-images" style="color:var(--c2);"></i> 
+          صور توضيحية للسؤال 
+          <span style="font-size:0.72rem; color:var(--ink-400); font-weight:400;">(حتى 4 صور مع وصف)</span>
+        </label>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
+          <input type="file" id="qImageFile" accept="image/*" onchange="uploadQuizQuestionImage(this)" style="display:none;">
+          <button type="button" onclick="document.getElementById('qImageFile').click()" class="btn-outline" style="font-size:0.85rem;">
+            <i class="fa-solid fa-cloud-arrow-up"></i> رفع صورة
+          </button>
+          <button type="button" id="removeQImgBtn" onclick="removeQuizQuestionImage()" class="btn-outline" style="display:none; color:var(--danger); border-color:var(--danger);">
+            <i class="fa-solid fa-trash"></i> حذف الكل
+          </button>
+        </div>
+        <input type="hidden" id="qImageUrl">
+        <input type="hidden" id="qImagesJson" value="[]">
+        <div id="qImgPreviewWrap" style="margin-top:8px; display:none;">
+          <img id="qImgPreview" src="" style="max-height:140px; border-radius:10px; border:1px solid var(--ink-300); object-fit:contain;">
+        </div>
+        <!-- Dynamic multi-image cards rendered here -->
+        <div id="qMultiImagesContainer">
+          <div style="text-align:center; padding:16px; color:var(--ink-400); font-size:0.82rem;">
+            <i class="fa-regular fa-image" style="font-size:1.5rem; margin-bottom:6px; display:block;"></i>
+            لم يتم رفع أي صور بعد
+          </div>
+        </div>
+      </div>
+
+      <!-- Attachments (PDF, Docs) -->
+      <div style="background:var(--ink-100); border-radius:12px; padding:14px; border:1px dashed var(--ink-300);">
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:8px; display:block;"><i class="fa-solid fa-paperclip" style="color:var(--c2);"></i> مرفقات إضافية (PDF، مستندات، صور)</label>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <input type="file" id="qAttachFile" accept=".pdf,.doc,.docx,.pptx,.xlsx,.jpg,.jpeg,.png,.gif,.webp" onchange="uploadQuizAttachment(this)" style="display:none;">
+          <button type="button" onclick="document.getElementById('qAttachFile').click()" class="btn-outline" style="font-size:0.85rem;">
+            <i class="fa-solid fa-cloud-arrow-up"></i> رفع مرفق
+          </button>
+          <span style="font-size:0.75rem; color:var(--ink-400);">PDF, Word, PowerPoint, Excel, صور</span>
+        </div>
+        <input type="hidden" id="qAttachments" value="[]">
+        <div id="qAttachList" style="margin-top:8px; display:flex; flex-direction:column; gap:6px;"></div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:6px; border-top:1px solid var(--ink-200); padding-top:14px;">
+        <div style="font-size:0.73rem; color:var(--ink-400);"><i class="fa-solid fa-shield-halved"></i> صلاحيات كاملة: إضافة، تعديل، حذف، مرفقات</div>
+        <div style="display:flex; gap:10px;">
+          <button type="button" onclick="closeQuestionModal()" class="btn-outline">إلغاء</button>
+          <button type="submit" class="btn-primary" id="saveQBtn"><i class="fa-solid fa-floppy-disk"></i> حفظ السؤال</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

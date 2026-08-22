@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول — بوابة لوائح جامعة حفر الباطن</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --maroon:      #8B1A26;
+      --maroon-dark: #5E0F18;
+      --maroon-light:#B22333;
+      --gold:        #C9A227;
+      --gold-light:  #E2C060;
+      --ink-800:     #1C2333;
+      --ink-600:     #4A5568;
+      --ink-400:     #A0AEC0;
+      --ink-200:     #E2E8F0;
+      --ink-100:     #F7FAFC;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html, body {
+      height: 100%;
+      font-family: 'Cairo', sans-serif;
+      background: var(--ink-100);
+      color: var(--ink-800);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--maroon-dark) 0%, #3d0810 50%, #1a0408 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background pattern */
+    .login-page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(201,162,39,.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139,26,38,.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .login-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 48px 52px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 32px 80px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.05);
+      position: relative;
+      z-index: 1;
+      animation: cardIn .5s cubic-bezier(.21,1.02,.73,1) both;
+    }
+    @keyframes cardIn {
+      from { opacity:0; transform: translateY(24px) scale(.97); }
+      to   { opacity:1; transform: none; }
+    }
+
+    .login-card-stripe {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--maroon-dark), var(--maroon), var(--gold));
+      border-radius: 24px 24px 0 0;
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .login-logo img {
+      width: 200px;
+      height: auto;
+      object-fit: contain;
+    }
+    .login-logo-fallback {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-dark));
+      border-radius: 18px;
+      color: #fff;
+      font-size: 2rem;
+      box-shadow: 0 8px 28px rgba(139,26,38,.4);
+    }
+
+    .login-heading {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .login-heading h1 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--maroon);
+      margin-bottom: 4px;
+    }
+    .login-heading p {
+      font-size: .88rem;
+      color: var(--ink-600);
+      font-weight: 600;
+    }
+
+    .login-divider {
+      height: 1px;
+      background: var(--ink-200);
+      margin: 28px 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--ink-600);
+      margin-bottom: 8px;
+    }
+    .form-input-wrap {
+      position: relative;
+    }
+    .form-input-wrap .input-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-400);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+    .form-input {
+      width: 100%;
+      padding: 12px 44px 12px 16px;
+      border: 1.5px solid var(--ink-200);
+      border-radius: 10px;
+      font-size: .95rem;
+      font-family: 'Cairo', sans-serif;
+      color: var(--ink-800);
+      background: var(--ink-100);
+      transition: all .2s ease;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: var(--gold);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(201,162,39,.12);
+    }
+
+    .error-banner {
+      background: rgba(139,26,38,.06);
+      border: 1px solid rgba(139,26,38,.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: .88rem;
+      color: var(--maroon);
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: shake .4s ease;
+    }
+    @keyframes shake {
+      0%,100% { transform:translateX(0); }
+      20% { transform:translateX(-6px); }
+      60% { transform:translateX(6px); }
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-dark));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all .25s ease;
+      box-shadow: 0 8px 24px rgba(139,26,38,.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .login-btn:hover {
+      background: linear-gradient(135deg, var(--maroon-light), var(--maroon));
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(139,26,38,.45);
+    }
+    .login-btn:active { transform:translateY(0); }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 28px;
+      font-size: .78rem;
+      color: var(--ink-400);
+    }
+    .login-footer a {
+      color: var(--maroon);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .login-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-card-stripe"></div>
+
+    <!-- Logo -->
+    <div class="login-logo">
+      <img src="{{ url_for('static', filename='img/شعار_رواد_13_شفاف.png') }}" alt="رواد 13"
+           onerror="this.style.display='none'; document.querySelector('.login-logo-fallback').style.display='inline-flex'">
+      <div class="login-logo-fallback" style="display:none;">🎓</div>
+    </div>
+
+    <!-- Heading -->
+    <div class="login-heading">
+      <h1>لوحة الإدارة</h1>
+      <p>بوابة لوائح جامعة حفر الباطن</p>
+    </div>
+
+    <div class="login-divider"></div>
+
+    <!-- Error -->
+    {% if error %}
+    <div class="error-banner">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+      {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- Form -->
+    <form method="POST" action="{{ url_for('auth.login') }}{% if request.args.get('next') %}?next={{ request.args.get('next') }}{% endif %}">
+      <div class="form-group">
+        <label class="form-label" for="username">اسم المستخدم</label>
+        <div class="form-input-wrap">
+          <span class="input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v2h20v-2c0-3.3-6.7-5-10-5z"/></svg>
+          </span>
+          <input id="username" name="username" type="text" class="form-input"
+                 placeholder="أدخل اسم المستخدم" required autocomplete="username">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">كلمة المرور</label>
+        <div class="form-input-wrap">
+          <span class="input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.8-2.2-5-5-5S7 3.2 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.7 1.4-3.1 3.1-3.1 1.7 0 3.1 1.4 3.1 3.1v2z"/></svg>
+          </span>
+          <input id="password" name="password" type="password" class="form-input"
+                 placeholder="أدخل كلمة المرور" required autocomplete="current-password">
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z"/></svg>
+        دخول للوحة الإدارة
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <a href="{{ url_for('main.index') }}">← العودة للبوابة الرئيسية</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

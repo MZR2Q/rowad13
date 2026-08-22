@@ -1,0 +1,147 @@
+      <div id="view-student-attempts" class="dash-view-tab" style="display:none;">
+        <div class="card" style="border-radius:var(--r-lg); overflow:hidden; margin-bottom:20px;">
+          <div class="ch" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="ch-icon" style="background:rgba(5,150,105,0.15);">
+                <i class="fa-solid fa-ranking-star" style="color:#059669;"></i>
+              </div>
+              <div>
+                <h2>سجل ولوحة إنجازات الطلاب الشاملة (الترتيب ولوحة الشرف)</h2>
+                <p style="font-size:0.8rem; color:var(--ink-500); margin-top:2px;">قائمة الطلاب المسجلين كاملة مرتبة حسب أعلى الإجابات الصحيحة، أسرع وقت للاختبار، اللوائح المقروءة، وحضور الأركان والورش</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <button class="btn-primary" onclick="fetchAdminStudentsDirectory()" style="background:linear-gradient(135deg, #059669, #10b981);">
+                <i class="fa-solid fa-rotate"></i> تحديث القائمة 🔄
+              </button>
+            </div>
+          </div>
+
+          <div class="cb" style="padding:20px;">
+            <!-- Metrics Summary Row -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px; margin-bottom:24px;">
+              <div style="background:linear-gradient(135deg, rgba(37,99,235,0.08), rgba(37,99,235,0.02)); border:1px solid rgba(37,99,235,0.2); border-radius:14px; padding:14px 16px;">
+                <div style="font-size:0.75rem; font-weight:700; color:#1e40af; margin-bottom:4px;"><i class="fa-solid fa-users"></i> إجمالي الطلاب المسجلين</div>
+                <div id="stat-dir-total-students" style="font-size:1.6rem; font-weight:900; color:#2563eb;">--</div>
+              </div>
+              <div style="background:linear-gradient(135deg, rgba(5,150,105,0.08), rgba(5,150,105,0.02)); border:1px solid rgba(5,150,105,0.2); border-radius:14px; padding:14px 16px;">
+                <div style="font-size:0.75rem; font-weight:700; color:#065f46; margin-bottom:4px;"><i class="fa-solid fa-clipboard-check"></i> خاضوا الاختبار النهائي</div>
+                <div id="stat-dir-tested-students" style="font-size:1.6rem; font-weight:900; color:#059669;">--</div>
+              </div>
+              <div style="background:linear-gradient(135deg, rgba(217,119,6,0.08), rgba(217,119,6,0.02)); border:1px solid rgba(217,119,6,0.2); border-radius:14px; padding:14px 16px;">
+                <div style="font-size:0.75rem; font-weight:700; color:#92400e; margin-bottom:4px;"><i class="fa-solid fa-stopwatch"></i> متوسط / أسرع وقت</div>
+                <div id="stat-dir-avg-time" style="font-size:1.3rem; font-weight:900; color:#d97706; margin-top:4px;">--</div>
+              </div>
+              <div style="background:linear-gradient(135deg, rgba(136,45,27,0.08), rgba(136,45,27,0.02)); border:1px solid rgba(136,45,27,0.2); border-radius:14px; padding:14px 16px;">
+                <div style="font-size:0.75rem; font-weight:700; color:var(--c1); margin-bottom:4px;"><i class="fa-solid fa-book-open-reader"></i> اللوائح المقروءة</div>
+                <div id="stat-dir-total-docs" style="font-size:1.6rem; font-weight:900; color:var(--c1);">--</div>
+              </div>
+              <div style="background:linear-gradient(135deg, rgba(96,121,118,0.08), rgba(96,121,118,0.02)); border:1px solid rgba(96,121,118,0.2); border-radius:14px; padding:14px 16px;">
+                <div style="font-size:0.75rem; font-weight:700; color:#3b514e; margin-bottom:4px;"><i class="fa-solid fa-qrcode"></i> الأركان والورش الممسوحة</div>
+                <div id="stat-dir-total-scans" style="font-size:1.6rem; font-weight:900; color:#607976;">--</div>
+              </div>
+            </div>
+
+            <!-- Filters & Smart Sort Bar -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px; background:#fff; padding:14px; border-radius:12px; border:1px solid var(--ink-200);">
+              <div style="flex:1; min-width:240px; position:relative;">
+                <i class="fa-solid fa-magnifying-glass" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--ink-400);"></i>
+                <input type="text" id="filter-dir-search" oninput="filterStudentsDirectoryTable()" placeholder="ابحث باسم الطالب أو رقمه الجامعي أو كليته..." style="width:100%; padding:10px 38px 10px 14px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; font-size:0.88rem; background:#fff;">
+              </div>
+
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <!-- Sort Selector -->
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <span style="font-size:0.8rem; font-weight:700; color:var(--ink-600);"><i class="fa-solid fa-arrow-down-wide-short"></i> الترتيب:</span>
+                  <select id="filter-dir-sort" onchange="applyStudentsDirectorySort()" style="padding:9px 12px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; font-size:0.85rem; background:#fff; font-weight:700; color:var(--ink-800);">
+                    <option value="smart">👑 الترتيب القيادي (الأعلى إجابات صحيحة + الأسرع وقتاً)</option>
+                    <option value="time_asc">⚡ الأسرع في إنهاء الاختبار (أقل وقت)</option>
+                    <option value="score_desc">🎯 الأعلى درجة في الاختبار</option>
+                    <option value="points_desc">💎 الأكثر جمعاً للنقاط الكلية</option>
+                    <option value="docs_desc">📚 الأكثر قراءة للملفات واللوائح</option>
+                    <option value="scans_desc">🎪 الأكثر تفاعلاً بالأركان والورش</option>
+                  </select>
+                </div>
+
+                <!-- Quiz Status Filter -->
+                <select id="filter-dir-quiz-status" onchange="filterStudentsDirectoryTable()" style="padding:9px 12px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; font-size:0.85rem; background:#fff;">
+                  <option value="all">جميع حالات الاختبار</option>
+                  <option value="tested">خاضوا الاختبار ✅</option>
+                  <option value="untested">لم يختبروا بعد ⏳</option>
+                  <option value="high">ممتاز (80% فما فوق) 👑</option>
+                  <option value="pass">ناجح (60% - 79%) 👍</option>
+                  <option value="low">يحتاج مراجعة (أقل من 60%) ⚠️</option>
+                </select>
+
+                <!-- College Filter -->
+                <select id="filter-dir-college" onchange="filterStudentsDirectoryTable()" style="padding:9px 12px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; font-size:0.85rem; background:#fff;">
+                  <option value="all">جميع الكليات</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- ═══ Gender Tabs ═══ -->
+            <div id="gender-tabs-bar" style="display:flex; gap:0; margin-bottom:20px; border-radius:14px; overflow:hidden; border:2px solid var(--ink-200); background:var(--ink-100);">
+              <button id="tab-gender-male" onclick="switchGenderTab('male')" style="flex:1; padding:14px 20px; border:none; cursor:pointer; font-family:inherit; font-size:0.95rem; font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.3s; background:linear-gradient(135deg, #2563eb, #3b82f6); color:#fff;">
+                <i class="fa-solid fa-mars"></i> الطلاب
+                <span id="tab-male-count" style="background:rgba(255,255,255,0.25); padding:2px 10px; border-radius:20px; font-size:0.78rem;">0</span>
+              </button>
+              <button id="tab-gender-female" onclick="switchGenderTab('female')" style="flex:1; padding:14px 20px; border:none; cursor:pointer; font-family:inherit; font-size:0.95rem; font-weight:800; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.3s; background:transparent; color:var(--ink-600);">
+                <i class="fa-solid fa-venus"></i> الطالبات
+                <span id="tab-female-count" style="background:var(--ink-200); padding:2px 10px; border-radius:20px; font-size:0.78rem;">0</span>
+              </button>
+            </div>
+
+            <!-- ═══ Males Table ═══ -->
+            <div id="gender-section-male">
+              <div style="overflow-x:auto; border:1px solid rgba(37,99,235,0.25); border-radius:12px; background:#fff; box-shadow:0 2px 10px rgba(37,99,235,0.04);">
+                <table style="width:100%; border-collapse:collapse; text-align:right; font-size:0.88rem;">
+                  <thead>
+                    <tr style="background:rgba(37,99,235,0.06); border-bottom:2px solid rgba(37,99,235,0.15); color:var(--ink-700);">
+                      <th style="padding:14px 12px; font-weight:800; text-align:center; width:60px;">الترتيب</th>
+                      <th style="padding:14px 14px; font-weight:800;">الطالب والكلية</th>
+                      <th style="padding:14px 14px; font-weight:800;">الرقم الجامعي</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">نتيجة الاختبار النهائي</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">وقت الاختبار ⏱️</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">اللوائح المقروءة 📚</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">الأركان والورش 🏫</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">إجمالي النقاط ⭐</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">الملف الشامل</th>
+                    </tr>
+                  </thead>
+                  <tbody id="student-attempts-tbody-male">
+                    <tr><td colspan="9" style="text-align:center; padding:40px; color:var(--ink-500);"><i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem; margin-bottom:8px; display:block; color:#2563eb;"></i>جاري تحميل بيانات الطلاب...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- ═══ Females Table ═══ -->
+            <div id="gender-section-female" style="display:none;">
+              <div style="overflow-x:auto; border:1px solid rgba(168,85,247,0.25); border-radius:12px; background:#fff; box-shadow:0 2px 10px rgba(168,85,247,0.04);">
+                <table style="width:100%; border-collapse:collapse; text-align:right; font-size:0.88rem;">
+                  <thead>
+                    <tr style="background:rgba(168,85,247,0.06); border-bottom:2px solid rgba(168,85,247,0.15); color:var(--ink-700);">
+                      <th style="padding:14px 12px; font-weight:800; text-align:center; width:60px;">الترتيب</th>
+                      <th style="padding:14px 14px; font-weight:800;">الطالبة والكلية</th>
+                      <th style="padding:14px 14px; font-weight:800;">الرقم الجامعي</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">نتيجة الاختبار النهائي</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">وقت الاختبار ⏱️</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">اللوائح المقروءة 📚</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">الأركان والورش 🏫</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">إجمالي النقاط ⭐</th>
+                      <th style="padding:14px 14px; font-weight:800; text-align:center;">الملف الشامل</th>
+                    </tr>
+                  </thead>
+                  <tbody id="student-attempts-tbody-female">
+                    <tr><td colspan="9" style="text-align:center; padding:40px; color:var(--ink-500);"><i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem; margin-bottom:8px; display:block; color:#a855f7;"></i>جاري تحميل بيانات الطالبات...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ══ PAGE: STATION VIDEOS MANAGER (إدارة مقاطع المحطات الافتراضية) ══ -->

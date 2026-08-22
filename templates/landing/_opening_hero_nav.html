@@ -1,0 +1,534 @@
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- ═══ GRAND ROYAL OPENING CEREMONY SCREEN (شاشة الافتتاح) ═══ -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div id="grand-opening-overlay" class="grand-opening-overlay cinematic-theme">
+    <canvas id="ceremony-canvas" class="ceremony-canvas"></canvas>
+    <div class="opening-ambient-glow"></div>
+
+    <div class="cinematic-wrapper">
+      <!-- 1. Top Royal Brand Bar (الشعارين أعلى الصفحة) -->
+      <header class="opening-top-bar">
+        <div class="opening-logo-box uhb-logo-box" title="جامعة حفر الباطن">
+          <img src="{{ url_for('static', filename='img/شعار جامعة حفرالباطن.png') }}" alt="جامعة حفر الباطن"
+            class="opening-logo uhb-logo">
+        </div>
+
+        <div class="opening-gov-pill">
+          <i class="fa-solid fa-building-columns gov-icon-sparkle"></i>
+          <span>المملكة العربية السعودية • جامعة حفر الباطن</span>
+        </div>
+
+        <div class="opening-logo-box rowad-logo-box" title="رواد 13">
+          <img src="{{ url_for('static', filename='img/شعار_رواد 13 - شفاف.png') }}" alt="رواد 13"
+            class="opening-logo rowad-logo">
+        </div>
+      </header>
+
+      <!-- 2. Center Majestic Stage (توزيع متوازن وعريض للشاشات الكبيرة) -->
+      <main class="opening-center-stage">
+        <div class="opening-desktop-grid">
+          <!-- Right Column: Grand Royal Welcome & University Showcase -->
+          <div class="opening-hero-col">
+            <div class="opening-prestige-badge">
+              <span class="badge-dot-live"></span>
+              <i class="fa-solid fa-crown" style="color:#D4A359;"></i>
+              <span>المنصة التفاعلية المعتمدة • برنامج رواد 13</span>
+            </div>
+            
+            <h1 class="opening-hero-title">
+              <span class="title-highlight">برنامج استقبال الطلبة للعام الجامعي 1448هـ</span>
+            </h1>
+            
+            <p class="opening-hero-subtitle">
+              نبارك لكم قبولكم بجامعة حفر الباطن، ويسرنا مرافقتكم في هذه المنصة التفاعلية لبدء رحلتكم الجامعية واستكشاف كلياتكم وأنظمتكم ومكافآتكم بكل سهولة واحترافية.
+            </p>
+
+            <div class="opening-features-row">
+              <div class="op-feature-chip"><i class="fa-solid fa-map-location-dot"></i> 13 محطة تفاعلية</div>
+              <div class="op-feature-chip"><i class="fa-solid fa-book-bookmark"></i> اللوائح والأنظمة</div>
+              <div class="op-feature-chip"><i class="fa-solid fa-award"></i> جوائز رواد 13</div>
+            </div>
+          </div>
+
+          <!-- Left Column: Smart Academic Digital Pass Card -->
+          <div class="opening-actions-col">
+            <div class="opening-student-id-card">
+              <div class="op-card-header">
+                <div class="op-icon-badge"><i class="fa-solid fa-id-badge"></i></div>
+                <div class="op-header-text">
+                  <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:2px;">
+                    <strong id="op-welcome-title">أهلاً بك في رحاب جامعتك! <i class="fa-solid fa-graduation-cap" style="color:#D4A359; margin-right:4px;"></i></strong>
+                    <span class="op-tag-pill"><i class="fa-solid fa-sparkles"></i> بطاقة رائد المستقبل</span>
+                  </div>
+                  <p id="op-welcome-subtitle">أدخل رقمك الجامعي لبدء رحلتك التعريفية وتوثيق إنجازاتك ونقاطك تلقائياً في المنصة</p>
+                </div>
+              </div>
+              <div class="op-input-group">
+                <div class="op-input-wrap">
+                  <i class="fa-solid fa-user-graduate op-input-icon"></i>
+                  <input type="text" id="opening-student-id-input" placeholder="الرقم الجامعي (مثال: 2270005709)"
+                    inputmode="numeric" maxlength="10" autocomplete="off" oninput="checkStudentIdInput(this.value)"
+                    onkeydown="if(event.key==='Enter'){event.preventDefault();cutOpeningRibbon();}">
+                </div>
+                <button type="button" class="cut-ribbon-btn master-inaugurate-btn" id="cut-ribbon-btn"
+                  onclick="cutOpeningRibbon()">
+                  <div class="btn-icon-circle"><i class="fa-solid fa-rocket"></i></div>
+                  <span class="btn-text">ابدأ رحلتك التعريفية</span>
+                </button>
+              </div>
+              <div class="opening-hint">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>نظام التوثيق الذكي • يتم حفظ تقدمك ونقاطك تلقائياً للتعرف عليك في كل زيارة</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- 4. Full-Width Prestigious Royal Academic Footer Bar -->
+      <footer class="opening-ribbon-footer" id="opening-ribbon-footer">
+        <div class="ribbon-bar-wrapper" id="ribbon-container" onclick="cutOpeningRibbon()" style="cursor: pointer;"
+          title="برنامج استقبال الطلبة • جامعة حفر الباطن">
+          <div class="ribbon-wing ribbon-right" id="ribbon-right">
+            <div class="ribbon-shimmer"></div>
+            <span class="ribbon-text">عمادة شؤون الطلاب • أهلاً وسهلاً بكم في صرحكم الجامعي <i
+                class="fa-solid fa-graduation-cap"></i></span>
+          </div>
+
+          <!-- Central Royal Golden Crest -->
+          <div class="ribbon-seal" id="ribbon-seal" onclick="cutOpeningRibbon()">
+            <div class="seal-inner">
+              <i class="fa-solid fa-crown seal-crown-icon"></i>
+              <span class="seal-text">رواد 13</span>
+              <span class="seal-sub">جامعة حفر الباطن <i class="fa-solid fa-star"></i></span>
+            </div>
+          </div>
+
+          <div class="ribbon-wing ribbon-left" id="ribbon-left">
+            <div class="ribbon-shimmer"></div>
+            <span class="ribbon-text"><i class="fa-solid fa-sparkles"></i> رحلة نحو التميز وبناء المستقبل <i
+                class="fa-solid fa-landmark"></i></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ═══ FIXED CINEMATIC BACKGROUND (OFFICIAL UOHB LETTERHEAD MODERN THEME) ═══ -->
+  <div id="main-bg-layer" class="main-bg-layer uohb-letterhead-theme">
+    <!-- Top Modern Intersecting Curves (Swooshes) SVG -->
+    <svg class="bg-swooshes-svg" viewBox="0 0 1440 280" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="maroonSwooshGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#872A08" />
+          <stop offset="50%" stop-color="#721C0A" />
+          <stop offset="100%" stop-color="#4A1005" />
+        </linearGradient>
+        <linearGradient id="goldSwooshGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#E5C38C" />
+          <stop offset="45%" stop-color="#D4A359" />
+          <stop offset="100%" stop-color="#BC8859" />
+        </linearGradient>
+        <filter id="swooshShadow" x="-10%" y="-10%" width="120%" height="150%">
+          <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="rgba(114, 28, 10, 0.25)" />
+        </filter>
+        <filter id="goldShadow" x="-10%" y="-10%" width="120%" height="150%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="rgba(212, 163, 89, 0.3)" />
+        </filter>
+      </defs>
+
+      <!-- Maroon dynamic sweeping curve with radiant breathing glow -->
+      <path class="swoosh-curve-maroon" d="M-40,165 C320,150 680,45 1480,95" fill="none" stroke="url(#maroonSwooshGrad)"
+        stroke-width="8" filter="url(#swooshShadow)" stroke-linecap="round" />
+      <path class="swoosh-curve-maroon-dash" d="M-40,165 C320,150 680,45 1480,95" fill="none"
+        stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-dasharray="6 8" />
+
+      <!-- Gold intersecting looping curve with radiant breathing glow -->
+      <path class="swoosh-curve-gold" d="M-40,40 C380,195 960,175 1480,145" fill="none" stroke="url(#goldSwooshGrad)"
+        stroke-width="6" filter="url(#goldShadow)" stroke-linecap="round" />
+      <path class="swoosh-curve-gold-dash" d="M-40,40 C380,195 960,175 1480,145" fill="none"
+        stroke="rgba(255,255,255,0.7)" stroke-width="1" />
+    </svg>
+
+    <!-- Top Left University Emblem Block (from official letterhead) -->
+    <div class="bg-top-crest-block" title="جامعة حفر الباطن">
+      <img src="{{ url_for('static', filename='img/شعار_جامعة_حفر_الباطن_ابيض.png') }}"
+        onerror="this.onerror=null; this.src='{{ url_for('static', filename='img/شعار_جامعة_حفرالباطن.png') }}'"
+        alt="جامعة حفر الباطن" class="bg-crest-img">
+    </div>
+
+    <!-- Single Majestic Central Radiant Emblem -->
+    <div class="bg-central-emblem-wrap" id="bg-central-emblem-wrap">
+      <div class="bg-emblem-radial-halo"></div>
+      <div class="bg-emblem-light-rays"></div>
+      <img src="{{ url_for('static', filename='img/شعار_رواد 13 - شفاف.png') }}" alt="شعار رواد 13"
+        class="bg-central-emblem">
+    </div>
+    <div class="bg-particles" id="bg-particles"></div>
+  </div>
+
+  <!-- ═══ GLASSMORPHISM NAVIGATION BAR ═══ -->
+  <!-- ═══ SMART ROYAL PERSONALIZED WELCOME BANNER ═══ -->
+  <div class="smart-royal-welcome" id="smart-royal-welcome" style="display:none;">
+    <div class="srw-inner">
+      <div class="srw-logo-wrap">
+        <img src="{{ url_for('static', filename='img/شعار_رواد 13 - شفاف.png') }}" alt="رواد 13" class="srw-logo">
+      </div>
+      <div class="srw-content">
+        <div class="srw-top-row">
+          <span class="srw-time-badge" id="srw-time-greeting"><i class="fa-solid fa-sparkles"></i> أهلاً بك</span>
+          <span class="srw-platform-tag">رواد 13 • جامعة حفر الباطن</span>
+        </div>
+        <h3 class="srw-title" id="srw-student-name-title">
+          مرحباً بك يا رائد المستقبل!
+        </h3>
+        <p class="srw-sub" id="srw-student-sub">
+          تم تفعيل ملفك الأكاديمي وجاهزيتك لجمع النقاط واستكشاف الحرم الجامعي
+        </p>
+      </div>
+      <div class="srw-action">
+        <button class="srw-cta-btn" onclick="closeSmartRoyalWelcome()">
+          <span>انطلق الآن</span>
+          <i class="fa-solid fa-rocket"></i>
+        </button>
+      </div>
+      <button class="srw-close-btn" onclick="closeSmartRoyalWelcome()" title="إغلاق"><i
+          class="fa-solid fa-xmark"></i></button>
+      <div class="srw-progress-timer" id="srw-timer-bar"></div>
+    </div>
+  </div>
+
+  <header class="glass-nav" id="glass-nav">
+    <div class="nav-top-shimmer"></div>
+    <div class="nav-container">
+      <div class="nav-brand" style="display:flex; align-items:center;">
+        <div class="nav-logos-group" style="display:flex; align-items:center; gap:14px;">
+          <div class="nav-logo-box" title="جامعة حفر الباطن" style="display:flex; align-items:center; justify-content:center;">
+            <img src="{{ url_for('static', filename='img/شعار جامعة حفرالباطن.png') }}" alt="شعار جامعة حفر الباطن"
+              class="nav-logo uohb-logo" style="height:58px; width:auto; max-width:95px; object-fit:contain; filter:drop-shadow(0 3px 10px rgba(0,0,0,0.22)); transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1);" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div class="nav-brand-divider" style="height:38px; width:1.5px; background:linear-gradient(180deg, transparent, rgba(197,155,102,0.65), transparent); margin:0 4px;"></div>
+          <div class="nav-logo-box" title="برنامج رواد 13" style="display:flex; align-items:center; justify-content:center;">
+            <img src="{{ url_for('static', filename='img/شعار_رواد 13 - شفاف.png') }}" alt="شعار رواد 13"
+              class="nav-logo rowad-logo" style="height:58px; width:auto; max-width:95px; object-fit:contain; filter:drop-shadow(0 3px 10px rgba(0,0,0,0.22)); transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1);" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav-links" id="nav-links">
+        <!-- ═══ MOBILE DRAWER TOP HEADER ═══ -->
+        <div class="mobile-drawer-header">
+          <div class="mobile-drawer-brand">
+            <div class="drawer-logos-group" style="display:flex; align-items:center; gap:12px;">
+              <div class="drawer-logo-wrap">
+                <img src="{{ url_for('static', filename='img/شعار جامعة حفرالباطن.png') }}" alt="جامعة حفر الباطن"
+                  class="drawer-logo" style="height:48px; width:auto; object-fit:contain; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.2));">
+              </div>
+              <div style="height:32px; width:1.5px; background:rgba(197,155,102,0.45); margin:0 2px;"></div>
+              <div class="drawer-logo-wrap">
+                <img src="{{ url_for('static', filename='img/شعار_رواد 13 - شفاف.png') }}" alt="رواد 13"
+                  class="drawer-logo" style="height:48px; width:auto; object-fit:contain; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.2));">
+              </div>
+            </div>
+          </div>
+          <button type="button" class="mobile-drawer-close-btn" onclick="toggleMobileMenu()" aria-label="إغلاق القائمة">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <a href="#" class="nav-link active" data-section="home" onclick="showHome(event)">
+          <i class="fa-solid fa-house"></i>
+          <span>الرئيسية</span>
+        </a>
+
+        <!-- 1. رحلة رواد الافتراضية DROPDOWN (المحطات 1 إلى 5 مع القوائم الفرعية ونقاطها) -->
+        <div class="nav-dropdown" id="journey-dropdown">
+          <button class="nav-link dropdown-toggle" onclick="toggleDropdown(event)">
+            <i class="fa-solid fa-compass"></i>
+            <span>رحلة رواد الافتراضية</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="dropdown-menu journey-stations-menu" id="dropdown-menu">
+            <div class="dropdown-header-label">
+              <i class="fa-solid fa-compass"></i>
+              <span>محطات الرحلة الافتراضية (75 نقطة)</span>
+            </div>
+
+            <!-- ═══ المحطة الأولى: عن الجامعة (10 نقاط) ═══ -->
+            <div class="dropdown-sub-group station-sub-group" id="station-subnav-1">
+              <button type="button" class="dropdown-item dropdown-sub-toggle" onclick="toggleStationSubmenu(1, event)">
+                <div class="sub-group-title-wrap">
+                  <div class="station-badge-circle">1</div>
+                  <span>المحطة الأولى: عن الجامعة</span>
+                </div>
+                <span class="station-pts-badge">+10 نقاط</span>
+                <i class="fa-solid fa-chevron-down sub-arrow"></i>
+              </button>
+              <div class="dropdown-sub-menu">
+                <a href="#" class="dropdown-item sub-item" id="sub-item-about-university" onclick="openOverlay('about-university', event)">
+                  <i class="fa-solid fa-building-columns"></i>
+                  <span>نبذة عن الجامعة</span>
+                  <span class="sub-item-pts">+3.3</span>
+                </a>
+                <a href="#" class="dropdown-item sub-item" id="sub-item-vision-mission" onclick="openOverlay('vision-mission', event)">
+                  <i class="fa-solid fa-eye" style="color:#c59b66;"></i>
+                  <span>رؤية الجامعة ورسالتها</span>
+                  <span class="sub-item-pts">+3.3</span>
+                </a>
+                <a href="#" class="dropdown-item sub-item" id="sub-item-identity-guide" onclick="openOverlay('identity-guide', event)">
+                  <i class="fa-solid fa-palette" style="color:#872A08;"></i>
+                  <span>التعريف بالهوية البصرية (تحميل الدليل)</span>
+                  <span class="sub-item-pts">+3.4</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- ═══ المحطة الثانية: الأنظمة التقنية (15 نقطة) ═══ -->
+            <div class="dropdown-sub-group station-sub-group" id="station-subnav-2">
+              <button type="button" class="dropdown-item dropdown-sub-toggle" onclick="toggleStationSubmenu(2, event)">
+                <div class="sub-group-title-wrap">
+                  <div class="station-badge-circle">2</div>
+                  <span>المحطة الثانية: الأنظمة التقنية</span>
+                </div>
+                <span class="station-pts-badge">+15 نقطة</span>
+                <i class="fa-solid fa-chevron-down sub-arrow"></i>
+              </button>
+              <div class="dropdown-sub-menu">
+                <a href="#" class="dropdown-item sub-item" id="sub-item-email-internet-guide" onclick="openOverlay('email-internet-guide', event)">
+                  <i class="fa-solid fa-envelope" style="color:#0284c7;"></i>
+                  <span>دليل تفعيل البريد الجامعي والشبكة</span>
+                  <span class="sub-item-pts">+5</span>
+                </a>
+                <a href="#" class="dropdown-item sub-item" id="sub-item-admissions" onclick="openOverlay('admissions', event)">
+                  <i class="fa-solid fa-laptop-code" style="color:#059669;"></i>
+                  <span>بوابة القبول والتسجيل</span>
+                  <span class="sub-item-pts">+5</span>
+                </a>
+                <a href="#" class="dropdown-item sub-item" id="sub-item-elearn-system-guide" onclick="openOverlay('elearn-system-guide', event)">
+                  <i class="fa-solid fa-graduation-cap" style="color:#d97706;"></i>
+                  <span>دليل نظام التعليم الإلكتروني (Blackboard)</span>
+                  <span class="sub-item-pts">+5</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- ═══ المحطة الثالثة: حقوقك وواجباتك (20 نقطة) ═══ -->
+            <div class="dropdown-sub-group station-sub-group" id="station-subnav-3">
+              <button type="button" class="dropdown-item dropdown-sub-toggle" onclick="toggleStationSubmenu(3, event)">
+                <div class="sub-group-title-wrap">
+                  <div class="station-badge-circle">3</div>
+                  <span>المحطة الثالثة: حقوقك وواجباتك</span>
+                </div>
+                <span class="station-pts-badge">+20 نقطة</span>
+                <i class="fa-solid fa-chevron-down sub-arrow"></i>
+              </button>
+              <div class="dropdown-sub-menu">
+                <a href="#" class="dropdown-item sub-item" id="sub-item-discipline-regulations"
+                  onclick="openOverlay('regulations', event, 'discipline-regulations'); switchRegDoc('discipline_regulations');">
+                  <i class="fa-solid fa-gavel" style="color:#872A08;"></i>
+                  <span>لائحة الانضباط الطلابي</span>
+                  <span class="sub-item-pts">+10</span>
+                </a>
+                <a href="#" class="dropdown-item sub-item" id="sub-item-study-regulations"
+                  onclick="openOverlay('regulations', event, 'study-regulations'); switchRegDoc('study_exam_regulations');">
+                  <i class="fa-solid fa-book-open" style="color:#c59b66;"></i>
+                  <span>لائحة الدراسة والاختبارات</span>
+                  <span class="sub-item-pts">+10</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- ═══ المحطة الرابعة: عمادة القبول والتسجيل (15 نقطة) ═══ -->
+            <div class="dropdown-sub-group station-sub-group" id="station-subnav-4">
+              <button type="button" class="dropdown-item dropdown-sub-toggle" onclick="toggleStationSubmenu(4, event)">
+                <div class="sub-group-title-wrap">
+                  <div class="station-badge-circle">4</div>
+                  <span>المحطة الرابعة: عمادة القبول والتسجيل</span>
+                </div>
+                <span class="station-pts-badge">+15 نقطة</span>
+                <i class="fa-solid fa-chevron-down sub-arrow"></i>
+              </button>
+              <div class="dropdown-sub-menu">
+                <a href="#" class="dropdown-item sub-item" id="sub-item-calendar" onclick="openOverlay('calendar', event, 'calendar')">
+                  <i class="fa-solid fa-calendar-days" style="color:#059669;"></i>
+                  <span>التقويم الأكاديمي للعام 1448هـ</span>
+                  <span class="sub-item-pts">+5</span>
+                </a>
+                <a href="#" class="dropdown-item sub-item" id="sub-item-rewards-guide" onclick="openOverlay('rewards-guide', event, 'rewards-guide')">
+                  <i class="fa-solid fa-coins" style="color:#d97706;"></i>
+                  <span>المكافآت الطلابية ومكافأة التميز</span>
+                  <span class="sub-item-pts">+5</span>
+                </a>
+                <a href="#" class="dropdown-item sub-item" id="sub-item-admissions-records" onclick="openOverlay('admissions', event, 'admissions-records')">
+                  <i class="fa-solid fa-file-invoice" style="color:#7A2416;"></i>
+                  <span>الدليل الإرشادي لنظام سجلات الطلاب</span>
+                  <span class="sub-item-pts">+5</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- ═══ المحطة الخامسة: عمادة شؤون الطلاب (15 نقطة) ═══ -->
+            <div class="dropdown-sub-group station-sub-group" id="station-subnav-5">
+              <button type="button" class="dropdown-item dropdown-sub-toggle" onclick="toggleStationSubmenu(5, event)">
+                <div class="sub-group-title-wrap">
+                  <div class="station-badge-circle">5</div>
+                  <span>المحطة الخامسة: عمادة شؤون الطلاب</span>
+                </div>
+                <span class="station-pts-badge">+15 نقطة</span>
+                <i class="fa-solid fa-chevron-down sub-arrow"></i>
+              </button>
+              <div class="dropdown-sub-menu">
+                <a href="#" class="dropdown-item sub-item" id="sub-item-student-loans" onclick="openOverlay('student-affairs', event, 'student-loans')">
+                  <i class="fa-solid fa-hand-holding-heart" style="color:#872A08;"></i>
+                  <span>الإعانات الجامعية والقروض الطلابية</span>
+                  <span class="sub-item-pts">+5</span>
+                </a>
+                <a href="#" class="dropdown-item sub-item" id="sub-item-student-jobs" onclick="openOverlay('student-affairs', event, 'student-jobs')">
+                  <i class="fa-solid fa-briefcase" style="color:#0284c7;"></i>
+                  <span>برنامج التشغيل الطلابي والأنشطة</span>
+                  <span class="sub-item-pts">+5</span>
+                </a>
+                <a href="#" class="dropdown-item sub-item" id="sub-item-skills-guide" onclick="openOverlay('skills-guide', event, 'skills-guide')">
+                  <i class="fa-solid fa-award" style="color:#c59b66;"></i>
+                  <span>دليل السجل المهاري للأنشطة</span>
+                  <span class="sub-item-pts">+5</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. رحلة رواد الحضورية DROPDOWN -->
+        <div class="nav-dropdown" id="campus-dropdown">
+          <button class="nav-link dropdown-toggle" onclick="toggleCampusDropdown(event)">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <span>رحلة رواد الحضورية</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="dropdown-menu" id="campus-dropdown-menu">
+            <a href="#" class="dropdown-item cta-item" onclick="openCampusExpoView(event)">
+              <i class="fa-solid fa-store" style="color:#7A2416;"></i>
+              <span>1. معرض أركان رواد 13</span>
+              <span class="station-pts-badge">10 نقاط لكل ركن</span>
+            </a>
+            <a href="#" class="dropdown-item" onclick="openCampusWorkshopsView(event)">
+              <i class="fa-solid fa-chalkboard-user" style="color:#d97706;"></i>
+              <span>2. الورش التدريبية والتعريفية</span>
+              <span class="station-pts-badge">9 ورش • 45 نقطة</span>
+            </a>
+            <a href="#" class="dropdown-item" onclick="openOverlay('colleges-schedule', event)">
+              <i class="fa-solid fa-calendar-days" style="color: #059669;"></i>
+              <span>3. جدول اللقاءات التعريفية بالكليات</span>
+              <span class="station-pts-badge" style="background:rgba(5,150,105,0.1);color:#059669;border-color:rgba(5,150,105,0.25);">مواعيد الحضور</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 3. اختبار ختام الرحلة DROPDOWN (المحطات 1 إلى 5: 4 نقاط لكل محطة = 20 نقطة) -->
+        <div class="nav-dropdown" id="quiz-stations-dropdown">
+          <button class="nav-link dropdown-toggle" onclick="toggleQuizDropdown(event)">
+            <i class="fa-solid fa-clipboard-question"></i>
+            <span>اختبار ختام الرحلة</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="dropdown-menu" id="quiz-stations-menu">
+            <div class="dropdown-header-label">
+              <i class="fa-solid fa-trophy"></i>
+              <span>محطات اختبار ختام الرحلة (20 نقطة)</span>
+            </div>
+            <a href="#" class="dropdown-item station-quiz-item" onclick="openStationQuiz(1, event)">
+              <div class="station-item-num">1</div>
+              <div class="station-item-info">
+                <span class="station-item-title">اختبار المحطة الأولى: عن الجامعة</span>
+                <span class="station-item-sub">نبذة عن الجامعة والرؤية والرسالة</span>
+              </div>
+              <span class="sub-item-pts">+4 نقاط</span>
+              <i class="fa-solid fa-arrow-left station-arrow-icon"></i>
+            </a>
+            <a href="#" class="dropdown-item station-quiz-item" onclick="openStationQuiz(2, event)">
+              <div class="station-item-num">2</div>
+              <div class="station-item-info">
+                <span class="station-item-title">اختبار المحطة الثانية: الأنظمة التقنية</span>
+                <span class="station-item-sub">الإيميل والشبكة والبلاك بورد</span>
+              </div>
+              <span class="sub-item-pts">+4 نقاط</span>
+              <i class="fa-solid fa-arrow-left station-arrow-icon"></i>
+            </a>
+            <a href="#" class="dropdown-item station-quiz-item" onclick="openStationQuiz(3, event)">
+              <div class="station-item-num">3</div>
+              <div class="station-item-info">
+                <span class="station-item-title">اختبار المحطة الثالثة: حقوقك وواجباتك</span>
+                <span class="station-item-sub">لائحة الانضباط ولائحة الدراسة</span>
+              </div>
+              <span class="sub-item-pts">+4 نقاط</span>
+              <i class="fa-solid fa-arrow-left station-arrow-icon"></i>
+            </a>
+            <a href="#" class="dropdown-item station-quiz-item" onclick="openStationQuiz(4, event)">
+              <div class="station-item-num">4</div>
+              <div class="station-item-info">
+                <span class="station-item-title">اختبار المحطة الرابعة: عمادة القبول والتسجيل</span>
+                <span class="station-item-sub">التقويم الأكاديمي ومرتبة الشرف</span>
+              </div>
+              <span class="sub-item-pts">+4 نقاط</span>
+              <i class="fa-solid fa-arrow-left station-arrow-icon"></i>
+            </a>
+            <a href="#" class="dropdown-item station-quiz-item" onclick="openStationQuiz(5, event)">
+              <div class="station-item-num">5</div>
+              <div class="station-item-info">
+                <span class="station-item-title">اختبار المحطة الخامسة: عمادة شؤون الطلاب</span>
+                <span class="station-item-sub">الإعانات والأنشطة والأندية الطلابية</span>
+              </div>
+              <span class="sub-item-pts">+4 نقاط</span>
+              <i class="fa-solid fa-arrow-left station-arrow-icon"></i>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item cta-item" onclick="startJourney(event, 4)">
+              <i class="fa-solid fa-flag-checkered"></i>
+              <span>بدء اختبار ختام الرحلة الشامل</span>
+              <span class="station-pts-badge" style="background:#F3C649;color:#2D0F08;font-weight:900;border-color:#C59B66;">20 نقطة</span>
+            </a>
+          </div>
+        </div>
+
+        <a href="#" class="nav-link" data-section="proud" onclick="openOverlay('proud', event)">
+          <i class="fa-solid fa-trophy"></i>
+          <span>فخور بجامعتي</span>
+        </a>
+
+        <!-- 🏆 جائزة رواد 13 BUTTON IN HEADER -->
+        <a href="#" class="nav-link nav-award-guide-btn" data-section="award" onclick="openOverlay('award', event)"
+          title="دليل مسارات وجائزة رواد 13">
+          <i class="fa-solid fa-award"></i>
+          <span>جائزة رواد 13</span>
+          <span class="award-glow-dot"></span>
+        </a>
+
+        <!-- Dynamic Luxury Achievement Student Chip -->
+        <button class="student-status-chip" id="student-status-chip" onclick="openStudentProfileModal(event)"
+          title="اضغط لعرض لوحة إنجازاتك ومستواك">
+          <div class="chip-level-icon-node" id="student-chip-icon">
+            <i class="fa-solid fa-compass"></i>
+            <span class="chip-pulse-ring"></span>
+          </div>
+          <div class="chip-center-info">
+            <span class="chip-id-text" id="student-chip-name">حساب الطالب</span>
+            <span class="chip-level-title" id="student-chip-level">مستكشف 🧭</span>
+          </div>
+          <div class="chip-points-pill">
+            <span id="student-chip-points">0</span> <span class="pts-lbl">نقطة</span>
+            <i class="fa-solid fa-star"></i>
+          </div>
+        </button>
+      </nav>
+
+      <!-- Backdrop Overlay for Mobile Drawer -->
+      <div class="mobile-nav-backdrop" id="mobile-nav-backdrop" onclick="toggleMobileMenu()"></div>
+
+      <button class="nav-mobile-toggle" id="mobile-toggle" onclick="toggleMobileMenu()"
+        aria-label="فتح القائمة الرئيسية">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+

@@ -1,0 +1,86 @@
+<!-- Modal for Adding/Editing Category -->
+<div id="categoryModal" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.65); backdrop-filter:blur(4px); z-index:9999; justify-content:center; align-items:center; padding:16px;">
+  <div style="background:#fff; width:100%; max-width:720px; border-radius:20px; box-shadow:0 24px 60px rgba(0,0,0,0.35); overflow:hidden; animation:slideUp 0.3s ease;">
+    <div style="background:var(--sb-bg); color:#fff; padding:18px 24px; display:flex; justify-content:space-between; align-items:center;">
+      <h3 id="catModalTitle" style="font-size:1.1rem; font-weight:800;"><i class="fa-solid fa-folder-plus" style="color:var(--c3);"></i> إضافة قسم جديد</h3>
+      <button onclick="closeCategoryModal()" style="color:rgba(255,255,255,0.7); font-size:1.2rem; background:none; border:none; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <form id="categoryForm" onsubmit="handleCategorySubmit(event)" style="padding:24px; display:flex; flex-direction:column; gap:16px; max-height:85vh; overflow-y:auto;">
+      <input type="hidden" id="catId">
+
+      <div>
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">اسم القسم / التصنيف *</label>
+        <input type="text" id="catName" required placeholder="مثال: قسم التوجيه والإرشاد الأكاديمي" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit;">
+      </div>
+
+      <div>
+        <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">الوصف المختصر للقسم</label>
+        <textarea id="catDescription" rows="2" placeholder="وصف يعرّف الطالب بما يتضمنه هذا القسم..." style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit; resize:vertical;"></textarea>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div>
+          <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">شعار وأيقونة القسم الجديد</label>
+          <select id="catIcon" onchange="toggleCustomCategoryIcon(this.value)" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--ink-300); font-family:inherit;">
+            <option value="fa-folder">📁 قسم عام (fa-folder)</option>
+            <option value="fa-book-open">📚 كتب ولوائح أنظمة (fa-book-open)</option>
+            <option value="fa-graduation-cap">🎓 دراسة وأكاديميا (fa-graduation-cap)</option>
+            <option value="fa-laptop">💻 أنظمة وتعلم إلكتروني (fa-laptop)</option>
+            <option value="fa-briefcase">💼 خدمات وإدارات (fa-briefcase)</option>
+            <option value="fa-building-columns">🏛️ كليات ومعاهد (fa-building-columns)</option>
+            <option value="fa-building">🏢 مباني ومرافق (fa-building)</option>
+            <option value="fa-calendar-days">📅 تقويم وتواريخ (fa-calendar-days)</option>
+            <option value="fa-heart-pulse">🏥 صحة ورعاية طبية (fa-heart-pulse)</option>
+            <option value="fa-bus">🚌 مواصلات ونقل جامعي (fa-bus)</option>
+            <option value="fa-shield-halved">🛡️ أمن وانضباط (fa-shield-halved)</option>
+            <option value="fa-trophy">🏆 جوائز وتفوق (fa-trophy)</option>
+            <option value="fa-handshake">🤝 توجيه واستشارات (fa-handshake)</option>
+            <option value="fa-hand-holding-dollar">💸 سُلف وإعانات مالية (fa-hand-holding-dollar)</option>
+            <option value="fa-futbol">⚽ أنشطة ورياضة (fa-futbol)</option>
+            <option value="fa-utensils">🍽️ مطعم وتغذية (fa-utensils)</option>
+            <option value="fa-house-user">🏠 سكن جامعي (fa-house-user)</option>
+            <option value="fa-flask">🔬 مختبرات وأبحاث (fa-flask)</option>
+            <option value="fa-palette">🎨 أنشطة ثقافية وفنون (fa-palette)</option>
+            <option value="fa-network-wired">🌐 شبكات واتصال (fa-network-wired)</option>
+            <option value="fa-envelope">📧 بريد موحد (fa-envelope)</option>
+            <option value="fa-file-invoice">📄 سجلات وإفادات (fa-file-invoice)</option>
+            <option value="fa-gavel">⚖️ لوائح وجزاءات (fa-gavel)</option>
+            <option value="fa-key">🔑 حسابات ودخول (fa-key)</option>
+            <option value="fa-comments">💬 استفسارات ودعم (fa-comments)</option>
+            <option value="custom">✍️ إدخال أيقونة مخصصة أخرى (FontAwesome)...</option>
+          </select>
+          <input type="text" id="catIconCustom" placeholder="اكتب فئة الأيقونة مثلاً: fa-microscope" style="display:none; width:100%; margin-top:6px; padding:8px 10px; border-radius:8px; border:1px solid var(--ink-300); font-size:0.83rem;">
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:800; color:var(--ink-700); margin-bottom:6px; display:block;">لون مميز للقسم</label>
+          <input type="color" id="catColor" value="#882D1B" style="width:100%; height:42px; border-radius:10px; border:1px solid var(--ink-300); cursor:pointer;">
+        </div>
+      </div>
+
+      <!-- ─── BROWSE CARDS BUILDER (بطاقات تصفح القسم والمعلومات) ─── -->
+      <div style="border-top:1px solid var(--ink-200); padding-top:16px; margin-top:4px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div>
+            <label style="font-size:0.9rem; font-weight:800; color:var(--c1); display:block; margin-bottom:2px;">
+              <i class="fa-solid fa-layer-group"></i> بطاقات تصفح ومعلومات القسم (Browse Cards)
+            </label>
+            <span style="font-size:0.75rem; color:var(--ink-500);">يجب إضافة معلومات التصفح قبل أسئلة القسم (حتى 6 بطاقات كحد أقصى)</span>
+          </div>
+          <button type="button" id="btn-add-browse-card" onclick="addBrowseCardField()" class="btn-outline" style="font-size:0.8rem; padding:6px 14px; border-color:var(--c1); color:var(--c1); border-radius:8px;">
+            <i class="fa-solid fa-plus"></i> إضافة بطاقة تصفح
+          </button>
+        </div>
+
+        <div id="browse-cards-builder" style="display:flex; flex-direction:column; gap:12px;"></div>
+        <div id="browse-cards-counter" style="font-size:0.78rem; font-weight:700; color:var(--ink-600); margin-top:8px; text-align:left;">0 من 6 بطاقات مضافة</div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px; border-top:1px solid var(--ink-200); padding-top:14px;">
+        <button type="button" onclick="closeCategoryModal()" class="btn-outline">إلغاء</button>
+        <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> حفظ القسم وبطاقات التصفح</button>
+      </div>
+    </form>
+  </div>
+</div>
+

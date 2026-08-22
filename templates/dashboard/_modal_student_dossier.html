@@ -1,0 +1,328 @@
+<!-- ══ FULL STUDENT PROFILE & PERFORMANCE DOSSIER MODAL (ملف الطالب الشامل) ══ -->
+<div id="studentFullProfileModal" class="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.75); backdrop-filter:blur(8px); z-index:99999; justify-content:center; align-items:center; padding:12px;">
+  <div class="sdm-modal-container" style="background:#fff; width:100%; max-width:1080px; max-height:94vh; border-radius:20px; box-shadow:0 25px 65px rgba(0,0,0,0.35); display:flex; flex-direction:column; overflow:hidden; animation:slideUp 0.3s cubic-bezier(.4,0,.2,1);">
+    
+    <!-- Modal Top Header -->
+    <div class="sdm-header" style="background:linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); color:#fff; padding:14px 24px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; position:relative; overflow:hidden; flex-shrink:0;">
+      <div style="position:absolute; inset:0; background:radial-gradient(circle at 20% 50%, rgba(5,150,105,0.15) 0%, transparent 50%); pointer-events:none;"></div>
+      <div style="display:flex; align-items:center; gap:14px; position:relative; z-index:1;">
+        <div id="sdm-avatar" style="width:50px; height:50px; border-radius:14px; background:linear-gradient(135deg, #059669, #10b981); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.35rem; font-weight:800; box-shadow:0 4px 14px rgba(5,150,105,0.4);">
+          <i class="fa-solid fa-user-graduate"></i>
+        </div>
+        <div>
+          <h3 id="sdm-student-name" style="font-size:1.2rem; font-weight:900; color:#fff; margin:0; letter-spacing:-0.01em;">اسم الطالب</h3>
+          <div style="font-size:0.82rem; color:rgba(255,255,255,0.75); display:flex; gap:10px; margin-top:3px; flex-wrap:wrap; align-items:center;">
+            <span><i class="fa-solid fa-id-badge" style="margin-left:3px; opacity:0.7;"></i> <strong id="sdm-student-id" style="font-family:monospace; color:#fff; background:rgba(255,255,255,0.12); padding:2px 8px; border-radius:6px;">--</strong></span>
+            <span style="opacity:0.4;">|</span>
+            <span id="sdm-student-college">الكلية</span>
+            <span style="opacity:0.4;">|</span>
+            <span id="sdm-student-gender">الجنس</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; position:relative; z-index:1;">
+        <div id="sdm-rank-badge" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:6px 14px; border-radius:20px; font-weight:800; font-size:0.82rem; backdrop-filter:blur(4px);">
+          🏆 الترتيب: #--
+        </div>
+        <button type="button" onclick="closeStudentFullDossierModal()" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; font-size:1.2rem; cursor:pointer; padding:6px 10px; border-radius:10px; line-height:1; transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">&times;</button>
+      </div>
+    </div>
+
+    <!-- Quick Score Bar — Progress Ring + Stats -->
+    <div class="sdm-score-bar-new" style="flex-shrink:0;">
+      <!-- Progress Ring: Points out of 200 -->
+      <div class="sdm-ring-wrap" id="sdm-progress-ring-wrap">
+        <svg viewBox="0 0 36 36">
+          <circle class="sdm-ring-bg" cx="18" cy="18" r="15.9"></circle>
+          <circle id="sdm-ring-circle" class="sdm-ring-fg" cx="18" cy="18" r="15.9" stroke="#059669" stroke-dasharray="0 100"></circle>
+        </svg>
+        <div class="sdm-ring-center">
+          <div class="sdm-ring-pts" id="sdm-total-pts">0</div>
+          <div class="sdm-ring-max">من 200</div>
+          <div class="sdm-ring-label" id="sdm-pts-level">مبتدئ</div>
+        </div>
+      </div>
+      <!-- Stats Grid -->
+      <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+        <div class="sdm-score-right">
+          <div class="sdm-mini-stat">
+            <div class="sdm-ms-label">📝 درجة الاختبار</div>
+            <div class="sdm-ms-val" id="sdm-quiz-score-pill" style="color:#2563eb;">--</div>
+          </div>
+          <div class="sdm-mini-stat">
+            <div class="sdm-ms-label">⏱️ وقت الاختبار</div>
+            <div class="sdm-ms-val" id="sdm-quiz-time" style="color:#d97706;">--</div>
+          </div>
+          <div class="sdm-mini-stat">
+            <div class="sdm-ms-label">📚 اللوائح</div>
+            <div class="sdm-ms-val" id="sdm-docs-count" style="color:#6366f1;">--</div>
+          </div>
+          <div class="sdm-mini-stat">
+            <div class="sdm-ms-label">🏫 الأركان</div>
+            <div class="sdm-ms-val" id="sdm-stations-count" style="color:#607976;">--</div>
+          </div>
+          <div class="sdm-mini-stat">
+            <div class="sdm-ms-label">🎯 الورش</div>
+            <div class="sdm-ms-val" id="sdm-workshops-count" style="color:#7c3aed;">--</div>
+          </div>
+          <div class="sdm-mini-stat">
+            <div class="sdm-ms-label">🎬 المقاطع</div>
+            <div class="sdm-ms-val" id="sdm-videos-count-pill" style="color:#d97706;">--</div>
+          </div>
+        </div>
+        <!-- Points Breakdown by Category -->
+        <div id="sdm-points-breakdown" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:6px; margin-top:4px;">
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:6px 10px; text-align:center;">
+            <div style="font-size:0.65rem; color:#15803d; font-weight:700;">📚 استكشاف</div>
+            <div style="font-size:0.95rem; font-weight:900; color:#059669;" id="sdm-explore-pts">0</div>
+            <div style="font-size:0.6rem; color:#86efac;">من 75</div>
+          </div>
+          <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:6px 10px; text-align:center;">
+            <div style="font-size:0.65rem; color:#1d4ed8; font-weight:700;">📝 كويز</div>
+            <div style="font-size:0.95rem; font-weight:900; color:#2563eb;" id="sdm-quiz-pts">0</div>
+            <div style="font-size:0.6rem; color:#93c5fd;">من 20</div>
+          </div>
+          <div style="background:#fefce8; border:1px solid #fde68a; border-radius:10px; padding:6px 10px; text-align:center;">
+            <div style="font-size:0.65rem; color:#a16207; font-weight:700;">🏫 حرم</div>
+            <div style="font-size:0.95rem; font-weight:900; color:#d97706;" id="sdm-campus-pts">0</div>
+            <div style="font-size:0.6rem; color:#fcd34d;">من 60</div>
+          </div>
+          <div style="background:#faf5ff; border:1px solid #e9d5ff; border-radius:10px; padding:6px 10px; text-align:center;">
+            <div style="font-size:0.65rem; color:#7c3aed; font-weight:700;">🎯 ورش</div>
+            <div style="font-size:0.95rem; font-weight:900; color:#7c3aed;" id="sdm-workshop-pts">0</div>
+            <div style="font-size:0.6rem; color:#c4b5fd;">من 45</div>
+          </div>
+        </div>
+        <!-- Remaining Points Bar -->
+        <div class="sdm-remaining-bar">
+          <span style="font-size:0.75rem; font-weight:800; color:#334155; white-space:nowrap;" id="sdm-remaining-label">⭐ باقي 200 نقطة</span>
+          <div class="sdm-rb-track">
+            <div class="sdm-rb-fill" id="sdm-remaining-fill" style="width:0%; background:linear-gradient(90deg, #059669, #10b981);"></div>
+          </div>
+          <span style="font-size:0.72rem; font-weight:900; color:#059669; white-space:nowrap;" id="sdm-pct-label">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dossier Tabs Navigation — modern CSS-class based -->
+    <div class="sdm-tabs-nav-new" style="flex-shrink:0;">
+      <button type="button" class="sdm-tab2 active" onclick="switchStudentDossierTab('quiz', this)">
+        <i class="fa-solid fa-clipboard-check sdm-tab-icon"></i>
+        <span class="sdm-tab-text">سجل الاختبار</span>
+      </button>
+      <button type="button" class="sdm-tab2" onclick="switchStudentDossierTab('proofs', this)">
+        <i class="fa-solid fa-camera-retro sdm-tab-icon"></i>
+        <span class="sdm-tab-text">إثباتات التفعيل</span>
+      </button>
+      <button type="button" class="sdm-tab2" onclick="switchStudentDossierTab('videos', this)">
+        <i class="fa-solid fa-film sdm-tab-icon"></i>
+        <span class="sdm-tab-text">المقاطع</span>
+        <span class="sdm-tab-badge" id="sdm-tab-videos-count">--</span>
+      </button>
+      <button type="button" class="sdm-tab2" onclick="switchStudentDossierTab('docs', this)">
+        <i class="fa-solid fa-book-open sdm-tab-icon"></i>
+        <span class="sdm-tab-text">اللوائح</span>
+      </button>
+      <button type="button" class="sdm-tab2" onclick="switchStudentDossierTab('stations', this)">
+        <i class="fa-solid fa-compass sdm-tab-icon"></i>
+        <span class="sdm-tab-text">الأركان</span>
+      </button>
+      <button type="button" class="sdm-tab2" onclick="switchStudentDossierTab('workshops', this)">
+        <i class="fa-solid fa-chalkboard-user sdm-tab-icon"></i>
+        <span class="sdm-tab-text">الورش</span>
+      </button>
+      <button type="button" class="sdm-tab2" onclick="switchStudentDossierTab('contact', this)">
+        <i class="fa-solid fa-id-card sdm-tab-icon"></i>
+        <span class="sdm-tab-text">البيانات</span>
+      </button>
+    </div>
+
+    <!-- Dossier Body Content -->
+    <div style="padding:20px; overflow-y:auto; flex:1; min-height:0; background:linear-gradient(to bottom, #f8fafc, #f1f5f9);">
+      
+      <!-- Tab 1: Quiz Questions Breakdown -->
+      <div id="sdm-pane-quiz" class="sdm-tab-pane" style="display:block;">
+        <div id="sdm-quiz-header-banner" style="background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:16px 20px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <!-- Rendered dynamically -->
+        </div>
+        <div id="sdm-quiz-questions-list" style="display:flex; flex-direction:column; gap:12px;">
+          <!-- Questions with options rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Tab 2: Uploaded Proofs & Digital Activation (صور وإثباتات التفعيل) -->
+      <div id="sdm-pane-proofs" class="sdm-tab-pane" style="display:none;">
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          
+          <div style="background:linear-gradient(135deg, rgba(37,99,235,0.06), rgba(37,99,235,0.02)); border:1px solid rgba(37,99,235,0.2); border-radius:14px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:40px; height:40px; border-radius:10px; background:#2563eb; color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+              </div>
+              <div>
+                <h4 style="font-size:1rem; font-weight:800; color:#1e40af; margin:0;">إثباتات التفعيل الرقمي (المحطة الثانية — محطة التقنية والأنظمة)</h4>
+                <p style="font-size:0.78rem; color:var(--ink-500); margin:2px 0 0;">الصور المرفوعة من الطالب لإثبات تفعيل البريد الجامعي Outlook والدخول على نظام البلاك بورد Blackboard</p>
+              </div>
+            </div>
+            <div id="sdm-proofs-overall-status" style="font-size:0.82rem; font-weight:800; padding:5px 12px; border-radius:20px; background:#fff; border:1px solid var(--ink-200); color:var(--ink-700);">
+              --
+            </div>
+          </div>
+
+          <!-- Proofs Cards Grid -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr)); gap:18px;">
+            
+            <!-- Card 1: Outlook Email Proof -->
+            <div style="background:#fff; border:1px solid var(--ink-200); border-radius:16px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.03); display:flex; flex-direction:column;">
+              <div style="padding:14px 18px; background:linear-gradient(135deg, rgba(37,99,235,0.08), rgba(37,99,235,0.02)); border-bottom:1px solid rgba(37,99,235,0.15); display:flex; justify-content:space-between; align-items:center;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <i class="fa-solid fa-envelope-circle-check" style="font-size:1.2rem; color:#2563eb;"></i>
+                  <span style="font-weight:800; font-size:0.95rem; color:#1e40af;">1. إثبات تفعيل البريد الجامعي (Outlook)</span>
+                </div>
+                <span id="sdm-proof-email-badge" class="pill pill-gray">--</span>
+              </div>
+              <div id="sdm-proof-email-body" style="padding:18px; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <!-- Dynamically rendered -->
+              </div>
+            </div>
+
+            <!-- Card 2: Blackboard Login Proof -->
+            <div style="background:#fff; border:1px solid var(--ink-200); border-radius:16px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.03); display:flex; flex-direction:column;">
+              <div style="padding:14px 18px; background:linear-gradient(135deg, rgba(217,119,6,0.08), rgba(217,119,6,0.02)); border-bottom:1px solid rgba(217,119,6,0.15); display:flex; justify-content:space-between; align-items:center;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <i class="fa-solid fa-graduation-cap" style="font-size:1.2rem; color:#d97706;"></i>
+                  <span style="font-weight:800; font-size:0.95rem; color:#92400e;">2. إثبات الدخول لنظام التعليم (Blackboard)</span>
+                </div>
+                <span id="sdm-proof-bb-badge" class="pill pill-gray">--</span>
+              </div>
+              <div id="sdm-proof-bb-body" style="padding:18px; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <!-- Dynamically rendered -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Video & Additional Orientation Checklist -->
+          <div style="background:#fff; border:1px solid var(--ink-200); border-radius:14px; padding:18px; margin-top:4px;">
+            <h5 style="font-size:0.92rem; font-weight:800; color:var(--ink-800); margin:0 0 12px; display:flex; align-items:center; gap:8px;">
+              <i class="fa-solid fa-list-check" style="color:#059669;"></i> قائمة الجاهزية والأنشطة الرقمية الإضافية
+            </h5>
+            <div id="sdm-proofs-checklist-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:10px;">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tab: Homepage Configured Videos Detailed Tracking (مقاطع الفيديو بالرئيسية) -->
+      <div id="sdm-pane-videos" class="sdm-tab-pane" style="display:none;">
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          
+          <div style="background:linear-gradient(135deg, rgba(217,119,6,0.06), rgba(217,119,6,0.02)); border:1px solid rgba(217,119,6,0.25); border-radius:14px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:40px; height:40px; border-radius:10px; background:#d97706; color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">
+                <i class="fa-solid fa-film"></i>
+              </div>
+              <div>
+                <h4 style="font-size:1rem; font-weight:800; color:#92400e; margin:0;">مقاطع الفيديو التثقيفية بالصفحة الرئيسية</h4>
+                <p style="font-size:0.78rem; color:var(--ink-500); margin:2px 0 0;">يتم فحص وعرض جميع المقاطع المرفوعة بالرئيسية وحالة متابعة هذا الطالب لكل مقطع بدقة</p>
+              </div>
+            </div>
+            <div id="sdm-videos-overall-status" style="font-size:0.82rem; font-weight:800; padding:6px 14px; border-radius:20px; background:#fff; border:1.5px solid #d97706; color:#92400e;">
+              --
+            </div>
+          </div>
+
+          <!-- Individual Videos List -->
+          <div id="sdm-videos-cards-list" style="display:flex; flex-direction:column; gap:12px;">
+            <!-- Rendered dynamically for every configured video -->
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tab 3: Explored Documents -->
+      <div id="sdm-pane-docs" class="sdm-tab-pane" style="display:none;">
+        <div style="background:#fff; border:1px solid var(--ink-200); border-radius:14px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.02);">
+          <div style="padding:14px 18px; background:var(--ink-100); border-bottom:1px solid var(--ink-200); font-weight:800; color:var(--ink-800); display:flex; justify-content:space-between;">
+            <span><i class="fa-solid fa-book-bookmark" style="color:var(--c1);"></i> اللوائح والأدلة المتصفحة + المقاطع المشاهدة 🎬</span>
+            <span id="sdm-docs-badge" class="pill pill-info">--</span>
+          </div>
+          <div id="sdm-docs-tbody" style="padding:16px; display:flex; flex-direction:column; gap:8px;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Stations Scanned -->
+      <div id="sdm-pane-stations" class="sdm-tab-pane" style="display:none;">
+        <div style="background:#fff; border:1px solid var(--ink-200); border-radius:14px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.02);">
+          <div style="padding:14px 18px; background:var(--ink-100); border-bottom:1px solid var(--ink-200); font-weight:800; color:var(--ink-800); display:flex; justify-content:space-between;">
+            <span><i class="fa-solid fa-qrcode" style="color:#059669;"></i> مسوحات الأركان الميدانية المسجلة</span>
+            <span id="sdm-stations-badge" class="pill pill-success">--</span>
+          </div>
+          <div id="sdm-stations-tbody" style="padding:16px; display:flex; flex-direction:column; gap:8px;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 5: Workshops Attended -->
+      <div id="sdm-pane-workshops" class="sdm-tab-pane" style="display:none;">
+        <div style="background:#fff; border:1px solid var(--ink-200); border-radius:14px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.02);">
+          <div style="padding:14px 18px; background:var(--ink-100); border-bottom:1px solid var(--ink-200); font-weight:800; color:var(--ink-800); display:flex; justify-content:space-between;">
+            <span><i class="fa-solid fa-chalkboard-user" style="color:#7c3aed;"></i> الورش التدريبية المحضورة (5 نقاط لكل ورشة)</span>
+            <span id="sdm-workshops-badge" class="pill pill-info">--</span>
+          </div>
+          <div id="sdm-workshops-tbody" style="padding:16px; display:flex; flex-direction:column; gap:8px;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 6: Personal & Academic Contact -->
+      <div id="sdm-pane-contact" class="sdm-tab-pane" style="display:none;">
+        <div style="background:#fff; border:1px solid var(--ink-200); border-radius:14px; padding:20px; display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px;">
+          <div style="padding:12px; background:var(--ink-100); border-radius:10px;">
+            <div style="font-size:0.75rem; color:var(--ink-500); font-weight:700;">الاسم الكامل</div>
+            <div id="sdm-info-fullname" style="font-size:0.95rem; font-weight:800; color:var(--ink-800); margin-top:3px;">--</div>
+          </div>
+          <div style="padding:12px; background:var(--ink-100); border-radius:10px;">
+            <div style="font-size:0.75rem; color:var(--ink-500); font-weight:700;">الرقم الجامعي</div>
+            <div id="sdm-info-sid" style="font-size:0.95rem; font-weight:800; font-family:monospace; color:var(--ink-800); margin-top:3px;">--</div>
+          </div>
+          <div style="padding:12px; background:var(--ink-100); border-radius:10px;">
+            <div style="font-size:0.75rem; color:var(--ink-500); font-weight:700;">الكلية الأكاديمية</div>
+            <div id="sdm-info-college" style="font-size:0.95rem; font-weight:800; color:var(--ink-800); margin-top:3px;">--</div>
+          </div>
+          <div style="padding:12px; background:var(--ink-100); border-radius:10px;">
+            <div style="font-size:0.75rem; color:var(--ink-500); font-weight:700;">الجنس</div>
+            <div id="sdm-info-gender" style="font-size:0.95rem; font-weight:800; color:var(--ink-800); margin-top:3px;">--</div>
+          </div>
+          <div style="padding:12px; background:var(--ink-100); border-radius:10px;">
+            <div style="font-size:0.75rem; color:var(--ink-500); font-weight:700;">الهوية الوطنية</div>
+            <div id="sdm-info-natid" style="font-size:0.95rem; font-weight:800; font-family:monospace; color:var(--ink-800); margin-top:3px;">--</div>
+          </div>
+          <div style="padding:12px; background:var(--ink-100); border-radius:10px;">
+            <div style="font-size:0.75rem; color:var(--ink-500); font-weight:700;">رقم الجوال</div>
+            <div id="sdm-info-phone" style="font-size:0.95rem; font-weight:800; font-family:monospace; color:var(--ink-800); margin-top:3px;">--</div>
+          </div>
+          <div style="padding:12px; background:var(--ink-100); border-radius:10px;">
+            <div style="font-size:0.75rem; color:var(--ink-500); font-weight:700;">البريد الجامعي الأكاديمي</div>
+            <div id="sdm-info-email" style="font-size:0.88rem; font-weight:800; font-family:monospace; color:#2563eb; margin-top:3px;">--</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modal Bottom Actions -->
+    <div style="background:#fff; border-top:1px solid var(--ink-200); padding:14px 24px; display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-size:0.8rem; color:var(--ink-500);">
+        <i class="fa-solid fa-circle-check" style="color:#059669;"></i> تم التوثيق الأكاديمي الشامل
+      </div>
+      <button type="button" onclick="closeStudentFullDossierModal()" class="btn-outline" style="border-radius:10px; font-weight:700;">
+        إغلاق الملف
+      </button>
+    </div>

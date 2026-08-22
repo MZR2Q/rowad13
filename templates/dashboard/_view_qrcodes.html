@@ -1,0 +1,53 @@
+      <div id="view-qrcodes" class="dash-view-tab" style="display:none;">
+        <div class="card" style="border-radius:var(--r-lg); overflow:hidden; margin-bottom:20px;">
+          <div class="ch" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="ch-icon" style="background:rgba(5,150,105,0.15);">
+                <i class="fa-solid fa-qrcode" style="color:#059669;"></i>
+              </div>
+              <div>
+                <h2>باركودات الأركان والورش الميدانية</h2>
+                <p style="font-size:0.8rem; color:var(--ink-500); margin-top:2px;">اطبع هذه الباركودات وعلّقها في كل ركن وورشة — يمسحها الطالب بالكاميرا لكسب النقاط وتوثيق الحضور</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <button class="btn-primary" onclick="printQRCodesDashboard()" style="background:linear-gradient(135deg, #059669, #10b981);">
+                <i class="fa-solid fa-print"></i> طباعة جميع الباركودات 🖨️
+              </button>
+              <button class="btn-primary" onclick="exportQRCodesToWord()" style="background:linear-gradient(135deg, #2563eb, #3b82f6);">
+                <i class="fa-solid fa-file-word"></i> تصدير Word
+              </button>
+            </div>
+          </div>
+
+          <div class="cb" style="padding:20px;" id="qr-printable-area">
+            <!-- Stations Section -->
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:18px; padding:12px 18px; background:var(--ink-100); border-radius:12px; border-right:4px solid var(--c1);">
+              <i class="fa-solid fa-compass" style="font-size:1.3rem; color:var(--c1);"></i>
+              <div>
+                <h3 style="font-size:1.05rem; font-weight:800; color:var(--ink-800); margin:0;">🏫 اكتشف جامعتك — باركودات الأركان والاستقبال (7 أركان)</h3>
+                <span style="font-size:0.78rem; color:var(--ink-500);">باركود لكل ركن ميداني وركن الاستقبال لتسليم الهدايا وتوثيق الحضور</span>
+              </div>
+            </div>
+
+            <div id="dashStationsGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:18px; margin-bottom:30px;">
+              <!-- Generated via JS -->
+            </div>
+
+            <!-- Workshops Section -->
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:18px; padding:12px 18px; background:var(--ink-100); border-radius:12px; border-right:4px solid #059669;">
+              <i class="fa-solid fa-rocket" style="font-size:1.3rem; color:#059669;"></i>
+              <div>
+                <h3 style="font-size:1.05rem; font-weight:800; color:var(--ink-800); margin:0;">🎯 اصنع تجربتك — باركودات الورش التدريبية (9 ورش)</h3>
+                <span style="font-size:0.78rem; color:var(--ink-500);">كل ورشة لها باركود فريد يمنح الطالب 5 نقاط عند المسح (المجموع 45 نقطة لجميع الورش)</span>
+              </div>
+            </div>
+
+            <div id="dashWorkshopsGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:18px;">
+              <!-- Generated via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PAGE: OFFICIAL UNIVERSITY LEADERSHIP REPORT (التقرير القيادي الشامل للجامعة) ══ -->

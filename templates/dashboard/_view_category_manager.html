@@ -1,0 +1,39 @@
+      <div id="view-category-manager" class="dash-view-tab active-view">
+        <!-- Journey Stations Section -->
+        <div class="card" style="border-radius:var(--r-lg); overflow:hidden; margin-bottom:20px;">
+          <div class="ch" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="ch-icon" style="background:rgba(5,150,105,0.15);">
+                <i class="fa-solid fa-route" style="color:#059669;"></i>
+              </div>
+              <div>
+                <h2>🎯 مدير محطات الاختبار (5 محطات = 20 نقطة)</h2>
+                <p style="font-size:0.8rem; color:var(--ink-500); margin-top:2px;">الأسئلة تتوزع على 5 محطات — كل محطة 4 نقاط — النقاط تتوزع تلقائياً على أسئلة المحطة</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn-primary" onclick="fetchJourneyStations()" style="background:linear-gradient(135deg, #059669, #10b981);">
+                <i class="fa-solid fa-rotate"></i> تحديث المحطات 🔄
+              </button>
+              <button class="btn-primary" onclick="openAllQuestionsBankModal()" style="background:linear-gradient(135deg, var(--c1), var(--c2));">
+                <i class="fa-solid fa-boxes-stacked"></i> 📚 بنك الأسئلة (<span id="hdr-bank-q-count">0</span>)
+              </button>
+            </div>
+          </div>
+
+          <div class="cb">
+            <div id="journey-stations-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px;">
+              <div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--ink-400);">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem; color:#059669;"></i>
+                <div style="margin-top:8px;">جاري تحميل المحطات...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categories section hidden - kept for backward compatibility -->
+        <div id="admin-categories-grid" style="display:none;"></div>
+
+      </div>
+
+      <!-- ══ PAGE 4: COMPREHENSIVE STUDENT DIRECTORY & RANKING (سجل ولوحة إنجازات الطلاب الشاملة) ══ -->
