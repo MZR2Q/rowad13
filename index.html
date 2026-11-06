@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>نَقاء | NAQAA — غرفة عمليات المحاكاة التفاعلية</title>
+<meta name="description" content="محاكاة تفاعلية لنظام نَقاء: شاحنة نظافة ترصد الشارع، أمر عمل، ثم تحقق آلي في مرور لاحق قبل الإغلاق الموثّق." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ───────────────── شريط علوي ───────────────── -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">نَ</div>
+    <div class="brand-text">
+      <h1>نَقاء <span class="latin">NAQAA</span></h1>
+      <p>غرفة عمليات المحاكاة — رصد ذكي، وإغلاق البلاغ بعد التحقق</p>
+    </div>
+  </div>
+  <div class="challenge">
+    <span class="tag">المسار 01 · المدن الذكية</span>
+    <span class="tag tag-accent">التحدي 05 · المدن ذاتية الإدارة</span>
+  </div>
+</header>
+
+<!-- ───────────────── شريط التحكم ───────────────── -->
+<div class="controls" role="toolbar" aria-label="أدوات التحكم بالمحاكاة">
+  <button id="btnPlay" class="btn btn-primary">▶ تشغيل</button>
+  <button id="btnStep" class="btn">⏭ خطوة</button>
+  <button id="btnSpeed" class="btn">السرعة ×1</button>
+  <button id="btnCitizen" class="btn">📣 بلاغ مواطن</button>
+  <button id="btnReset" class="btn btn-ghost">↺ إعادة</button>
+  <div class="spacer"></div>
+  <div class="round-chip"><span>اليوم</span> <b id="dayNum">1</b> · <span>الجولة</span> <b id="roundNum">0</b></div>
+  <div class="clock-chip" id="simClock">05:30</div>
+  <button id="btnFull" class="btn btn-ghost" title="ملء الشاشة">⛶</button>
+</div>
+
+<!-- ───────────────── التخطيط الرئيسي ───────────────── -->
+<main class="layout">
+
+  <!-- المسرح: الخريطة + الكاميرات + بوابة الثقة -->
+  <section class="stage">
+    <div class="card map-card">
+      <div class="card-head">
+        <h2>🗺️ المدينة ومسار الشاحنة</h2>
+        <div class="legend" id="legend">
+          <span class="lg"><i class="dot d-clean"></i> نظيف</span>
+          <span class="lg"><i class="dot d-dirty"></i> متراكم</span>
+          <span class="lg"><i class="dot d-work"></i> أمر عمل</span>
+          <span class="lg"><i class="dot d-verify"></i> تحقق</span>
+          <span class="lg"><i class="dot d-closed"></i> مغلق موثّق</span>
+        </div>
+      </div>
+      <div class="map-wrap">
+        <svg id="map" viewBox="0 0 800 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="خريطة المدينة ومسار الشاحنة"></svg>
+      </div>
+    </div>
+
+    <div class="stage-row">
+      <div class="card cams-card">
+        <div class="card-head"><h2>📹 الكاميرات — ما تراه الشاحنة الآن</h2><span class="muted-mini">معالجة داخل الشاحنة · لا بث مستمر</span></div>
+        <div class="cams" id="cams"></div>
+      </div>
+
+      <div class="card gate-card">
+        <div class="card-head"><h2>🧠 بوابة الثقة والقرار</h2></div>
+        <div class="gate-body">
+          <div class="gate-scene" id="gateScene">
+            <div class="gate-idle">بانتظار رصد…</div>
+          </div>
+          <div class="gate-meter">
+            <div class="meter-track">
+              <div class="zone zone-low"></div>
+              <div class="zone zone-mid"></div>
+              <div class="zone zone-high"></div>
+              <div class="thr thr-60"><span>0.60</span></div>
+              <div class="thr thr-85"><span>0.85</span></div>
+              <div class="needle" id="needle"></div>
+            </div>
+            <div class="meter-scale"><span>0</span><span>الثقة</span><span>1</span></div>
+          </div>
+          <div class="gate-verdict" id="gateVerdict">—</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- اللوحة الجانبية: المؤشرات + البلاغات + السجل -->
+  <aside class="panel">
+    <div class="card kpi-card">
+      <div class="card-head"><h2>📊 المؤشرات</h2></div>
+      <div class="kpis" id="kpis"></div>
+    </div>
+
+    <div class="card reports-card">
+      <div class="card-head"><h2>📋 البلاغات</h2><span class="muted-mini" id="reportsCount">0</span></div>
+      <div class="reports" id="reports"><p class="empty">لا توجد بلاغات بعد — شغّل المحاكاة.</p></div>
+    </div>
+
+    <div class="card log-card">
+      <div class="card-head"><h2>🧾 سجل الأحداث</h2><span class="muted-mini">الأحدث أولًا</span></div>
+      <div class="log" id="log"></div>
+    </div>
+  </aside>
+</main>
+
+<!-- شريط الحالة -->
+<div class="ticker" id="ticker">
+  <span class="tk-label">الحالة</span>
+  <span class="tk-text" id="tickerText">جاهز. اضغط «تشغيل» لتبدأ جولة الشاحنة من الرصد إلى الإغلاق الموثّق.</span>
+</div>
+
+<footer class="foot">
+  نَقاء | NAQAA · فريق Twenty Thirty · الهاكاثون الهندسي IECE 2026 — <b>محاكاة توضيحية</b>، القيم افتراضية تُعايَر في التجربة الميدانية.
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
