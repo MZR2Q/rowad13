@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>نَقاء | NAQAA — شرح البروتوتايب التفاعلي</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+:root{
+  --navy:#02586F;--deep:#042A35;--teal:#24B7AD;--light:#65D7CD;--teal-d:#0A6F68;--teal-t:#E0F4F2;
+  --blue:#0D6B80;--blue-t:#E3F1F4;--green:#26734A;--green-t:#E4F3EA;--amber:#975207;--amber-t:#FBEFE0;
+  --orange:#B93A0A;--orange-t:#FDE8DD;--slate:#4F6670;--slate-t:#E8EFF0;--ink:#0B2A33;--muted:#4A6670;
+  --line:#D2E3E5;--paper:#F2F7F7;--card:#FFFFFF;--focus:#FFB547;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#ddd;font-family:"IBM Plex Sans Arabic",Tahoma,Arial,sans-serif;color:var(--ink)}
+@page{size:1600px 900px;margin:0}
+.slide{
+  width:1600px;height:900px;position:relative;overflow:hidden;background:var(--paper);
+  page-break-after:always;break-after:page;padding:72px 88px 64px;display:flex;flex-direction:column;
+}
+.slide:last-child{page-break-after:auto}
+@media screen{.slide{margin:24px auto;box-shadow:0 10px 40px rgba(0,0,0,.25)}}
+
+/* ── عناصر مشتركة ── */
+.eyebrow{color:var(--teal-d);font-weight:700;font-size:20px;letter-spacing:.3px;margin-bottom:10px}
+h1{font-size:88px;font-weight:700;line-height:1.1}
+h2{font-size:52px;font-weight:700;line-height:1.15;color:var(--navy);margin-bottom:28px}
+h3{font-size:28px;font-weight:700;color:var(--navy)}
+p,li{font-size:24px;line-height:1.6;color:#2c4650}
+.lead{font-size:30px;line-height:1.5;color:var(--ink)}
+.muted{color:var(--muted)}
+ul{list-style:none}
+li{padding-right:30px;position:relative;margin-bottom:10px}
+li::before{content:"";position:absolute;right:4px;top:16px;width:11px;height:11px;border-radius:50%;background:var(--teal)}
+.foot{position:absolute;bottom:26px;left:88px;right:88px;display:flex;justify-content:space-between;align-items:center;font-size:16px;color:var(--muted)}
+.foot .n{font-family:ui-monospace,Consolas,monospace;background:var(--slate-t);padding:3px 12px;border-radius:999px}
+.row{display:flex;gap:40px;flex:1;min-height:0;align-items:stretch}
+.col{display:flex;flex-direction:column;min-height:0}
+.shot{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(4,42,53,.10);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.shot img{width:100%;height:100%;object-fit:contain;display:block}
+.cap{font-size:17px;color:var(--muted);margin-top:10px;text-align:center}
+.pill{display:inline-block;background:var(--teal-t);color:var(--teal-d);font-weight:700;font-size:18px;padding:4px 14px;border-radius:999px}
+.tag{display:inline-block;border:1px solid var(--line);background:#fff;font-size:18px;font-weight:600;padding:5px 14px;border-radius:999px;color:var(--muted)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 26px}
+.badge{display:inline-block;font-weight:700;font-size:18px;padding:4px 14px;border-radius:999px}
+.b-work{background:var(--amber-t);color:var(--amber)}.b-verify{background:var(--blue-t);color:var(--blue)}
+.b-closed{background:var(--green-t);color:var(--green)}.b-rework{background:var(--orange-t);color:var(--orange)}
+.b-uncertain{background:var(--slate-t);color:var(--slate)}.b-review{background:#EDE7F6;color:#5E35B1}
+.mono{font-family:ui-monospace,Consolas,monospace}
+.num{font-size:64px;font-weight:700;line-height:1;font-family:ui-monospace,Consolas,monospace}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 24px}
+.kpi .l{font-size:19px;color:var(--muted);font-weight:600;margin-top:6px}
+table{border-collapse:collapse;width:100%;background:#fff;border-radius:14px;overflow:hidden;font-size:21px}
+th,td{padding:13px 18px;text-align:right;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--deep);color:#DCF5F1;font-weight:700;font-size:20px}
+tr:last-child td{border-bottom:none}
+td.c{font-family:ui-monospace,Consolas,monospace;font-weight:700;color:var(--navy)}
+
+/* ── الغلاف ── */
+.cover{background:linear-gradient(115deg,var(--deep),var(--navy) 55%,var(--teal-d));color:#EAFBF8;padding:0}
+.cover .txt{position:absolute;right:88px;top:96px;width:720px}
+.cover .mark{width:96px;height:96px;border-radius:26px;display:grid;place-items:center;font-size:48px;font-weight:700;color:var(--deep);background:linear-gradient(145deg,var(--light),var(--teal));box-shadow:0 10px 30px rgba(36,183,173,.45);margin-bottom:34px}
+.cover h1{color:#fff}
+.cover .latin{font-size:36px;font-weight:600;color:#A9E4DD;letter-spacing:2px;margin-top:4px}
+.cover .sub{font-size:30px;color:#CFF3EF;margin-top:26px;line-height:1.5}
+.cover .tags{margin-top:34px;display:flex;gap:10px;flex-wrap:wrap}
+.cover .tag{background:rgba(255,255,255,.12);color:#CFF3EF;border-color:rgba(255,255,255,.2)}
+.cover .tag.acc{background:var(--teal);color:#04262C;border-color:transparent}
+.cover .shot{position:absolute;left:-120px;top:150px;width:900px;height:620px;transform:rotate(-4deg);border:6px solid rgba(255,255,255,.25);box-shadow:0 40px 80px rgba(0,0,0,.45)}
+.cover .foot{color:#A9E4DD}
+
+/* ── شريحة الحلقة ── */
+.loop{display:flex;align-items:center;gap:16px;margin:34px 0 10px}
+.loop .st{flex:1;background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px 18px;text-align:center}
+.loop .st b{display:block;font-size:26px;color:var(--navy);margin-bottom:6px}
+.loop .st span{font-size:19px;color:var(--muted)}
+.loop .ar{font-size:40px;color:var(--teal);font-weight:700}
+.loop .st.hi{background:var(--teal-t);border-color:var(--teal)}
+
+/* ── معالم الواجهة ── */
+.callouts{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px}
+.co{display:flex;gap:14px;align-items:flex-start}
+.co i{flex:none;width:40px;height:40px;border-radius:50%;background:var(--teal);color:#04262C;font-style:normal;font-weight:700;font-size:22px;display:grid;place-items:center}
+.co b{font-size:23px;color:var(--navy)}
+.co p{font-size:20px;line-height:1.45}
+
+/* ── بوابة الثقة ── */
+.gate{display:flex;gap:14px;margin-top:20px}
+.gate .z{flex:1;border-radius:14px;padding:18px 20px}
+.gate .z b{display:block;font-size:26px;margin-bottom:4px;font-family:ui-monospace,Consolas,monospace}
+.gate .z span{font-size:20px}
+.z-low{background:var(--orange-t);color:var(--orange)}.z-mid{background:var(--amber-t);color:var(--amber)}.z-high{background:var(--green-t);color:var(--green)}
+
+/* ── محرك الحالات ── */
+.sm{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:10px}
+.sm .s{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px;border-top:8px solid var(--teal)}
+.sm .s .badge{font-size:20px;margin-bottom:10px}
+.sm .s p{font-size:20px;line-height:1.5}
+.sm .s.v{border-top-color:var(--green)}.sm .s.r{border-top-color:var(--orange)}.sm .s.u{border-top-color:var(--slate)}.sm .s.o{border-top-color:#5E35B1}
+.formula{background:var(--deep);color:#DCF5F1;border-radius:16px;padding:22px 30px;font-size:27px;margin-top:26px;text-align:center}
+.formula b{color:var(--light)}
+
+/* ── الملفات ── */
+.files{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.files .f{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.files .f b{font-family:ui-monospace,Consolas,monospace;font-size:24px;color:var(--navy);display:block;margin-bottom:6px;direction:ltr;text-align:right}
+.files .f span{font-size:19px;color:var(--muted)}
+.link{background:#fff;border:2px dashed var(--teal);border-radius:16px;padding:20px 28px;font-family:ui-monospace,Consolas,monospace;font-size:30px;color:var(--teal-d);direction:ltr;text-align:center;margin-top:22px}
+
+/* ── الختام ── */
+.end{background:linear-gradient(115deg,var(--deep),var(--navy) 55%,var(--teal-d));color:#EAFBF8;align-items:center;justify-content:center;text-align:center}
+.end h1{color:#fff;font-size:72px}
+.end p{color:#CFF3EF;font-size:30px}
+.end .link{background:rgba(255,255,255,.08);border-color:var(--light);color:#fff}
+.end .foot{color:#A9E4DD}
+</style>
+</head>
+<body>
+
+<!-- 1 ▸ الغلاف -->
+<section class="slide cover">
+  <div class="txt">
+    <div class="mark">نَ</div>
+    <h1>نَقاء</h1>
+    <div class="latin">NAQAA · PROTOTYPE</div>
+    <p class="sub">شرح البروتوتايب التفاعلي<br>غرفة عمليات المحاكاة — من الرصد إلى الإغلاق الموثّق</p>
+    <div class="tags"><span class="tag">المسار 01 · المدن الذكية</span><span class="tag acc">التحدي 05 · المدن ذاتية الإدارة</span><span class="tag">فريق Twenty Thirty</span></div>
+  </div>
+  <div class="shot"><img src="img/00_overview.png" alt="واجهة المحاكاة"></div>
+  <div class="foot"><span>الهاكاثون الهندسي · IECE 2026</span><span>HTML / CSS / JS — يعمل بدون خادم</span></div>
+</section>
+
+<!-- 2 ▸ الفكرة -->
+<section class="slide">
+  <div class="eyebrow">01 · الفكرة في سطر</div>
+  <h2>لا يُغلق البلاغ إلا بعد التحقق من زوال المشكلة</h2>
+  <p class="lead">نَقاء يحوّل شاحنة جمع النفايات إلى عين ثانية على الشارع. ترصد المخلفات حول الحاويات أثناء جولتها المعتادة، ويُنشأ أمر عمل، ثم <b>تتحقق الشاحنة بنفسها في مرور لاحق</b> قبل أن يُغلق البلاغ. البروتوتايب يحاكي هذه الحلقة كاملة في المتصفح.</p>
+  <div class="loop">
+    <div class="st"><b>رصد</b><span>أثناء الجولة المعتادة</span></div><div class="ar">←</div>
+    <div class="st"><b>بوابة الثقة</b><span>عتبتان 0.60 و 0.85</span></div><div class="ar">←</div>
+    <div class="st"><b>أمر عمل</b><span>للفريق المختص</span></div><div class="ar">←</div>
+    <div class="st"><b>إفادة الفريق</b><span>لا تُغلق البلاغ</span></div><div class="ar">←</div>
+    <div class="st hi"><b>تحقق آلي</b><span>في مرور لاحق</span></div><div class="ar">←</div>
+    <div class="st hi"><b>إغلاق موثّق</b><span>ويُحسب vTTC</span></div>
+  </div>
+  <p class="muted" style="margin-top:18px;font-size:21px">الفجوة التي تعالجها الفكرة: الفصل بين رصد المشكلة وإثبات زوالها قبل الإغلاق.</p>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">02</span></div>
+</section>
+
+<!-- 3 ▸ ماذا بُني -->
+<section class="slide">
+  <div class="eyebrow">02 · ماذا بُني؟</div>
+  <h2>محاكاة تفاعلية كاملة — بدون خادم وبدون مكتبات</h2>
+  <div class="row">
+    <div class="col" style="flex:1.1">
+      <ul>
+        <li><b>صفحة واحدة</b> HTML/CSS/JS خام، تُفتح من أي متصفح أو رابط GitHub Pages.</li>
+        <li><b>خريطة مدينة متحركة</b> (SVG) فيها الشاحنة تتحرك على مسارها وست حاويات.</li>
+        <li><b>ثلاث كاميرات</b> تتغيّر مناظرها لحظة المرور، مع صندوق كشف ودرجة ثقة.</li>
+        <li><b>بوابة ثقة</b> بمؤشر متحرك على عتبتي 0.60 و 0.85.</li>
+        <li><b>محرك حالات</b> يطبّق شروط الإغلاق الثلاثة ويحسب vTTC.</li>
+        <li><b>بلاغات ومؤشرات وسجل أحداث</b> تتحدث لحظيًا، بالتوقيت المحاكى.</li>
+        <li><b>ستة سيناريوهات</b> مكتوبة تعمل تلقائيًا وتُبرز كل مسار قرار.</li>
+      </ul>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="files" style="grid-template-columns:1fr 1fr">
+        <div class="f"><b>index.html</b><span>الواجهة والتخطيط (RTL)</span></div>
+        <div class="f"><b>style.css</b><span>هوية نَقاء ونظام الألوان</span></div>
+        <div class="f"><b>app.js</b><span>محرك المحاكاة ومحرك الحالات</span></div>
+        <div class="f"><b>README.md</b><span>توثيق التشغيل والسيناريوهات</span></div>
+      </div>
+      <div class="link">mzr2q.github.io/rowad13</div>
+      <p class="cap">الفرع <span class="mono">hamedgha</span> · اختبار آلي بالمتصفح: صفر أخطاء</p>
+    </div>
+  </div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">03</span></div>
+</section>
+
+<!-- 4 ▸ جولة على الواجهة -->
+<section class="slide">
+  <div class="eyebrow">03 · جولة على الواجهة</div>
+  <h2>خمس مناطق في شاشة واحدة</h2>
+  <div class="row">
+    <div class="shot" style="flex:1.35"><img src="img/00_overview.png" alt="الواجهة كاملة"></div>
+    <div class="col" style="flex:1;justify-content:center">
+      <div class="callouts" style="grid-template-columns:1fr">
+        <div class="co"><i>1</i><div><b>شريط التحكم</b><p>تشغيل، خطوة، سرعة، بلاغ مواطن، إعادة، ملء الشاشة — مع الساعة والجولة.</p></div></div>
+        <div class="co"><i>2</i><div><b>الخريطة والمسار</b><p>الشاحنة، المستودع، الحاويات C1–C6 بألوان حالتها.</p></div></div>
+        <div class="co"><i>3</i><div><b>الكاميرات وبوابة الثقة</b><p>ما تراه الشاحنة الآن، وقرار الكشف.</p></div></div>
+        <div class="co"><i>4</i><div><b>المؤشرات والبلاغات</b><p>أرقام حيّة وقائمة البلاغات بحالاتها.</p></div></div>
+        <div class="co"><i>5</i><div><b>سجل الأحداث وشريط الحالة</b><p>كل خطوة موثّقة بالوقت، وشرح مبسّط لما يحدث.</p></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">04</span></div>
+</section>
+
+<!-- 5 ▸ شريط التحكم -->
+<section class="slide">
+  <div class="eyebrow">04 · شريط التحكم</div>
+  <h2>تتحكم في الجولة خطوة بخطوة أو بسرعة ×4</h2>
+  <div class="shot" style="height:150px;flex:none"><img src="img/00_controls.png" alt="شريط التحكم"></div>
+  <div class="callouts" style="margin-top:34px;grid-template-columns:1fr 1fr 1fr">
+    <div class="co"><i>▶</i><div><b>تشغيل / إيقاف</b><p>تبدأ الشاحنة جولتها من المستودع وتمرّ على الحاويات بالترتيب.</p></div></div>
+    <div class="co"><i>⏭</i><div><b>خطوة</b><p>تتقدم إلى الرصد التالي ثم تتوقف — مثالية للشرح أمام اللجنة.</p></div></div>
+    <div class="co"><i>×</i><div><b>السرعة</b><p>×1 / ×2 / ×4 — الجولة الكاملة في أقل من دقيقة.</p></div></div>
+    <div class="co"><i>📣</i><div><b>بلاغ مواطن</b><p>يُدمج في البلاغ القائم لنفس الموقع بدل إنشاء بلاغ مكرر.</p></div></div>
+    <div class="co"><i>↺</i><div><b>إعادة</b><p>تصفير كامل للمحاكاة والسجل والمؤشرات.</p></div></div>
+    <div class="co"><i>⏱</i><div><b>اليوم · الجولة · الساعة</b><p>ساعة محاكاة تبدأ 05:30، وكل مرور بعد ساعتين — لحساب vTTC.</p></div></div>
+  </div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">05</span></div>
+</section>
+
+<!-- 6 ▸ الخريطة -->
+<section class="slide">
+  <div class="eyebrow">05 · الخريطة والمسار</div>
+  <h2>الشاحنة تمرّ على ست حاويات في كل جولة</h2>
+  <div class="row">
+    <div class="shot" style="flex:1.5"><img src="img/01_c1_map.png" alt="الخريطة بعد أول رصد"></div>
+    <div class="col" style="flex:1;justify-content:center;gap:14px">
+      <p>لون كل حاوية يعكس حالة بلاغها لحظيًا، والمسار المقطوع يُرسم خلف الشاحنة:</p>
+      <div class="card"><span class="badge" style="background:var(--teal-t);color:var(--teal-d)">نظيف</span> <span style="font-size:20px">لا بلاغ أو تمّت المعالجة</span></div>
+      <div class="card"><span class="badge b-rework">متراكم</span> <span style="font-size:20px">مخلفات مرصودة</span></div>
+      <div class="card"><span class="badge b-work">أمر عمل</span> <span style="font-size:20px">أُسند للفريق المختص</span></div>
+      <div class="card"><span class="badge b-verify">تحقق</span> <span style="font-size:20px">مشاهدة نظيفة أولى، بانتظار الثانية</span></div>
+      <div class="card"><span class="badge b-closed">مغلق موثّق</span> <span style="font-size:20px">تحققت الشروط الثلاثة</span></div>
+      <p class="cap" style="text-align:right">في الصورة: C1 أصبحت برتقالية بعد الرصد الأول، والشاحنة تتابع نحو C2.</p>
+    </div>
+  </div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">06</span></div>
+</section>
+
+<!-- 7 ▸ الكاميرات -->
+<section class="slide">
+  <div class="eyebrow">06 · الكاميرات الثلاث</div>
+  <h2>ما تراه الشاحنة الآن — ومعالجة داخلها لا بث مستمر</h2>
+  <div class="shot" style="height:470px;flex:none"><img src="img/01_c1_high_gate.png" alt="الكاميرات وبوابة الثقة عند رصد C1"></div>
+  <div class="callouts" style="margin-top:26px;grid-template-columns:1fr 1fr 1fr">
+    <div class="co"><i>1</i><div><b>CAM-01 الطريق</b><p>تراقب حالة الطريق — امتداد مستقبلي للحفر.</p></div></div>
+    <div class="co"><i>2</i><div><b>CAM-02 النظافة</b><p>الكاميرا المعنية بالرصد: صندوق كشف + نسبة الثقة، وتعتيم الأشخاص واللوحات قبل الحفظ.</p></div></div>
+    <div class="co"><i>3</i><div><b>CAM-03 الإنارة</b><p>تراقب أعمدة الإنارة — امتداد مستقبلي للأعطال.</p></div></div>
+  </div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">07</span></div>
+</section>
+
+<!-- 8 ▸ بوابة الثقة — عالية -->
+<section class="slide">
+  <div class="eyebrow">07 · بوابة الثقة</div>
+  <h2>ثقة عالية (0.91) → أمر عمل تلقائي دون تدخل بشري</h2>
+  <div class="row">
+    <div class="shot" style="flex:1.4"><img src="img/01_c1_high_gate.png" alt="بوابة الثقة عند 0.91"></div>
+    <div class="col" style="flex:1;justify-content:center">
+      <p>الذكاء الاصطناعي <b>يكشف فقط</b>. القرار لبوابة الثقة والمشغّل، والإغلاق لا يكون إلا بتحقق لاحق.</p>
+      <div class="gate" style="flex-direction:column">
+        <div class="z z-high"><b>≥ 0.85</b><span>أمر عمل تلقائي</span></div>
+        <div class="z z-mid"><b>0.60 – 0.85</b><span>يعتمد المشغّل الأمر أو يرفضه</span></div>
+        <div class="z z-low"><b>&lt; 0.60</b><span>لا يُرسل طاقم، ويُعاد الرصد</span></div>
+      </div>
+      <p class="cap" style="text-align:right">العتبتان قيمتان أوليتان تُعايَران على بيانات التحقق الميدانية.</p>
+    </div>
+  </div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">08</span></div>
+</section>
+
+<!-- 9 ▸ ثقة متوسطة -->
+<section class="slide">
+  <div class="eyebrow">08 · بوابة الثقة</div>
+  <h2>ثقة متوسطة (0.72) → القرار للمشغّل</h2>
+  <div class="row">
+    <div class="col" style="flex:1.4;gap:14px">
+      <div class="shot" style="flex:1"><img src="img/04_c4_operator_gate.png" alt="بوابة الثقة عند 0.72"></div>
+    </div>
+    <div class="col" style="flex:1;gap:14px">
+      <div class="shot" style="flex:1"><img src="img/04_c4_operator_log.png" alt="سجل الأحداث: اعتماد المشغّل"></div>
+    </div>
+  </div>
+  <p style="margin-top:22px">في موقع «ممشى الكورنيش» رُصد تراكم بثقة 0.72. البلاغ يدخل حالة <span class="badge b-review">مراجعة مشغّل</span> ثم يعتمده المشغّل فيتحوّل إلى <span class="badge b-work">أمر عمل</span> — المساءلة البشرية محفوظة في الحالات غير الحاسمة.</p>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">09</span></div>
+</section>
+
+<!-- 10 ▸ منخفضة + فئة سلبية -->
+<section class="slide">
+  <div class="eyebrow">09 · تقليل الإنذارات الخاطئة</div>
+  <h2>ثقة منخفضة، أو إخراج نظامي — لا يُرسل طاقم</h2>
+  <div class="row">
+    <div class="col" style="flex:1">
+      <div class="shot" style="flex:1"><img src="img/05_c5_low_gate.png" alt="ثقة منخفضة 0.48"></div>
+      <h3 style="margin-top:14px">ثقة 0.48 &lt; 0.60</h3>
+      <p style="font-size:21px">لا بلاغ ولا طاقم — يُعاد الرصد في المرور التالي. تجنّب زيارة مهدورة.</p>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="shot" style="flex:1"><img src="img/06_c6_legal_cams.png" alt="إخراج نظامي للنفايات"></div>
+      <h3 style="margin-top:14px">فئة سلبية: إخراج نظامي في موعد الجمع</h3>
+      <p style="font-size:21px">أكياس أمام الحاوية في موعد الجمع ليست مخالفة — النظام يميّزها صراحة ولا يُنشئ أمر عمل.</p>
+    </div>
+  </div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">10</span></div>
+</section>
+
+<!-- 11 ▸ بلاغ مواطن -->
+<section class="slide">
+  <div class="eyebrow">10 · دمج التكرار</div>
+  <h2>بلاغ المواطن يُدمج في الحدث القائم — لا بلاغ مكرر</h2>
+  <div class="row">
+    <div class="shot" style="flex:1"><img src="img/02_citizen_log.png" alt="سجل: دمج بلاغ المواطن"></div>
+    <div class="col" style="flex:1;justify-content:center;gap:18px">
+      <div class="shot" style="height:230px"><img src="img/02_citizen_reports.png" alt="البلاغ مع شارة +1 بلاغ مواطن"></div>
+      <p>عند الضغط على «بلاغ مواطن» لموقع فيه بلاغ مفتوح، يُدمج البلاغ في الحدث القائم ويظهر عدّاد <span class="pill">+1 بلاغ مواطن</span> على البطاقة — بلاغ واحد لكل موقع، وزيارة واحدة.</p>
+      <p class="muted" style="font-size:20px">لو لم يكن للموقع رصد سابق، يُحال البلاغ للمراجعة الفنية بدل إرسال طاقم مباشرة.</p>
+    </div>
+  </div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">11</span></div>
+</section>
+
+<!-- 12 ▸ الفكرة الجوهرية: إعادة عمل -->
+<section class="slide" style="background:var(--orange-t)">
+  <div class="eyebrow" style="color:var(--orange)">11 · الفكرة الجوهرية</div>
+  <h2 style="color:var(--orange)">إفادة الفريق لا تُغلق البلاغ — الشاحنة ترى مخلفات باقية</h2>
+  <div class="row">
+    <div class="shot" style="flex:1.4"><img src="img/08_c2_rework_cams.png" alt="الكاميرا ترى مخلفات بعد إفادة الفريق"></div>
+    <div class="shot" style="flex:1"><img src="img/08_c2_rework_log.png" alt="سجل: إعادة عمل"></div>
+  </div>
+  <p style="margin-top:22px">في الجولة الثانية، أفاد الفريق بإنجاز «ميدان الحديقة»، لكن CAM-02 ترى مخلفات متناثرة. البلاغ يتحوّل إلى <span class="badge b-rework">إعادة عمل</span>، تُعاد المهمة، <b>ولا يُغلق</b>. هذا ما لا تفعله الأنظمة المراجعة: الإغلاق بالدليل لا بالإفادة.</p>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">12</span></div>
+</section>
+
+<!-- 13 ▸ غير مؤكد -->
+<section class="slide">
+  <div class="eyebrow">12 · وضوح المشهد</div>
+  <h2>مركبة تحجب الحاوية → «غير مؤكد» يمنع الإغلاق</h2>
+  <div class="row">
+    <div class="shot" style="flex:1.4"><img src="img/09_c3_uncertain_cams.png" alt="المشهد محجوب"></div>
+    <div class="col" style="flex:1;gap:16px">
+      <div class="shot" style="flex:1"><img src="img/09_c3_uncertain_reports.png" alt="البلاغ بحالة غير مؤكد"></div>
+      <p style="font-size:21px">لا يُغلق البلاغ لمجرد غياب المخلفات من لقطة واحدة — إن كان المشهد محجوبًا فالحالة <span class="badge b-uncertain">غير مؤكد</span> ويُعاد الرصد في المرور التالي دون احتساب مشاهدة نظيفة.</p>
+    </div>
+  </div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">13</span></div>
+</section>
+
+<!-- 14 ▸ التحقق والإغلاق -->
+<section class="slide" style="background:var(--green-t)">
+  <div class="eyebrow" style="color:var(--green)">13 · الإغلاق الموثّق</div>
+  <h2 style="color:var(--green)">مشاهدتان نظيفتان متتاليتان + مشهد واضح = مغلق موثّق</h2>
+  <div class="row">
+    <div class="col" style="flex:1;gap:12px">
+      <div class="shot" style="flex:1"><img src="img/07_c1_verify_reports.png" alt="مشاهدة نظيفة أولى 1/2"></div>
+      <p class="cap">الجولة 2: زوال التراكم ✓ — نقطة واحدة من اثنتين</p>
+    </div>
+    <div class="col" style="flex:1;gap:12px">
+      <div class="shot" style="flex:1"><img src="img/10_c1_closed_log.png" alt="سجل: مغلق موثّق مع vTTC"></div>
+      <p class="cap">الجولة 3: استمرار النظافة ✓ ووضوح المشهد ✓ → إغلاق وحساب vTTC</p>
+    </div>
+  </div>
+  <div class="formula">vTTC (زمن التنظيف المؤكَّد) = <b>وقت الإغلاق الموثّق</b> − <b>وقت أول رصد موثوق</b></div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">14</span></div>
+</section>
+
+<!-- 15 ▸ النتائج -->
+<section class="slide">
+  <div class="eyebrow">14 · نهاية المحاكاة</div>
+  <h2>كل البلاغات أُغلقت بالدليل — والمؤشرات تحكي القصة</h2>
+  <div class="row">
+    <div class="col" style="flex:1;gap:16px">
+      <div class="shot" style="flex:1"><img src="img/11_final_kpis.png" alt="المؤشرات النهائية"></div>
+      <div class="shot" style="flex:1.3"><img src="img/11_final_map.png" alt="الخريطة النهائية"></div>
+    </div>
+    <div class="shot" style="flex:1.1"><img src="img/11_final_reports.png" alt="قائمة البلاغات النهائية"></div>
+    <div class="col" style="flex:.8;justify-content:center;gap:12px">
+      <div class="kpi"><div class="num" style="color:var(--green)">4</div><div class="l">مغلق موثّق</div></div>
+      <div class="kpi"><div class="num" style="color:var(--orange)">1</div><div class="l">إعادة عمل</div></div>
+      <div class="kpi"><div class="num" style="color:var(--slate)">1</div><div class="l">غير مؤكد</div></div>
+      <div class="kpi"><div class="num" style="color:var(--teal-d)">5س</div><div class="l">متوسط vTTC</div></div>
+    </div>
+  </div>
+  <div class="foot"><span>القيم محاكاة — تُقاس الفعلية في التجربة الميدانية</span><span class="n">15</span></div>
+</section>
+
+<!-- 16 ▸ السيناريوهات -->
+<section class="slide">
+  <div class="eyebrow">15 · السيناريوهات الستة</div>
+  <h2>كل حاوية تُبرز مسار قرار مختلف</h2>
+  <table>
+    <tr><th style="width:9%">الموقع</th><th style="width:30%">ما تراه الشاحنة</th><th style="width:33%">قرار النظام</th><th style="width:28%">النتيجة</th></tr>
+    <tr><td class="c">C1</td><td>تراكم بثقة 0.91، ثم مروران نظيفان</td><td>أمر عمل تلقائي → تحقق بمشاهدتين</td><td><span class="badge b-closed">مغلق موثّق</span> vTTC 4س</td></tr>
+    <tr><td class="c">C2</td><td>تراكم 0.88، الفريق «أنجز» لكن بقيت مخلفات</td><td>إعادة عمل — لا إغلاق بالإفادة</td><td><span class="badge b-rework">إعادة عمل</span> ثم إغلاق · 6س</td></tr>
+    <tr><td class="c">C3</td><td>تراكم 0.90، ثم مركبة تحجب الحاوية</td><td>غير مؤكد → إعادة رصد</td><td><span class="badge b-uncertain">غير مؤكد</span> ثم إغلاق · 6س</td></tr>
+    <tr><td class="c">C4</td><td>تراكم بثقة متوسطة 0.72</td><td>مراجعة المشغّل → اعتماد أمر العمل</td><td><span class="badge b-review">مراجعة مشغّل</span> ثم إغلاق · 4س</td></tr>
+    <tr><td class="c">C5</td><td>تراكم محتمل بثقة 0.48</td><td>لا طاقم — إعادة رصد</td><td>زيارة مهدورة تم تجنّبها</td></tr>
+    <tr><td class="c">C6</td><td>أكياس في موعد الجمع النظامي</td><td>فئة سلبية — لا مخالفة</td><td>لا أمر عمل</td></tr>
+  </table>
+  <p class="cap" style="margin-top:16px">يُضاف إليها بلاغ مواطن يُدمج في الحدث القائم عند الطلب.</p>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">16</span></div>
+</section>
+
+<!-- 17 ▸ محرك الحالات -->
+<section class="slide">
+  <div class="eyebrow">16 · محرك الحالات</div>
+  <h2>الحالات التي يديرها البروتوتايب — وما يحدث للبلاغ في كلٍّ منها</h2>
+  <div class="sm">
+    <div class="s v"><span class="badge b-closed">CLOSED_VERIFIED</span><p><b>متى:</b> زوال التراكم + استمراره مشاهدتين + مشهد واضح.<br><b>ماذا:</b> يُغلق البلاغ ويُحسب vTTC.</p></div>
+    <div class="s r"><span class="badge b-rework">REWORK_REQUIRED</span><p><b>متى:</b> أفاد الفريق بالإنجاز وبقيت مخلفات.<br><b>ماذا:</b> تُعاد المهمة وتُصفَّر مشاهدات التحقق.</p></div>
+    <div class="s u"><span class="badge b-uncertain">UNCERTAIN</span><p><b>متى:</b> المشهد محجوب أو الدليل غير كافٍ.<br><b>ماذا:</b> يُعاد الرصد في المرور التالي، لا إغلاق.</p></div>
+    <div class="s o"><span class="badge b-review">OPERATOR_REVIEW</span><p><b>متى:</b> ثقة بين 0.60 و 0.85.<br><b>ماذا:</b> يعتمد المشغّل أمر العمل أو يرفضه.</p></div>
+  </div>
+  <div class="loop" style="margin-top:30px">
+    <div class="st"><b>رصد</b><span>ثقة ≥ 0.85</span></div><div class="ar">←</div>
+    <div class="st"><b>أمر عمل</b><span>WORK_ORDER</span></div><div class="ar">←</div>
+    <div class="st"><b>إفادة الفريق</b><span>teamClaimedDone</span></div><div class="ar">←</div>
+    <div class="st"><b>قيد التحقق</b><span>مشاهدة 1/2</span></div><div class="ar">←</div>
+    <div class="st hi"><b>مغلق موثّق</b><span>مشاهدة 2/2</span></div>
+  </div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">17</span></div>
+</section>
+
+<!-- 18 ▸ التقنية والنشر -->
+<section class="slide">
+  <div class="eyebrow">17 · التقنية والنشر</div>
+  <h2>أربعة ملفات، صفر اعتماديات، رابط مباشر</h2>
+  <div class="files">
+    <div class="f"><b>index.html</b><span>التخطيط العربي RTL: الخريطة، الكاميرات، بوابة الثقة، اللوحة الجانبية</span></div>
+    <div class="f"><b>style.css</b><span>هوية نَقاء: نفس لوحة الألوان والخط (IBM Plex Sans Arabic)</span></div>
+    <div class="f"><b>app.js</b><span>المسار والحركة، مشاهد الكاميرا، بوابة الثقة، محرك الحالات، vTTC</span></div>
+    <div class="f"><b>README.md</b><span>التشغيل، الأزرار، السيناريوهات</span></div>
+  </div>
+  <div class="row" style="margin-top:30px">
+    <div class="col" style="flex:1;gap:10px">
+      <h3>لماذا بدون خادم؟</h3>
+      <ul>
+        <li>يُفتح من أي جهاز برابط واحد — بلا تثبيت أو تسجيل.</li>
+        <li>يعمل أيضًا بلا إنترنت بفتح الملف مباشرة.</li>
+        <li>سهل الاستضافة على GitHub Pages من الفرع مباشرة.</li>
+      </ul>
+    </div>
+    <div class="col" style="flex:1;gap:10px">
+      <h3>ما الذي تم التحقق منه؟</h3>
+      <ul>
+        <li>تشغيل آلي كامل في Chromium: صفر أخطاء JavaScript.</li>
+        <li>كل السيناريوهات تنتهي بالنتيجة المتوقعة (4 مغلق موثّق، 1 إعادة عمل، 1 غير مؤكد).</li>
+        <li>متجاوب: يعمل على الشاشات الكبيرة والجوال.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="link">https://mzr2q.github.io/rowad13/</div>
+  <div class="foot"><span>نَقاء | NAQAA — شرح البروتوتايب</span><span class="n">18</span></div>
+</section>
+
+<!-- 19 ▸ الختام -->
+<section class="slide end">
+  <div class="mark" style="width:96px;height:96px;border-radius:26px;display:grid;place-items:center;font-size:48px;font-weight:700;color:var(--deep);background:linear-gradient(145deg,var(--light),var(--teal));margin-bottom:30px">نَ</div>
+  <h1>الرصد يُنشئ البلاغ — والتحقق وحده يُغلقه</h1>
+  <p style="margin-top:20px">بروتوتايب تفاعلي يشرح الفكرة كاملة في أقل من دقيقة</p>
+  <div class="link">https://mzr2q.github.io/rowad13/</div>
+  <p style="margin-top:30px;font-size:24px">حامد بن أحمد الغامدي · عبدالله بن عوضه الأحمري — فريق Twenty Thirty</p>
+  <div class="foot"><span>الهاكاثون الهندسي · IECE 2026 · المسار 01 · التحدي 05</span><span>نَقاء | NAQAA</span></div>
+</section>
+
+<script>
+/* ترقيم تلقائي للتذييل وتنقّل بلوحة المفاتيح عند العرض في المتصفح */
+document.querySelectorAll('.slide').forEach((s,i)=>{ const n=s.querySelector('.foot .n'); if(n) n.textContent=String(i+1).padStart(2,'0'); });
+document.addEventListener('keydown',e=>{
+  const slides=[...document.querySelectorAll('.slide')];
+  const cur=slides.findIndex(s=>s.getBoundingClientRect().top>-10);
+  if(e.key==='ArrowDown'||e.key==='ArrowLeft'||e.key===' '){ slides[Math.min(cur+1,slides.length-1)]?.scrollIntoView({behavior:'smooth'}); e.preventDefault(); }
+  if(e.key==='ArrowUp'||e.key==='ArrowRight'){ slides[Math.max(cur-1,0)]?.scrollIntoView({behavior:'smooth'}); e.preventDefault(); }
+});
+</script>
+</body>
+</html>
