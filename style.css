@@ -127,7 +127,7 @@ h1,h2{margin:0;font-weight:700}
 .cam-name{padding:6px 9px;font-size:.72rem;color:var(--muted);background:#fff;border-top:1px solid var(--line);text-align:center;font-weight:600}
 .cam.active .cam-view{box-shadow:inset 0 0 0 3px var(--teal)}
 .det-box{fill:none;stroke:var(--focus);stroke-width:2.5;stroke-dasharray:5 4}
-.det-tag{font:700 11px "IBM Plex Sans Arabic";fill:#04262C}
+.det-tag{font:700 11px "IBM Plex Sans Arabic";fill:#04262C;text-anchor:middle}
 .det-tag-bg{fill:var(--focus)}
 .blur-chip{position:absolute;top:6px;inset-inline-start:6px;background:rgba(2,38,44,.75);color:#CFF3EF;font-size:.6rem;padding:2px 6px;border-radius:6px}
 

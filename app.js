@@ -270,8 +270,8 @@ function sceneSVG(type, det){
   let overlay="";
   if(det){
     overlay=`<rect x="50" y="52" width="100" height="56" class="det-box"/>
-             <rect x="50" y="36" width="92" height="15" rx="3" class="det-tag-bg"/>
-             <text x="54" y="47" class="det-tag">مخلفات ${(det.c*100).toFixed(0)}%</text>`;
+             <rect x="50" y="34" width="100" height="17" rx="3" class="det-tag-bg"/>
+             <text x="100" y="46" class="det-tag">مخلفات ${(det.c*100).toFixed(0)}%</text>`;
   }
   return `<svg viewBox="0 0 200 150">${sky}${body}${overlay}${type==='dirty'||type==='clean'||type==='obstructed'||type==='legal'?blur:''}</svg>`;
 }
